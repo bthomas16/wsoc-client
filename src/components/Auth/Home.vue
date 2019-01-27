@@ -86,10 +86,6 @@ export default {
 </script>
 
 <style scoped>
-<<<<<<< HEAD
-    .rowContainer {
-        height: 40rem;
-=======
     .wrapper {
         height: 20rem;
     }
@@ -148,7 +144,6 @@ export default {
 
     .background {
         background-image: linear-gradient(rgba(0, 0, 0, .25), rgba(0, 0, 0, .25)), url('/api/static-assets/watcheshomecardbg.jpg');           
->>>>>>> spa-watch-share
     }
 
     #titleCard {
@@ -156,31 +151,10 @@ export default {
         margin-top: 6rem;
     }
 
-<<<<<<< HEAD
-    .background {
-        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/api/static-assets/tablebg.jpg");
-        min-height: 100vh;
-        width: 100%;
-        padding: 0 !important;
-        background-position: center;
-        background-repeat:repeat;
-        background-size: cover;
-    }
-    .devBackground {
-        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("http://localhost:8081/api/static-assets/tablebg.jpg");
-        min-height: 100vh;
-        height: auto;
-        width: 100%;
-        padding: 0 !important;
-        background-position: center;
-        background-repeat:repeat;
-        background-size: cover;
-=======
     input {
         border: none;
         border-bottom: 2px solid gray;
         outline: none;
->>>>>>> spa-watch-share
     }
 
 

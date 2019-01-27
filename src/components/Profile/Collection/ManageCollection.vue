@@ -44,9 +44,9 @@
                                 </b-col>
                             </b-col>
                             <b-col cols="7">
-                                <button :class="currentCardSize == 'sm' ? 'btn m-2 bg-navy white border' : 'btn bg-darkgray m-2'" variant="primary" size="sm" @click="sizeCardToUse('sm')">sm</button>
-                                <button :class="currentCardSize == 'md' ? 'btn m-2 bg-navy white border' : 'btn bg-darkgray m-2'" variant="primary" size="sm" @click="sizeCardToUse('md')">md</button>
-                                <button :class="currentCardSize == 'lg' ? 'btn m-2 bg-navy white border' : 'btn bg-darkgray m-2 d-md-none'" class="d-inline-block d-lg-none d-xl-inline-block" variant="primary" size="sm" @click="sizeCardToUse('lg')">lg</button>
+                                <b-btn :class="currentCardSize == 'lg' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="right px-2 px-md-3 mt-2" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                                <b-btn :class="currentCardSize == 'md' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="right px-2 px-md-3 mt-2" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                                <b-btn :class="currentCardSize == 'sm' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="right px-2 px-md-3 mt-2" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -60,16 +60,17 @@
                         </b-row>
                         <b-row align-v="start" align-h="start" no-gutters class="mt-2">
                             <b-col cols="5" class="mx-auto px-1">
-                                <b-form-select class="h8" id="categoryOptions" :options="sortCategories" v-model="sortCategory" @change="selectSortCategory"></b-form-select>
+                                <b-form-select class="h8 p-1" id="categoryOptions" :options="sortCategories" v-model="sortCategory" @change="selectSortCategory"></b-form-select>
                             </b-col>
                             <b-col cols="7" class="mx-auto px-1">
-                                <b-form-select class="h8" id="categoryOptions" :options="categoryOptions" v-model="categoryOption" @change="selectCategoryOption" :disabled="!sortCategory"></b-form-select>
+                                <b-form-select class="h8 p-1" id="categoryOptions" :options="categoryOptions" v-model="categoryOption" @change="selectCategoryOption" :disabled="!sortCategory"></b-form-select>
                             </b-col>
                         </b-row>
                     </b-col>
                 </b-row>
 
-                <b-row align-v="center" align-h="start" class="d-lg-none mt-2" v-if="isManagingCollection" no-gutters>
+                <!-- Buttons for is Managing collection -->
+                <b-row align-v="center" align-h="between" class="d-lg-none mt-2" v-if="isManagingCollection" no-gutters>
                     <b-col cols="4" md="5">
                         <b-col cols="12" md="auto" class="nowrap">
                             <b-form-checkbox
@@ -82,13 +83,14 @@
                             </b-form-checkbox>
                         </b-col>
                     </b-col>
-                    <b-col cols="7" md="auto" offset="1" offset-md="0" class="nowrap">
-                        <button :class="currentCardSize == 'sm' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="primary" size="sm" @click="sizeCardToUse('sm')">sm</button>
-                        <button :class="currentCardSize == 'md' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="primary" size="sm" @click="sizeCardToUse('md')">md</button>
-                        <button :class="currentCardSize == 'lg' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="primary" size="sm" @click="sizeCardToUse('lg')">lg</button>
+                    <b-col cols="8" md="7" class="nowrap">
+                        <b-btn variant="secondary" :class="currentCardSize == 'lg' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" class="right px-2 px-md-3" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                        <b-btn variant="secondary" :class="currentCardSize == 'md' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" class="right px-2 px-md-3" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                        <b-btn variant="secondary" :class="currentCardSize == 'sm' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" class="right px-2 px-md-3" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
                     </b-col>
                 </b-row>
 
+                <!-- Buttons for not managing collection -->
                 <b-row v-if="!isManagingCollection" no-gutters>
                     <b-col class="mx-auto" cols="11" md="8">
                         <b-btn variant="default" class="white my-0 bg-light-blue" size="sm" @click="toggleIsManagingCollection" block>Manage Collection</b-btn>
@@ -117,10 +119,10 @@
                                     </b-col>
                                 </b-row>
                             </b-col>
-                            <b-col cols="6" md="auto" class="nowrap">
-                                <button :class="currentCardSize == 'sm' ? 'btn  bg-navy white border' : 'btn bg-darkgray m-1'" variant="primary" size="sm" @click="sizeCardToUse('sm')">sm</button>
-                                <button :class="currentCardSize == 'md' ? 'btn  bg-navy white border' : 'btn bg-darkgray m-1'" variant="primary" size="sm" @click="sizeCardToUse('md')">md</button>
-                                <button :class="currentCardSize == 'lg' ? 'btn  bg-navy white border' : 'btn bg-darkgray m-1'" variant="primary" size="sm" @click="sizeCardToUse('lg')">lg</button>
+                            <b-col cols="6" class="nowrap">
+                                <b-btn :class="currentCardSize == 'lg' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="px-md-3 right px-2 m-0" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                                <b-btn :class="currentCardSize == 'md' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="px-md-3 right px-2 m-0" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                                <b-btn :class="currentCardSize == 'sm' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="px-md-3 right px-2 m-0" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -169,6 +171,7 @@ export default {
     toggleIsManagingCollection () {
       this.resetCollectionFilter()
       this.$store.dispatch('toggleIsManagingCollection')
+      this.$store.dispatch('toggleIsDragToOrganize', false)
     },
 
     selectSortCategory (eventValue) {
@@ -269,12 +272,7 @@ export default {
     resetCollectionFilter () {
       this.selectSortCategory()
       this.$store.dispatch('viewingPreviousWatches', false)
-<<<<<<< HEAD
-      this.$store.state.FilteredCollection = this.$store.state.Collection // TODO: BAD, Brent!
-      this.$store.dispatch('isTryingShuffleWhileManage', false) 
-=======
       this.$store.state.FilteredCollection = this.$store.state.Collection //TODO: NOT THIS
->>>>>>> spa-watch-share
     }
 
   },
@@ -340,7 +338,7 @@ export default {
     
 
     .btn {
-        height: 2.325rem;
+        height: 2.34rem;
     }
 
     @media(max-width: 900px) {
@@ -399,15 +397,4 @@ export default {
         width: 100% !important;
     }
 }
-
-<<<<<<< HEAD
-
-@media(max-width: 550px) {
-    #mobileRow {
-        width: 100% !important;
-    }
-}
-=======
-} */
->>>>>>> spa-watch-share
 </style>

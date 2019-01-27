@@ -13,15 +13,13 @@
                         <draggable @start="startDrag" @end="endDrag" v-model="watchImages">
                             <transition-group name="swap-list" class="row">
                                 <b-col cols="6" class="relative watchImgWrapper p-1" v-for="(image, index) in addWatch.src.images" :key="index">
-                                    <!-- <div class="absolute t-0 white bg-red r0 p-1 h8 pointer white border-radius-qtr" @click="removeWatchImage(index)" v-if="addWatch.src.images.length > 1">X</div> -->
+                                    <div class="absolute t-0 white bg-red r-0 mr-1 p-1 h8 pointer white border-radius-qtr" @click="removeWatchImage(index)" v-if="addWatch.src.images.length > 1">X</div>
                                     <b-img :src="image.src" fluid class="mx-auto watchImg"></b-img>
                                 </b-col>
                             </transition-group>
                         </draggable>
 
-                        <b-col cols="5" md="3" class="border box-shadow p-0 m-1 addWatchContainer imgTile" v-if="!addWatch.src.images.length">
-                            <file-selector id="fileSelector" :isPreviewBox="true" v-model="file" v-on:setImagesOnAddWatch="setImagesOnAddWatch" v-on:isS3UploadingEvent="isS3UploadingEventListener"></file-selector>
-                        </b-col>
+                        <file-selector id="fileSelector" :isPreviewBox="true" v-model="file" v-on:setImagesOnAddWatch="setImagesOnAddWatch" v-on:isS3UploadingEvent="isS3UploadingEventListener"></file-selector>
                     <!-- </b-row> -->
                 </b-col>
                 <file-selector id="fileSelector" :isPreviewBox="false" v-model="file" v-on:setImagesOnAddWatch="setImagesOnAddWatch" v-on:isS3UploadingEvent="isS3UploadingEventListener" class="mt-4"></file-selector>

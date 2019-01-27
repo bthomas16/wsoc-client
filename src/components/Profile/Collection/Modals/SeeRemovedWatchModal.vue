@@ -18,7 +18,7 @@
                         :src="image.src" thumbnail alt="image slot" fluid>
                         </b-img>
                     </b-carousel-slide>
-                </b-carousel> -->
+                </b-carousel>
             </b-col>
             <b-col cols="11" class="mt-2 mx-auto">
                 <ul class="p-0 mx-auto">

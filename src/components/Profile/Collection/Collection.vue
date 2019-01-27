@@ -36,20 +36,20 @@
 
                 
                 <draggable-watch-collection
-                    v-if="isDragToOrganize"
+                    v-show="Collection.length && isDragToOrganize"
                     @selectWatch="selectWatch"
                     @editWatchModal="editWatchModal"
                     @orderChanged="orderChanged"
                     :Collection="Collection">
                 </draggable-watch-collection>
                 <non-draggable-watch-collection
-                    v-else-if="!isDragToOrganize"
+                    v-show="Collection.length && !isDragToOrganize"
                     @selectWatch="selectWatch"
                     @editWatchModal="editWatchModal"
                     @orderChanged="orderChanged"
                     :Collection="Collection">
                 </non-draggable-watch-collection>
-                <b-col v-else class="center w-100 mt-4">
+                <b-col v-show="!Collection.length && !isDragToOrganize" class="center w-100 mt-4">
                     No watches found
                 </b-col>
             </b-col>

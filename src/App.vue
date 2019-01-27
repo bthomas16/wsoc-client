@@ -4,7 +4,7 @@
       <app-header id="header" v-if="!isLoading"></app-header>
       <div class="wrapper w-100 p-0">
         <transition name="slide-fade">
-          <router-view id="body" :key="$route.fullPath"></router-view>
+            <router-view id="body" :key="$route.fullPath"></router-view>
         </transition>
       </div>
       <app-footer v-if="!isLoading" id="footer" class="w-100 m-0 p-0"></app-footer>

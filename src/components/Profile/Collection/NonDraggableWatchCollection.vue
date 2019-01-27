@@ -55,7 +55,7 @@
             id="remove-watch-modal"
             ref="removeWatchModal"
             size="lg">
-            <b-row slot="modal-title" no-gutters class="h4" v-if="watchToRemove">Removing &nbsp; <strong>{{ titleCase(watchToRemove.name)}}</strong></b-row>
+            <b-row slot="modal-title" no-gutters v-if="watchToRemove" class="red">Removing &nbsp; <strong class="black">{{ titleCase(watchToRemove.name)}}</strong></b-row>
             <div slot="modal-header-close" class="w-100 m-h2 mt-2 mt-md-1" @click="resetReasonsWatchMoved">X</div>
             <remove-watch-modal :watchToRemove="watchToRemove" :reasonsWatchMoved="reasonsWatchMoved"></remove-watch-modal>
             <b-row slot="modal-footer" class="p-2" no-gutters>
@@ -67,9 +67,9 @@
             id="removed-watch-modal"
             ref="removedWatchModal"
             size="lg" lazy>
-            <b-row slot="modal-title" no-gutters v-if="removedWatchToSee"><span class="gray h4">Removed</span>   <strong> &nbsp;{{ titleCase(removedWatchToSee.name)}}</strong></b-row>
+            <b-row slot="modal-title" no-gutters v-if="removedWatchToSee" class="red">Removed <strong class="black"> &nbsp;{{ titleCase(removedWatchToSee.name)}}</strong></b-row>
             <div slot="modal-header-close" class="w-100 m-h2 mt-2 mt-md-1">X</div>
-             <removed-watch-modal :removedWatchToSee="removedWatchToSee"></removed-watch-modal>
+             <see-removed-watch-modal :removedWatchToSee="removedWatchToSee"></see-removed-watch-modal>
         </b-modal>
     </b-container>
 </template>
@@ -86,7 +86,7 @@ export default {
   name: 'nonDraggableWatchCollection',
   components: {
     draggable,
-    removedWatchModal: SeeRemovedWatchModal,
+    seeRemovedWatchModal: SeeRemovedWatchModal,
     removeWatchModal: RemoveWatchModal,
     watchFlags: WatchFlags,
     shareFlag: ShareFlag
@@ -379,6 +379,8 @@ export default {
         width: 100%;
         height: 13.5rem;
     }
+
+    
 
     @media(max-width: 1000px) {
         .watchImgWrapper_Sm {

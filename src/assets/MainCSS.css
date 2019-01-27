@@ -17,6 +17,14 @@ html, body {
     width: 65%;
 }
 
+.black {
+    color: black;
+}
+
+.r-0 {
+    right: 0;
+}
+
 .mb-4half {
     margin-bottom: 1.675em;
 }

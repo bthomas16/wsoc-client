@@ -225,8 +225,6 @@ export default {
       }
     },
 
-<<<<<<< HEAD:wc-client-vue3/src/components/Profile/Collection/WatchCollection.vue
-=======
     truncatedWatchName (name, lengthToTruncate) {
       if (name.length > lengthToTruncate) {
         return name.substring(0, lengthToTruncate) + '...'
@@ -234,7 +232,6 @@ export default {
     },
 
 
->>>>>>> spa-watch-share:wc-client-vue3/src/components/Profile/Collection/DraggableWatchCollection.vue
     titleCase (str) {
       var splitStr = str.toLowerCase().split(' ')
       for (var i = 0; i < splitStr.length; i++) {
@@ -260,11 +257,7 @@ export default {
       return this.$store.state.isFilteringCollection
     },
 
-<<<<<<< HEAD:wc-client-vue3/src/components/Profile/Collection/WatchCollection.vue
-    currentTruncatedLength () {
-=======
      currentTruncatedLength () {
->>>>>>> spa-watch-share:wc-client-vue3/src/components/Profile/Collection/DraggableWatchCollection.vue
       let val;
       let currentButtonState = this.$store.state.CurrentCardSize
       switch (currentButtonState) {
@@ -272,11 +265,7 @@ export default {
           val = 8
           break
         case 'md':
-<<<<<<< HEAD:wc-client-vue3/src/components/Profile/Collection/WatchCollection.vue
-          val = 11
-=======
           val = 12
->>>>>>> spa-watch-share:wc-client-vue3/src/components/Profile/Collection/DraggableWatchCollection.vue
           break
         case 'lg':
           val = 18
@@ -284,15 +273,11 @@ export default {
         default:
           val = 8
       }
-<<<<<<< HEAD:wc-client-vue3/src/components/Profile/Collection/WatchCollection.vue
-        return val      
-=======
     return val      
     },
 
     currentCardSize() {
         return this.$store.state.CurrentCardSize
->>>>>>> spa-watch-share:wc-client-vue3/src/components/Profile/Collection/DraggableWatchCollection.vue
     },
 
     Collection: {
@@ -349,18 +334,11 @@ export default {
 </script>
 
 <style scoped>
-<<<<<<< HEAD:wc-client-vue3/src/components/Profile/Collection/WatchCollection.vue
-    ul > li {
-        text-overflow: ellipsis;
-        overflow: hidden;
+
+.swap-list-move {
+        transition: transform .7s;
     }
 
-    .specList {
-        list-style: none;
-        text-align:  left;
-        position: absolute;
-    }
-=======
 
 .bgYellow {
     background-color: rgba(74,72,42,.7)
@@ -376,7 +354,6 @@ export default {
 .r-0 {
     right: 0;
 }
->>>>>>> spa-watch-share:wc-client-vue3/src/components/Profile/Collection/DraggableWatchCollection.vue
     .no-pointer {
         pointer-events: none;
     }
@@ -430,34 +407,16 @@ export default {
 
     .watchImgWrapper_Lg {
         width: 100%;
-<<<<<<< HEAD:wc-client-vue3/src/components/Profile/Collection/WatchCollection.vue
-        height: 11rem;
-        
-    }
-
-    .watchImg {
-        text-align: left;
-        float:left;
-        width: auto;
-        max-width: 100%;
-        min-height: 75%;
-        height: auto;
-        margin:auto;
-        max-height: 100%;
-    }
-
-    @media(max-width: 990px) {
-        .specList {
-            position: relative;
-        }
-
-        .watchImg {
-            text-align: center;
-            float: none;
-        }
-=======
         height: 13.5rem;
->>>>>>> spa-watch-share:wc-client-vue3/src/components/Profile/Collection/DraggableWatchCollection.vue
+    }
+    .smallHeartIcon {
+        width: 25px;
+        z-index: 999;
+    }
+
+    .heartIcon {
+        width: 35px;
+        z-index: 999;
     }
 
     @media(max-width: 1000px) {
@@ -500,8 +459,6 @@ export default {
             font-size: .6rem;
         }
 
-<<<<<<< HEAD:wc-client-vue3/src/components/Profile/Collection/WatchCollection.vue
-=======
     .watchImg {
         width: auto;
         max-width: 100%;
@@ -509,7 +466,6 @@ export default {
         height: auto;
         float: left;
         max-height: 100%;
->>>>>>> spa-watch-share:wc-client-vue3/src/components/Profile/Collection/DraggableWatchCollection.vue
     }
 
     .tallWatchImg {
@@ -517,32 +473,7 @@ export default {
         /* max-height: 25rem; */
     }
 
-    .smallHeartIcon {
-        width: 25px;
-        z-index: 999;
-    }
-
-    .heartIcon {
-        width: 42.5px;
-        z-index: 999;
-    }
-
-    .swap-list-move {
-        transition: transform .7s;
-    }
-
-    @media(max-width: 1000px) {
-        .border-xl{
-            border: none;
-        }
-
-        /* .watchImg {
-            width: 100%;
-            min-height: 6rem;
-            object-fit: cover;
-
-        } */
-    }
+}
 
     @media(min-width: 768px) and (max-width: 1000px) {
         #searchRef, #seeMore {
@@ -554,7 +485,7 @@ export default {
         }
 
         .heartIcon {
-            width: 20px;
+            width: 28px;
         }
     }
 
@@ -576,11 +507,11 @@ export default {
         }
 
         .heartIcon {
-            width: 28px;
+            width: 22px;
         }
 
         .smallHeartIcon {
-        width: 15px;
+        width: 18px;
         z-index: 999;
         }
     }
@@ -595,8 +526,13 @@ export default {
             padding: .2em !important;
         }
 
+        .smallHeartIcon {
+        width: 14px;
+        z-index: 999;
+        }
+
         .heartIcon {
-            width: 22.5px;
+            width: 20px;
         }
     }
 </style>

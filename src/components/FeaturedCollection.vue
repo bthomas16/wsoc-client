@@ -191,19 +191,6 @@ export default {
 </script>
 
 <style scoped>
-<<<<<<< HEAD
-
-@media(min-width: 2000px) {
-    .watchCard {
-        height: 23rem;
-        position: relative;
-    }
-
-    .watchImgWrapper {
-        max-width: 100%;
-        width: auto;
-        height: 16rem;
-=======
     .backgroundFeatured {
         padding: 0 !important;
         margin: 0;
@@ -214,7 +201,6 @@ export default {
         padding: 0 !important;
         margin: 0;
         background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("http://localhost:8081/api/static-assets/tablebg.jpg");
->>>>>>> spa-watch-share
     }
 
     .watchImg {
@@ -234,7 +220,7 @@ export default {
         width: auto;
         height: 100%;
     }
-}
+    
     .watchName {
         font-size: .7rem;
     }
