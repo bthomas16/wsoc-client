@@ -44,9 +44,9 @@
                                 </b-col>
                             </b-col>
                             <b-col cols="7">
-                                <b-btn :class="currentCardSize == 'lg' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="right px-2 px-md-3 mt-2" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
-                                <b-btn :class="currentCardSize == 'md' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="right px-2 px-md-3 mt-2" size="sm" @click="sizeCardToUse('md')">md</b-btn>
-                                <b-btn :class="currentCardSize == 'sm' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="right px-2 px-md-3 mt-2" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
+                                <b-btn :class="currentCardSize == 'lg' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="right px-2 toggleBtn px-md-3 mt-2" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                                <b-btn :class="currentCardSize == 'md' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="right px-2 toggleBtn px-md-3 mt-2" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                                <b-btn :class="currentCardSize == 'sm' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="right px-2 toggleBtn px-md-3 mt-2" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -84,9 +84,9 @@
                         </b-col>
                     </b-col>
                     <b-col cols="8" md="7" class="nowrap">
-                        <b-btn variant="secondary" :class="currentCardSize == 'lg' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" class="right px-2 px-md-3" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
-                        <b-btn variant="secondary" :class="currentCardSize == 'md' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" class="right px-2 px-md-3" size="sm" @click="sizeCardToUse('md')">md</b-btn>
-                        <b-btn variant="secondary" :class="currentCardSize == 'sm' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" class="right px-2 px-md-3" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
+                        <b-btn variant="secondary" :class="currentCardSize == 'lg' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" class="right px-2 toggleBtn px-md-3" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                        <b-btn variant="secondary" :class="currentCardSize == 'md' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" class="right px-2 toggleBtn px-md-3" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                        <b-btn variant="secondary" :class="currentCardSize == 'sm' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" class="right px-2 toggleBtn px-md-3" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
                     </b-col>
                 </b-row>
 
@@ -120,9 +120,9 @@
                                 </b-row>
                             </b-col>
                             <b-col cols="6" class="nowrap">
-                                <b-btn :class="currentCardSize == 'lg' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="px-md-3 right px-2 m-0" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
-                                <b-btn :class="currentCardSize == 'md' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="px-md-3 right px-2 m-0" size="sm" @click="sizeCardToUse('md')">md</b-btn>
-                                <b-btn :class="currentCardSize == 'sm' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="px-md-3 right px-2 m-0" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
+                                <b-btn :class="currentCardSize == 'lg' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                                <b-btn :class="currentCardSize == 'md' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                                <b-btn :class="currentCardSize == 'sm' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -362,6 +362,12 @@ export default {
         font-size: .7rem;
         }
     }
+
+    .toggleBtn {
+    border: none !important;
+    border-color: none !important;
+    outline: none !important;
+}
 
 
     /* .form-control {

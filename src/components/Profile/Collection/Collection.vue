@@ -98,9 +98,9 @@
                 :addWatchCount="addWatchCount">
             </add-watch-modal>
             <b-row slot="modal-footer" no-gutters class="w-100" align-h="end" align-v="center">
-                <b-col cols="12">
+                <b-col cols="12" class="my-1">
                     <!-- Potential Progress Bar -->
-                    <p v-if="!addWatch.name && addWatchCount == 2" class="red p-0 m-0 h5 m-h4">Please add a name for this watch</p>
+                    <p v-if="!addWatch.name && addWatchCount == 2" class="red p-0 m-0 h5 m-h4">*Please add a name for this watch</p>
                 </b-col>
                 <b-col cols="12">
                     <b-row v-if="addWatchCount == 1 " no-gutters align-h="end">
