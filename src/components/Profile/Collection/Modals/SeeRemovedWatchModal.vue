@@ -20,11 +20,11 @@
                     </b-carousel-slide>
                 </b-carousel>
             </b-col>
-            <b-col cols="11" class="mt-2 mx-auto">
+            <b-col cols="12" class="mt-2 mx-auto">
                 <ul class="p-0 mx-auto">
-                    <li v-if="removedWatchToSee.typeMoved">Watch removed reason:  <strong>{{MapTypeReason(removedWatchToSee.typeMoved)}}</strong></li>
-                    <li v-if="removedWatchToSee.value">Watch Value: <strong>${{removedWatchToSee.value}}</strong></li>
-                    <li v-if="removedWatchToSee.receivedBy">New watch recipient: <strong>{{removedWatchToSee.receivedBy}}</strong></li>
+                    <li v-if="removedWatchToSee.typeMoved">Reason Removed:  <strong>{{MapTypeReason(removedWatchToSee.typeMoved)}}</strong></li>
+                    <li v-if="removedWatchToSee.value">Value: <strong>${{removedWatchToSee.value}}</strong></li>
+                    <li v-if="removedWatchToSee.receivedBy">New Recipient: <strong>{{removedWatchToSee.receivedBy}}</strong></li>
                     <li v-if="removedWatchToSee.receivedInReturn">Received in return: <strong>{{removedWatchToSee.receivedInReturn}}</strong></li>
                 </ul>
             </b-col>

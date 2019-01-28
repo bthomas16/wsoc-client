@@ -74,7 +74,7 @@
             size="lg" lazy>
             <b-row slot="modal-title" no-gutters v-if="removedWatchToSee"><span class="gray h4">Removed</span>   <strong> &nbsp;{{ titleCase(removedWatchToSee.name)}}</strong></b-row>
             <div slot="modal-header-close" class="w-100 m-h2 mt-2 mt-md-1">X</div>
-             <removed-watch-modal :removedWatchToSee="removedWatchToSee"></removed-watch-modal>
+             <see-removed-watch-modal :removedWatchToSee="removedWatchToSee"></see-removed-watch-modal>
         </b-modal>
     </b-container>
 </template>
@@ -91,7 +91,7 @@ export default {
   name: 'draggableWatchCollection',
   components: {
     draggable,
-    removedWatchModal: SeeRemovedWatchModal,
+    seeRemovedWatchModal: SeeRemovedWatchModal,
     removeWatchModal: RemoveWatchModal,
     watchFlags: WatchFlags,
     shareFlag: ShareFlag
@@ -397,18 +397,19 @@ export default {
 
     .watchImgWrapper_Sm {
         width: 100%;
-        height: 6.5rem;
+        height: 8rem;
     }
 
     .watchImgWrapper_Md {
         width: 100%;
-        height:8rem;
+        height:10.5rem;
     }
 
     .watchImgWrapper_Lg {
         width: 100%;
         height: 13.5rem;
     }
+
     .smallHeartIcon {
         width: 25px;
         z-index: 999;
@@ -455,9 +456,11 @@ export default {
             width: 100%;
             height: 8rem;
         }
+
         .specs {
             font-size: .6rem;
         }
+    }
 
     .watchImg {
         width: auto;
@@ -473,7 +476,7 @@ export default {
         /* max-height: 25rem; */
     }
 
-}
+
 
     @media(min-width: 768px) and (max-width: 1000px) {
         #searchRef, #seeMore {

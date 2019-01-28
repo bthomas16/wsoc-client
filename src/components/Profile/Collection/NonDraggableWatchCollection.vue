@@ -105,9 +105,9 @@ export default {
 
       watchToRemove: null,
       reasonsWatchMoved: {
-        receivedBy: null,
-        typeMoved: null,
-        value: null,
+        receivedBy: '',
+        typeMoved: '',
+        value: '',
         trades: []
       },
 
@@ -190,14 +190,11 @@ export default {
     submitRemoveWatchForm () {
       let watchDetails = { watchToRemove: this.watchToRemove, reasonsWatchMoved: this.reasonsWatchMoved }
       this.$store.dispatch('createRemoveWatch', watchDetails)
-      this.$store.dispatch('removeExistingWatch', this.watchToRemove.id).then(() => {
-        // TODO: NOT THIS
-        setTimeout(() => {
+      this.$store.dispatch('removeExistingWatch', this.watchToRemove.id).then((res) => {
           this.$store.dispatch('getNumberFSOT')
           this.$store.dispatch('loadUserCollection')
           this.resetReasonsWatchMoved()
           this.$refs.removeWatchModal.hide()
-        }, 1)
       })
     },
 
@@ -372,12 +369,22 @@ export default {
 
     .watchImgWrapper_Md {
         width: 100%;
-        height:11.5rem;
+        height:10.5rem;
     }
 
     .watchImgWrapper_Lg {
         width: 100%;
         height: 13.5rem;
+    }
+
+    .smallHeartIcon {
+        width: 25px;
+        z-index: 999;
+    }
+
+    .heartIcon {
+        width: 35px;
+        z-index: 999;
     }
 
     
@@ -418,6 +425,7 @@ export default {
             width: 100%;
             height: 8rem;
         }
+        
         .specs {
             font-size: .6rem;
         }
@@ -435,20 +443,6 @@ export default {
     .tallWatchImg {
         width: auto;
         /* max-height: 25rem; */
-    }
-
-    .smallHeartIcon {
-        width: 25px;
-        z-index: 999;
-    }
-
-    .heartIcon {
-        width: 42.5px;
-        z-index: 999;
-    }
-
-    .swap-list-move {
-        transition: transform .7s;
     }
 
     @media(max-width: 1000px) {
@@ -489,13 +483,13 @@ export default {
         }
 
         .heartIcon {
-            width: 28px;
+            width: 22px;
         }
 
         .smallHeartIcon {
-        width: 15px;
+        width: 18px;
         z-index: 999;
-    }
+        }
     }
 
     @media(max-width: 415px) {
@@ -509,7 +503,7 @@ export default {
         }
 
         .heartIcon {
-            width: 22.5px;
+            width: 20px;
         }
     }
 

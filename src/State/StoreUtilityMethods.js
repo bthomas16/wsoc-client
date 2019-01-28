@@ -18,11 +18,9 @@ const CheckAndSetCookie = function (collectionLength) {
   }
 }
 
-const GetRandomWatchFromCollectionByArrayIndex = function (collectionLength) {
-  let max = collectionLength
-  let min = 0
-  return Math.floor(Math.random() * (max - min) + min)
-}
+// const ResetCookie = function () {
+
+// }
 
 const GetCookie = function (cookieName) {
   let value = '; ' + document.cookie
@@ -46,6 +44,16 @@ const SetCookie = function (wotdIndex) {
   let date = new Date()
   date.setDate(date.getDate() + 1)
   document.cookie = 'wotd=' + wotdIndex + ';expires=' + date + '; path=/'
+}
+
+
+
+
+
+const GetRandomWatchFromCollectionByArrayIndex = function (collectionLength) {
+  let max = collectionLength
+  let min = 0
+  return Math.floor(Math.random() * (max - min) + min)
 }
 
 export default {
