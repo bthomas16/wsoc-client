@@ -1,5 +1,6 @@
 <template>
     <b-container fluid>
+        
         <draggable  v-model="Collection" @start="startDrag" @end="endDrag" :options="addWatchDragOptions">
             <transition-group name="swap-list">
                 <b-col :cols="smSizeCard" :md="mdSizeCard" class="left p-half" v-for="watch in Collection" :key="watch.id" :id="watch.id">
@@ -56,26 +57,6 @@
             </transition-group>
         </draggable>
 
-        <b-modal
-            id="remove-watch-modal"
-            ref="removeWatchModal"
-            size="lg">
-            <b-row slot="modal-title" no-gutters class="h4" v-if="watchToRemove">Removing &nbsp; <strong>{{ titleCase(watchToRemove.name)}}</strong></b-row>
-            <div slot="modal-header-close" class="w-100 m-h2 mt-2 mt-md-1" @click="resetReasonsWatchMoved">X</div>
-            <remove-watch-modal :watchToRemove="watchToRemove" :reasonsWatchMoved="reasonsWatchMoved"></remove-watch-modal>
-            <b-row slot="modal-footer" class="p-2" no-gutters>
-                <b-btn class="bg-red white mx-2" variant="default" :disabled="reasonsWatchMoved.typeMoved == null" @click="submitRemoveWatchForm">Remove Watch</b-btn>
-            </b-row>
-        </b-modal>
-
-        <b-modal
-            id="removed-watch-modal"
-            ref="removedWatchModal"
-            size="lg" lazy>
-            <b-row slot="modal-title" no-gutters v-if="removedWatchToSee"><span class="gray h4">Removed</span>   <strong> &nbsp;{{ titleCase(removedWatchToSee.name)}}</strong></b-row>
-            <div slot="modal-header-close" class="w-100 m-h2 mt-2 mt-md-1">X</div>
-             <see-removed-watch-modal :removedWatchToSee="removedWatchToSee"></see-removed-watch-modal>
-        </b-modal>
     </b-container>
 </template>
 
@@ -449,7 +430,7 @@ export default {
 
         .watchImgWrapper_Md {
             width: 100%;
-            height:6.5rem;
+            height:5.5rem;
         }
 
         .watchImgWrapper_Lg {

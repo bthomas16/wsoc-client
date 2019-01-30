@@ -96,7 +96,7 @@ export default {
     padding: 0 !important;
     margin: 0;
     min-height: 100vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("http://localhost:8081/api/static-assets/tablebg.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/img/tablebg.jpg");
 }
 
 .watchImgWrapper {

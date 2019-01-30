@@ -3,7 +3,7 @@
     <b-container fluid :class="env == 'development' ? 'devBackground' : 'background'">
         <b-row no-gutters align-h="center">
             <b-col cols="12" class="p-0 mt-0">
-                <featured-collection></featured-collection>
+                <featured-collection class="h-100"></featured-collection>
             </b-col>
             <b-col cols="12" class="infoBox bg-black white op-4 p-2 p-md-4">
                 <b-row no-gutters>

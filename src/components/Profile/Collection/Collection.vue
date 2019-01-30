@@ -61,8 +61,8 @@
         <b-modal
             ref="seeMoreModal"
             id="see-more-modal">
-            <div slot="modal-title" class="h-100 breakWord h4" v-if="selectedWatch.name">{{ titleCase(selectedWatch.name) }}</div>
-            <div slot="modal-header-close" class="w-100 m-h2 mt-2 mt-md-1" @click="resetWatchFormAndModals">
+            <div slot="modal-title" class="breakWord" v-if="selectedWatch.name">{{ titleCase(selectedWatch.name) }}</div>
+            <div slot="modal-header-close" class="w-100 mt-1" @click="resetWatchFormAndModals">
                 X
             </div>
             <see-more-modal
@@ -87,11 +87,11 @@
             id="add-watch-modal"
             ref="addWatchModal"
             size="lg">
-            <div slot="modal-title" v-if="isAddingWatch">Adding Watch</div>
-            <div slot="modal-title" v-if="isEditingExistingWatch" class="h4">Editing {{titleCase(addWatch.name)}}</div>
-            <div slot="modal-header-close" class="w-100 m-h2 mt-2 mt-md-1" @click="resetWatchFormAndModals">
+            <b-row no-gutters slot="modal-title" v-if="isAddingWatch">Adding Watch</b-row>
+            <b-row no-gutters slot="modal-title" v-if="isEditingExistingWatch" class="breakWord">Editing {{titleCase(addWatch.name)}}</b-row>
+            <b-row no-gutters slot="modal-header-close" class="w-100 mt-1" @click="resetWatchFormAndModals">
                 X
-            </div>
+            </b-row>
             <add-watch-modal
                 :previewWatch="previewWatch"
                 :addWatch="addWatch"
@@ -104,21 +104,24 @@
                 </b-col>
                 <b-col cols="12">
                     <b-row v-if="addWatchCount == 1 " no-gutters align-h="end">
-                        <b-btn size="sm" class="right bg-light-blue white" variant="default" @click="addWatchCount++" :disabled="!addWatch.src.images.length">
+                        <b-btn size="sm" class="right bg-light-blue white" variant="secondary" @click="addWatchCount++" :disabled="!addWatch.src.images.length">
                             Add Details
                         </b-btn>
                     </b-row>
-                    <b-row align-h="between" no-gutters>
-                        <b-btn  size="sm" class="center white bg-light-yellow white" :class="addWatchCount == 1 ? 'hidden' : ''" variant="default" @click="addWatchCount--">
+                    <b-row align-h="between" align-v="center" no-gutters>
+                        <b-btn  size="sm" class="center white bg-light-yellow white" :class="addWatchCount == 1 ? 'hidden' : ''" variant="secondary" @click="addWatchCount--">
                             Previous
                         </b-btn>
-                        <b-button size="sm" class="bg-light-blue white" variant="default" @click="addWatchCount++" :class="addWatchCount == 2 ? '' : 'hidden'" :disabled="!addWatch.name">
+                        <b-btn size="sm" variant="outline-success" @click="submitWatch" :disabled="!addWatch.name || !addWatch.src.images" v-if="addWatchCount !== 1">
+                            Finish
+                        </b-btn>
+                        <b-btn size="sm" class="bg-light-blue white" variant="secondary" @click="addWatchCount++" :class="addWatchCount == 2 ? '' : 'hidden'" :disabled="!addWatch.name">
                             Continue
-                        </b-button>
-                        <b-btn size="sm" class="bg-light-blue white" :class="addWatchCount == 3 ? '' : 'hidden'" variant="default" @click="addWatchCount++">
+                        </b-btn>
+                        <b-btn size="sm" class="bg-light-blue white" :class="addWatchCount == 3 ? '' : 'hidden'" variant="secondary" @click="addWatchCount++">
                             Owner Details
                         </b-btn>
-                        <b-btn size="sm" class="bg-light-blue white" :class="addWatchCount == 4 ? '' : 'hidden'" variant="default" @click="previewWatch">
+                        <b-btn size="sm" class="bg-light-blue white" :class="addWatchCount == 4 ? '' : 'hidden'" variant="secondary" @click="previewWatch">
                             Preview
                         </b-btn>
                     </b-row>
@@ -226,11 +229,11 @@ export default {
       console.log(this.addWatch)
       this.selectedWatch = this.addWatch
 
-      this.$refs.addWatchModal.hide()
       this.$refs.seeMoreModal.show()
     },
 
     submitWatch () {
+      this.$refs.addWatchModal.hide()      
       this.isAddingWatch = false
       this.isEditingExistingWatch = false
       this.$refs.seeMoreModal.hide()
@@ -294,39 +297,37 @@ export default {
         splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1)
       }
       return splitStr.join(' ')
-    },
-
-    titleCase (str) {
-      var splitStr = str.toLowerCase().split(' ')
-      for (var i = 0; i < splitStr.length; i++) {
-        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1)
-      }
-      return splitStr.join(' ')
     }
   },
 
   computed:
     {
-      isLoading () {
-        return this.$store.state.isLoading
-      },
-
-      getCollectionTotalValue () {
+    getCollectionTotalValue () {
         let val = 0
-        this.Collection.forEach(x => {
+        this.$store.state.Collection.forEach(x => {
           if (x.forSalePrice) {
-            val += x.forSalePrice
+            val += +x.forSalePrice
+            console.log('sale', val)
           } else if (x.marketValue) {
-            val += x.marketValue
-          } else if (x.marketValue) {
-            val += x.forTradeValue
+            val += +x.marketValue
+            console.log('mkt', val)
+            
+          } else if (x.forTradeValue) {
+            val += +x.forTradeValue
+            console.log('trade', val)
+            
           }
         })
+        
         if (val > 0) {
           return val
         } else {
           return 'N/A'
         }
+      },
+
+      isLoading () {
+        return this.$store.state.isLoading
       },
 
       User () {

@@ -12,12 +12,12 @@
                     <input type="file" @change="uploadImagesToAwsS3()" multiple/>
                 </label>
             </b-col>
-           <b-col cols="8" md="6" class="mx-auto center" v-else>
+           <b-col cols="8" md="6" class="mx-auto center h5" v-else>
                 <label class="file-select">
                     <!-- We can't use a normal button element here, as it would become the target of the label. -->
                     <div class="select-button pointer bg-light-blue">
                     <!-- Display the filename if a file has been selected. -->
-                    <span class="m-h2">Select Images</span>
+                    <span>Select Images</span>
                     </div>
                     <!-- Now, the file input that we hide. -->
                     <input type="file" @change="uploadImagesToAwsS3()" multiple/>
@@ -59,8 +59,10 @@ export default {
 }
 </script>
 
-<style>
-                        /* <b-col cols="5" md="3"  v-if="!addWatch.src.images.length"> */
+<style scoped>
+       label {
+           margin: 0;
+       }                 /* <b-col cols="5" md="3"  v-if="!addWatch.src.images.length"> */
 
     .file-select > .select-button {
         padding: 1rem;

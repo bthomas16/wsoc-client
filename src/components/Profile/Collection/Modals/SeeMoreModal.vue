@@ -2,21 +2,18 @@
     <b-container fluid>
         <b-row align-h="center" v-if="selectedWatch.src">
             <!-- <b-col cols="8" class="mx-auto pb-3 border-bottom"> -->
-                <b-carousel
-                    style="text-shadow: 1px 1px 2px #333;"
-                    img-width="1024"
-                    img-height="480"
-                    background="lightgray"
-                    :interval=0
-                    :controls="selectedWatch.src.images.length > 1 ? true : false"
-                    :indicators="selectedWatch.src.images.length > 1 ? true : false">
-                    <b-carousel-slide
-                        v-for="image in selectedWatch.src.images" :key="image.order" class="watchImgWrapper">
-                        <b-img slot="img" class="watchImg"
-                        :src="image.src" alt="image slot" thumbnail fluid>
-                        </b-img>
-                    </b-carousel-slide>
-                </b-carousel>
+            <b-carousel
+                background="white"
+                :interval=0
+                :controls="selectedWatch.src.images.length > 1 ? true : false"
+                :indicators="selectedWatch.src.images.length > 1 ? true : false">
+                <b-carousel-slide
+                    v-for="image in selectedWatch.src.images" :key="image.order" class="watchImgWrapper">
+                    <b-img slot="img" class="watchImg"
+                    :src="image.src" alt="image slot" thumbnail fluid>
+                    </b-img>
+                </b-carousel-slide>
+            </b-carousel>
 
             <!-- </b-col> -->
         </b-row>
@@ -28,7 +25,9 @@
                     </b-col>
                     <b-col cols="6" class="nowrap right-align px-0 pr-2" v-if="!selectedWatch.isFeaturedWatch">
                         <strong class="relative">Condition:</strong><span class="brown nowrap"> {{selectedWatch.condition || 0}}/10</span>
-                        <p class="absolute nowrap h8 r0 mr-2 pt-1 underline gray pointer" v-if="isShowDetails" @click="isShowDetails = false"><em>Hide Details</em></p>
+                    </b-col>
+                    <b-col cols="12" md="6" v-if="isShowDetails">
+                        <p class="nowrap underline gray my-1"  @click="isShowDetails = false"><em>Hide Details</em></p>
                     </b-col>
                 </b-row>
                 <ul class="mt-0 p-0 m-0">
@@ -203,8 +202,8 @@ li {
 }
 
 .watchImgWrapper {
-    width: 15rem;
-    height: 15rem;
+    width: 16.5rem;
+    height: 16.5rem;
 }
 
 .watchImg {

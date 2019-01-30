@@ -133,8 +133,16 @@ html, body {
     color: #ed553b !important;
 }
 
+.btn-secondary {
+    border: none !important;
+}
+
 .light-green {
     color: #d4EAC8 !important;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
 }
 
 .bg-light-green {

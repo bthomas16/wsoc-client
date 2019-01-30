@@ -12,8 +12,8 @@
 
                         <draggable @start="startDrag" @end="endDrag" v-model="watchImages">
                             <transition-group name="swap-list" class="row">
-                                <b-col cols="6" md="3" class="relative watchImgWrapper mb-2" v-for="(image, index) in addWatch.src.images" :key="index">
-                                    <div class="absolute t-0 white bg-red r-0 mr-1 p-1 h8 pointer white border-radius-qtr" @click="removeWatchImage(index)" v-if="addWatch.src.images.length > 1">X</div>
+                                <b-col cols="6" md="4" lg="4" class="relative watchImgWrapper mb-2" v-for="(image, index) in addWatch.src.images" :key="index">
+                                    <div class="absolute t-0 white bg-red p-1 mb-3 h8 pointer white border-radius-qtr" @click="removeWatchImage(index)" v-if="addWatch.src.images.length > 1">X</div>
                                     <b-img :src="image.src" fluid class="mx-auto watchImg" thumbnail></b-img>
                                 </b-col>
                             </transition-group>
@@ -59,14 +59,13 @@
                             <ul class="mt-3 mx-auto">
                                 <li>
                                     <b-row align-v="center">
-                                        <b-col cols="4" >
+                                        <b-col cols="4" class="formLabel">
                                             <strong>Brand:</strong>
                                         </b-col>
-                                        <b-col cols="8">
+                                        <b-col cols="8" class="formText">
                                             <b-form-input v-model="addWatch.brand"
                                                 type="text"
                                                 placeholder="Watch Brand"
-
                                                 :class="addWatch.brand ? 'yesValue' : 'formBorder'"
                                                 description="Provide a brand for the watch"
                                                 label="Watch Brand">
@@ -76,10 +75,10 @@
                                 </li>
                                 <li>
                                     <b-row align-v="center">
-                                        <b-col cols="4" >
+                                        <b-col cols="4" class="formLabel">
                                             <strong>*Name:</strong>
                                         </b-col>
-                                        <b-col cols="8">
+                                        <b-col cols="8" class="formText">
                                             <b-form-input
                                                 v-model="addWatch.name"
                                                 type="text"
@@ -94,10 +93,10 @@
                                 </li>
                                 <li>
                                     <b-row align-v="center">
-                                        <b-col cols="4" >
+                                        <b-col cols="4" class="formLabel">
                                             <strong>Watch Style:</strong>
                                         </b-col>
-                                        <b-col cols="8">
+                                        <b-col cols="8" class="formText">
                                             <b-form-select
                                             type="text"
 
@@ -110,10 +109,10 @@
                                 </li>
                                 <li>
                                     <b-row align-v="center" class="mt-0 mt-md-3">
-                                        <b-col cols="12" md="4">
+                                        <b-col cols="12" md="4" class="formLabel">
                                             <strong>Movement Type:</strong>
                                         </b-col>
-                                        <b-col cols="12" md="8" class="mt-1 md-md-0">
+                                        <b-col cols="12" md="8" class="mt-1 md-md-0 formText">
                                             <b-form-group class="my-0">
                                                 <b-form-radio-group v-model="addWatch.movementType" name="radioSubComponent" type="text">
                                                     <b-row align-v="center" no-gutters>
@@ -139,10 +138,10 @@
                                 </li>
                                 <li>
                                     <b-row align-v="center">
-                                        <b-col cols="12" sm="4" >
+                                        <b-col cols="12" sm="4" class="formLabel">
                                             <strong>Movement Caliber:</strong>
                                         </b-col>
-                                        <b-col cols="12" sm="8">
+                                        <b-col cols="12" sm="8" class="formText">
                                             <b-form-input :class="addWatch.movement ? 'yesValue' : 'formBorder'" v-model="addWatch.movement" type="text"></b-form-input>
                                             <!-- <b-form-select :class="addWatch.movement ? 'yesValue' : 'formBorder'" :options="movementOptions" v-model="addWatch.movement" type="text"/> -->
                                         </b-col>
@@ -150,29 +149,29 @@
                                 </li>
                                 <li>
                                     <b-row align-v="center">
-                                        <b-col cols="12" md="4">
+                                        <b-col cols="12" md="4" class="formLabel">
                                             <strong>Size (Lug to Lug):</strong>
                                         </b-col>
-                                        <b-col cols="12" md="8">
+                                        <b-col cols="12" md="8" class="formText">
                                             <b-form-select :class="addWatch.sizeLugToLug ? 'yesValue' : 'formBorder'" :options="sizeLugToLugOptions" v-model="addWatch.sizeLugToLug" type="text"/>
                                         </b-col>
                                     </b-row>
                                 </li>
                                 <li>
                                     <b-row align-v="center">
-                                        <b-col cols="12" md="4">
+                                        <b-col cols="12" md="4" class="formLabel">
                                             <strong>Size:</strong>
                                         </b-col>
-                                        <b-col cols="12" md="8" class="">
+                                        <b-col cols="12" md="8" class="formText">
                                             <b-row no-gutters align-v="baseline">
-                                                <b-col class="px-1">
+                                                <b-col class="px-1 formText">
                                                     <b-form-select :class="addWatch.sizeWidth ? 'yesValue' : 'formBorder'" :options="sizeWidthOptions" v-model="addWatch.sizeWidth" type="number"/>
-                                                    <p class="center h8 p-0 m-0"><em>Width</em></p>
+                                                    <p class="center p-0 m-0"><em>Width</em></p>
                                                 </b-col>
                                                 <h6 class="p-2">X</h6>
-                                                <b-col class="px-1">
+                                                <b-col class="px-1 formText">
                                                     <b-form-select :class="addWatch.sizeHeight ? 'yesValue' : 'formBorder'" :options="sizeHeightOptions" v-model="addWatch.sizeHeight" type="number"/>
-                                                    <p class="center h8 p-0 m-0"><em>Height</em></p>
+                                                    <p class="center p-0 m-0"><em>Height</em></p>
                                                 </b-col>
                                             </b-row>
                                         </b-col>
@@ -180,10 +179,10 @@
                                 </li>
                                 <li>
                                     <b-row align-v="center">
-                                        <b-col cols="12" md="4" >
+                                        <b-col cols="12" md="4" class="formLabel">
                                             <strong>Crystal:</strong>
                                         </b-col>
-                                        <b-col cols="12" md="8">
+                                        <b-col cols="12" md="8" class="formText">
                                             <b-form-group class="my-auto">
                                                 <b-form-radio-group v-model="addWatch.crystal" name="crystal"  type="text">
                                                     <b-row align-h="start">
@@ -224,7 +223,7 @@
 
                         <b-row no-gutters>
                             <b-col cols="12" class="left">
-                                <b-form-group class="my-1 py-0" label="Is Watch Full Kit?" horizontal :label-cols="checkScreenSize">
+                                <b-form-group class="my-1 py-0" label="Is Watch Full Kit?" horizontal label-cols="6">
                                     <b-form-radio-group id="fullKit"
                                                         buttons
                                                         size="sm"
@@ -239,7 +238,7 @@
                         </b-row>
                         <b-row no-gutters align-="center" class="left">
                             <b-col cols="12">
-                                <b-form-group class="my-1 py-0" label="Is Watch For Sale?" horizontal :label-cols="checkScreenSize">
+                                <b-form-group class="my-1 py-0" label="Is Watch For Sale?" horizontal label-cols="6">
                                     <b-form-radio-group id="forSale"
                                                         buttons
                                                         size="sm"
@@ -252,7 +251,7 @@
                         </b-row>
                         <b-row no-gutters align-="center" class="left">
                             <b-col cols="12">
-                                <b-form-group class="my-1 py-0" label="Is Watch For Trade?" horizontal :label-cols="checkScreenSize">
+                                <b-form-group class="my-1 py-0" label="Is Watch For Trade?" horizontal label-cols="6">
                                     <b-form-radio-group id="forTrade"
                                                         buttons
                                                         size="sm"
@@ -266,10 +265,10 @@
                     </li>
                     <li class="my-2">
                         <b-row align-v="center">
-                            <b-col cols="4" >
+                            <b-col cols="4" class="formLabel">
                                 <strong>Strap:</strong>
                             </b-col>
-                            <b-col cols="8">
+                            <b-col cols="8" class="formText">
                                 <b-form-input v-model="addWatch.band"
                                     type="text"
                                     :class="addWatch.band ? 'yesValue' : 'formBorder'"
@@ -282,10 +281,10 @@
                     </li>
                     <li class="my-2">
                         <b-row align-v="center">
-                            <b-col cols="4" class="nowrap">
+                            <b-col cols="4" class="nowrap formLabel">
                                 <strong>Model #:</strong>
                             </b-col>
-                            <b-col cols="8">
+                            <b-col cols="8" class="formText">
                                 <b-form-input v-model="addWatch.model"
                                     type="text"
                                     :class="addWatch.model ? 'yesValue' : 'formBorder'"
@@ -298,10 +297,10 @@
                     </li>
                     <li class="my-2">
                         <b-row align-v="center">
-                            <b-col cols="4" >
+                            <b-col cols="4" class="formLabel">
                                 <strong>Ref #:</strong>
                             </b-col>
-                            <b-col cols="8">
+                            <b-col cols="8" class="formText">
                                 <b-form-input v-model="addWatch.ref"
                                     type="text"
                                     :class="addWatch.ref ? 'yesValue' : 'formBorder'"
@@ -314,13 +313,12 @@
                     </li>
                     <li class="my-2">
                         <b-row align-v="center">
-                            <b-col cols="4" class="m-h2">
+                            <b-col cols="4" class="formLabel">
                                 <strong>Accuracy:</strong>
                             </b-col>
-                            <b-col cols="8" class="red">
+                            <b-col cols="8" class="formText red">
                                 <b-form-select
                                 type="text"
-                                class="m-h2"
                                 :class="addWatch.accuracy ? 'yesValue' : 'formBorder'"
                                 :options="accuracyOptions"
                                 v-model="addWatch.accuracy"/>
@@ -329,11 +327,11 @@
                     </li>
                     <li class="my-2">
                         <b-row align-v="center">
-                            <b-col cols="4" class="nowrap m-h2" >
-                                <strong>Sale Prize:</strong>
+                            <b-col cols="5" md="4" class="nowrap formLabel" >
+                                <strong>Sale Price:</strong>
                             </b-col>
-                            <b-col cols="8" class="relative">
-                                <p class="absolute mt-2 h5 green dollarSign">$</p>
+                            <b-col cols="7" md="8" class="formText relative">
+                                <p class="absolute mt-2 formText green dollarSign">$</p>
                                 <b-form-input
                                     v-model="addWatch.forSalePrice"
                                     :value=" addWatch.forSalePrice"
@@ -348,11 +346,11 @@
                     </li>
                     <li>
                         <b-row align-v="center">
-                            <b-col cols="4" class="nowrap m-h3">
+                            <b-col cols="5" md="4" class="nowrap formLabel">
                                 <strong>Trade Value:</strong>
                             </b-col>
-                            <b-col cols="8">
-                                <p class="absolute mt-2 h5 green dollarSign">$</p>
+                            <b-col cols="7" md="8" class="formText">
+                                <p class="absolute mt-2 formText green dollarSign">$</p>
 
                                 <b-form-input v-model="addWatch.forTradeValue"
                                     type="number"
@@ -371,24 +369,27 @@
 
             <b-row id="add-keeping-house" :class="addWatchCount == 4 ? '' : 'hidden'" align-h="center" no-gutters>
 
-                <p class="gray center mt-2 border-bottom m-h2 nowrap">This section is only visible to you</p>
+                
+                <b-col cols="12" class="formLabel nowrap left left-align bold">
+                    <p class="h3 underline">Keeping House:</p>
+                </b-col>
+                
+
+                <p class="gray center mt-2 border-bottom h5 nowrap">This section is only visible to you</p>
 
                 <b-col class="mt-3" cols="12">
                     <b-row align-v="center">
-                        <b-col cols="6" class="h3 m-h2">
-                            <strong>Keeping House:</strong>
-                        </b-col>
-                        <b-col cols="5" class="m-h2 nowrap">
+                        <b-col cols="6" class="formLabel nowrap">
                             <strong>Turnaround:</strong><span class="green ml-0 ml-md-4"> ${{addWatch.marketValue - addWatch.acquiredFor || 0}}</span>
                         </b-col>
                     </b-row>
                     <ul>
                         <li>
-                            <b-row>
-                                <b-col cols="4" class="m-h2">
+                            <b-row align-v="center">
+                                <b-col cols="5" md="4" class="formLabel nowrap">
                                     <strong>Acuired For:</strong>
                                 </b-col>
-                                <b-col cols="8">
+                                <b-col cols="7" md="8" class="formText">
                                     <b-form-input v-model="addWatch.acquiredFor"
                                         type="number"
                                         :class="addWatch.acquiredFor ? 'yesValue' : 'formBorder'"
@@ -400,11 +401,11 @@
                             </b-row>
                         </li>
                         <li>
-                            <b-row>
-                                <b-col cols="4" class="m-h3">
+                            <b-row align-v="center">
+                                <b-col cols="5" md="4" class="formLabel nowrap">
                                     <strong>Market Value:</strong>
                                 </b-col>
-                                <b-col cols="8">
+                                <b-col cols="7" md="8" class="formText">
                                     <b-form-input v-model="addWatch.marketValue"
                                         type="number"
                                         :class="addWatch.marketValue ? 'yesValue' : 'formBorder'"
@@ -416,15 +417,14 @@
                             </b-row>
                         </li>
                         <li>
-                            <b-row>
-                                <b-col cols="4" class="m-h3">
+                            <b-row align-v="center">
+                                <b-col cols="5" md="4" class="formLabel nowrap">
                                     <strong>Date Acquired:</strong>
                                 </b-col>
-                                <b-col cols="8">
+                                <b-col cols="7" md="8" class="formText">
                                     <b-form-input v-model="addWatch.dateAcquired"
-                                        type="text"
+                                        type="date"
                                         :class="addWatch.dateAcquired ? 'yesValue' : 'formBorder'"
-                                        placeholder="4/20/2018"
                                         description="Provide the date you acquired this watch"
                                         label="Watch Price Acquired For">
                                     </b-form-input>
@@ -433,7 +433,7 @@
                         </li>
                     </ul>
                     <b-form-textarea id="ownerNotes"
-                        class="mt-3"
+                        class="mt-3 formText"
                         type="text"
                         placeholder="Description Notes"
                         :rows="3"
@@ -714,6 +714,10 @@ export default {
 </script>
 
 <style scoped>
+    .formLabel {
+
+    }
+
     .imgTile {
        width: 100%;
        height:auto;

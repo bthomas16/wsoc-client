@@ -19,8 +19,8 @@
             <b-col cols="12" class="bg-white" :class="isShowingAlert ? 'alert-wrapper' : 'wrapper'">
                 <b-row no-gutters align-v="start" class="m-0 p-0">
                     <b-col cols="12" md="6" class="my-0 bg-white h-100">
-                        <p v-if="!isRegister" class=" h3 my-0 p-2 bg-light-blue white left">Register to<span class="nowrap left"> Manage your collection!</span></p>
-                        <p v-if="isRegister" class=" h3 my-0 p-2 bg-light-blue white left">Login to<span class="nowrap left"> Manage your collection!</span></p>
+                        <p v-if="!isRegister" class=" h3 my-0 py-2 p-1 p-md-2 bg-light-blue white left">Register to<span class="nowrap left"> Manage your collection!</span></p>
+                        <p v-if="isRegister" class=" h3 my-0 py-2 p-1 p-md-2 bg-light-blue white left">Login to<span class="nowrap left"> Manage your collection!</span></p>
                         <app-register class="mt-2 px-md-3 px-lg-0" v-if="!isRegister" v-on:ToggleShowingAlert="showingAlertChangeHeight"  v-on:toggleAuthView="toggleAuthParent"></app-register>
                         <app-login class="mt-2 px-md-3 px-lg-0" v-if="isRegister" v-on:ToggleShowingAlert="showingAlertChangeHeight" v-on:toggleAuthView="toggleAuthParent"></app-login>
                     </b-col>
@@ -38,7 +38,7 @@
                 </b-row>
             </b-col>
             <b-col cols="12">
-                <featured-collection></featured-collection>
+                <featured-collection class="h-100"></featured-collection>
             </b-col>
         </b-row>
 

@@ -7,7 +7,7 @@
                 <b-row no-gutters>
                     <b-col cols="6" md="4" v-for="watch in FeaturedWatches" :key="watch.id" class="pointer px-1 watchCard my-0 mb-0 mb-md-2 mb-lg-3"  @click="selectWatch(watch)">
                         <b-row align-v="start" align-h="center" class="bg-white" no-gutters>
-                            <b-col cols="12" class="p-1 p-lg-3 bg-white watchImgWrapper center">
+                            <b-col cols="12" class="p-1 bg-white watchImgWrapper center">
                                 <b-img
                                 @click="selectWatch(watch)"
                                 :src="ROOT_API + watch.src.images[0].src"
@@ -212,7 +212,7 @@ export default {
 
     .watchLogoWrapper {
         width: 100%;
-        height:4.25rem;
+        height:4rem;
         background-color:#708090;
     }
 
@@ -222,7 +222,7 @@ export default {
     }
     
     .watchName {
-        font-size: .7rem;
+        font-size: .75rem;
     }
 
     .container-fluid {
@@ -245,12 +245,6 @@ export default {
         max-width: 100%;
         height: 100%;
         background-color: white;
-    }
-
-    .watchLogoWrapper {
-        width: 100%;
-        height:3.725rem;
-        background-color:#708090;
     }
 
     .watchLogo {
@@ -280,7 +274,7 @@ export default {
 
     .watchLogoWrapper {
         width: 100%;
-        height:3.725rem;
+        height:4.25rem;
         background-color:#708090;
     }
 
@@ -312,18 +306,17 @@ export default {
     }
 
     .watchLogoWrapper {
-        height: 3.5rem;
+        height: 3.75rem;
         }
     }
 
     @media(max-width: 625px) {
+        .watchLogoWrapper {
+        height: 3rem;
+        }
 
         .watchCard {
         height: 18.5rem !important;
-        }
-
-        .watchName {
-            font-size: .9rem;
         }
     }
 

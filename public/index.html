@@ -22,7 +22,13 @@
     <meta name="twitter:card" content="Manage Your Watch SOC">
     
     <title>Watch SOC</title>
-    <script src="/load-image.all.min.js"></script>
+
+    <script>
+      var host = "www.watchsoc.com";
+      if ((host == window.location.host) && (window.location.protocol != "https:")){
+      window.location.protocol = "https";
+      }
+      </script>
   </head>
   <body>
     <noscript>

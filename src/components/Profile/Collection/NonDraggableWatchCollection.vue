@@ -56,7 +56,7 @@
             ref="removeWatchModal"
             size="lg">
             <b-row slot="modal-title" no-gutters v-if="watchToRemove" class="red">Removing &nbsp; <strong class="black">{{ titleCase(watchToRemove.name)}}</strong></b-row>
-            <div slot="modal-header-close" class="w-100 m-h2 mt-2 mt-md-1" @click="resetReasonsWatchMoved">X</div>
+            <div slot="modal-header-close" class="w-100 mt-1" @click="resetReasonsWatchMoved">X</div>
             <remove-watch-modal :watchToRemove="watchToRemove" :reasonsWatchMoved="reasonsWatchMoved"></remove-watch-modal>
             <b-row slot="modal-footer" class="p-2" no-gutters>
                 <b-btn class="bg-red white mx-2" variant="default" :disabled="reasonsWatchMoved.typeMoved == null" @click="submitRemoveWatchForm">Remove Watch</b-btn>
@@ -68,9 +68,10 @@
             ref="removedWatchModal"
             size="lg" lazy>
             <b-row slot="modal-title" no-gutters v-if="removedWatchToSee" class="red">Removed <strong class="black"> &nbsp;{{ titleCase(removedWatchToSee.name)}}</strong></b-row>
-            <div slot="modal-header-close" class="w-100 m-h2 mt-2 mt-md-1">X</div>
+            <div slot="modal-header-close" class="w-100 mt-1">X</div>
              <see-removed-watch-modal :removedWatchToSee="removedWatchToSee"></see-removed-watch-modal>
         </b-modal>
+
     </b-container>
 </template>
 
@@ -418,7 +419,7 @@ export default {
 
         .watchImgWrapper_Md {
             width: 100%;
-            height:6.5rem;
+            height:5.5rem;
         }
 
         .watchImgWrapper_Lg {

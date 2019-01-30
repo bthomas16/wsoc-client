@@ -30,23 +30,17 @@
                                 <b-button class=" bg-green white addWatchClass" id="addWatchButton" variant="default" @click="addNewWatch" size="" block>Add Watch</b-button>
                             </b-col>
                         </b-row>
-                        <b-row align-h="between" align-v="center" class="d-none d-lg-flex" no-gutters>
-                            <b-col cols="5">
-                                <b-col cols="12" class="mt-2 mt-md-3 nowrap">
-                                    <b-form-checkbox
-                                        id="toggleFlags"
-                                        v-model="isShowEditFlags"
-                                        :value="true"
-                                        :unchecked-value="false">
-                                        <span class="m-h3" v-if="!isShowEditFlags">Show Flags</span>
-                                        <span class="m-h3" v-else>Hide Flags</span>
-                                    </b-form-checkbox>
-                                </b-col>
+                        <b-row align-h="between" align-v="center" class="d-none d-lg-flex mt-2" no-gutters>
+                            <b-col cols="4" md="6" class="mt-1 mt-md-0 pl-3 pr-2">
+                                <b-btn size="sm" v-if="!isShowEditFlags" @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="w-100 h8 white p-1">Show Flags</b-btn>
+                                <b-btn size="sm" v-else @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="bg-navy w-100 h8 p-1">Hide Flags</b-btn>
                             </b-col>
-                            <b-col cols="7">
-                                <b-btn :class="currentCardSize == 'lg' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="right px-2 toggleBtn px-md-3 mt-2" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
-                                <b-btn :class="currentCardSize == 'md' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="right px-2 toggleBtn px-md-3 mt-2" size="sm" @click="sizeCardToUse('md')">md</b-btn>
-                                <b-btn :class="currentCardSize == 'sm' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="right px-2 toggleBtn px-md-3 mt-2" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
+                            <b-col cols="8" md="6">
+                                <b-btn-group class="mt-1 mt-md-0 right mr-3">
+                                    <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
+                                    <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                                    <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                                </b-btn-group>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -54,16 +48,16 @@
                         <b-row no-gutters>
                             <b-col cols="12" class="mx-auto selectWrapper">
                                 <b-input-group prepend="&#9906;" class="px-1" size="">
-                                    <b-form-input id="searchInput" type="text" placeholder="Search" size="" @input="filterBySearchTerm" v-model="searchTermToFilterBy"></b-form-input>
+                                    <b-form-input class="filterText" id="searchInput" type="text" placeholder="Search" size="" @input="filterBySearchTerm" v-model="searchTermToFilterBy"></b-form-input>
                                 </b-input-group>
                             </b-col>
                         </b-row>
                         <b-row align-v="start" align-h="start" no-gutters class="mt-2">
                             <b-col cols="5" class="mx-auto px-1">
-                                <b-form-select class="h8 p-1" id="categoryOptions" :options="sortCategories" v-model="sortCategory" @change="selectSortCategory"></b-form-select>
+                                <b-form-select class="filterText p-1" :options="sortCategories" v-model="sortCategory" @change="selectSortCategory"></b-form-select>
                             </b-col>
                             <b-col cols="7" class="mx-auto px-1">
-                                <b-form-select class="h8 p-1" id="categoryOptions" :options="categoryOptions" v-model="categoryOption" @change="selectCategoryOption" :disabled="!sortCategory"></b-form-select>
+                                <b-form-select class="filterText p-1" :options="categoryOptions" v-model="categoryOption" @change="selectCategoryOption" :disabled="!sortCategory"></b-form-select>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -71,58 +65,42 @@
 
                 <!-- Buttons for is Managing collection -->
                 <b-row align-v="center" align-h="between" class="d-lg-none mt-2" v-if="isManagingCollection" no-gutters>
-                    <b-col cols="4" md="5">
-                        <b-col cols="12" md="auto" class="nowrap">
-                            <b-form-checkbox
-                                id="toggleFlags"
-                                v-model="isShowEditFlags"
-                                :value="true"
-                                :unchecked-value="false">
-                                <span class="m-h3" v-if="!isShowEditFlags">Show Flags</span>
-                                <span class="m-h3" v-else>Hide Flags</span>
-                            </b-form-checkbox>
-                        </b-col>
+                    <b-col cols="4" md="5" class="px-1">
+                        <b-btn size="sm" v-if="!isShowEditFlags" @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="w-100 h8 white p-1">Show Flags</b-btn>
+                        <b-btn size="sm" v-else @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="tiny bg-navy w-100 p-2">Hide Flags</b-btn>
                     </b-col>
                     <b-col cols="8" md="7" class="nowrap">
-                        <b-btn variant="secondary" :class="currentCardSize == 'lg' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" class="right px-2 toggleBtn px-md-3" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
-                        <b-btn variant="secondary" :class="currentCardSize == 'md' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" class="right px-2 toggleBtn px-md-3" size="sm" @click="sizeCardToUse('md')">md</b-btn>
-                        <b-btn variant="secondary" :class="currentCardSize == 'sm' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" class="right px-2 toggleBtn px-md-3" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
+                       <b-btn-group class="right mr-1">
+                            <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
+                            <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                            <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                        </b-btn-group>
                     </b-col>
                 </b-row>
 
                 <!-- Buttons for not managing collection -->
                 <b-row v-if="!isManagingCollection" no-gutters>
-                    <b-col class="mx-auto" cols="11" md="8">
+                    <b-col class="mx-auto px-2 px-md-0" cols="12" md="10" lg="8"    >
                         <b-btn variant="default" class="white my-0 bg-light-blue" size="sm" @click="toggleIsManagingCollection" block>Manage Collection</b-btn>
                         <b-row no-gutters align-v="center" align-h="between" id="mobileRow" class="mx-auto mt-md-2 flagWidth" v-if="!isManagingCollection">
-                            <b-col cols="6"> 
-                                <b-row no-gutters>
-                                    <b-col cols="12" md="6" class="mt-1 mt-md-0 left-align left nowrap">
-                                        <b-form-checkbox
-                                            id="toggleFlags"
-                                            v-model="isShowFlags"
-                                            :value="true"
-                                            :unchecked-value="false">
-                                            <span class="m-h3" v-if="!isShowFlags">Show Flags</span>
-                                            <span class="m-h3" v-else>Hide Flags</span>
-                                        </b-form-checkbox>
+                            <b-col cols="7"> 
+                                <b-row no-gutters align-h="between">
+                                    <b-col cols="6" class="mt-1 mt-md-0 pr-2">
+                                        <b-btn size="sm" v-if="!isShowFlags" @click="isShowFlags = !isShowFlags" variant="secondary" class="w-100 h8 white p-1">Show Flags</b-btn>
+                                        <b-btn size="sm" v-else @click="isShowFlags = !isShowFlags" variant="secondary" class="bg-navy w-100 h8 p-1">Hide Flags</b-btn>
                                     </b-col>
-                                    <b-col cols="12" md="6" class="mt-1 mt-md-0 left-align left nowrap">
-                                        <b-form-checkbox
-                                            id="toggleDragToOrganize"
-                                            v-model="isDragToOrganize"
-                                            :value="true"
-                                            :unchecked-value="false">
-                                            <span class="m-h3" v-if="!isDragToOrganize">Enable Watch Drag</span>
-                                            <span class="m-h3" v-else>Disable Watch Drag</span>
-                                        </b-form-checkbox>
+                                    <b-col cols="6" class="mt-1 mt-md-0">
+                                        <b-btn size="sm" v-if="isDragToOrganize" @click="isDragToOrganize = !isDragToOrganize" variant="secondary" class="bg-navy white p-1 h8 w-100" >Disable Drag</b-btn>
+                                        <b-btn size="sm" v-else @click="isDragToOrganize = !isDragToOrganize" variant="secondary" class="p-1 h8 w-100">Enable Drag</b-btn>
                                     </b-col>
                                 </b-row>
                             </b-col>
-                            <b-col cols="6" class="nowrap">
-                                <b-btn :class="currentCardSize == 'lg' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
-                                <b-btn :class="currentCardSize == 'md' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('md')">md</b-btn>
-                                <b-btn :class="currentCardSize == 'sm' ? 'btn m-1 bg-navy white border' : 'btn bg-darkgray m-1'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
+                            <b-col cols="5" class="nowrap">
+                                <b-btn-group class="mt-1 mt-md-0 right">
+                                    <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
+                                    <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                                    <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                                </b-btn-group>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -151,7 +129,7 @@ export default {
       searchTermToFilterBy: '',
       sortCategory: null,
       sortCategories: [
-        { value: null, text: 'Category', disabled: true },
+        { value: null, text: 'Sort By', disabled: true },
         { value: 'condition', text: 'Condition' },
         { value: 'status', text: 'Status' },
         { value: 'style', text: 'Style' },
@@ -159,7 +137,7 @@ export default {
         { value: 'previous', text: 'Removed' }
       ],
 
-      categoryOptions: [{ value: null, text: 'Option', disabled: true }],
+      categoryOptions: [{ value: null, text: 'Sort Criteria', disabled: true }],
       categoryOption: null
     }
   },
@@ -182,7 +160,7 @@ export default {
       switch (eventValue) {
         case 'condition':
           this.categoryOptions = [
-            { value: null, text: 'Condition', disabled: true },
+            { value: null, text: 'Category', disabled: true },
             { value: 8, text: '8-10' },
             { value: 5, text: '5-7' },
             { value: 1, text: '0-4' }
@@ -190,7 +168,7 @@ export default {
           break
         case 'status':
           this.categoryOptions = [
-            { value: null, text: 'Status', disabled: true },
+            { value: null, text: 'Category', disabled: true },
             { value: 'keeper', text: 'Keeper' },
             { value: 'sale', text: 'For Sale' },
             { value: 'trade', text: 'For Trade' },
@@ -199,7 +177,7 @@ export default {
           break
         case 'style':
           this.categoryOptions = [
-            { value: null, text: 'Style', disabled: true },
+            { value: null, text: 'Category', disabled: true },
             { value: 'diver', text: 'Diver' },
             { value: 'dress', text: 'Dress' },
             { value: 'chronograph', text: 'Chronograph' },
@@ -256,6 +234,12 @@ export default {
     if (eventValue) {
         this.$store.dispatch('isTryingShuffleWhileManage', false) 
         this.$store.dispatch('getFilteredCollectionBySearchTerm', eventValue.toLowerCase())
+      }
+      else {
+        this.$store.dispatch('viewingPreviousWatches', false)
+        this.sortCategory = null
+        this.categoryOption = null
+        this.$store.dispatch('getFilteredCollectionBySearchTerm', '')          
       }
     },
 
@@ -327,10 +311,12 @@ export default {
 }
 </script>
 <style scoped>
-
-    /* .flagWidth {
-        width: 75%;
-    } */
+.custom-select {
+    background-image: none;
+}
+    .filterText {
+        font-size: 16px;
+    }
 
     .randomWatch, .addWatchClass {
         font-size: 1rem;
@@ -341,66 +327,51 @@ export default {
         height: 2.34rem;
     }
 
-    @media(max-width: 900px) {
-        .randomWatch, .addWatchClass {
-        font-size: .85rem;
-        }
-
-        /* .flagWidth {
-            width: 100%;
-        } */
-    }
-
-    @media(max-width: 400px) {
-        .randomWatch, .addWatchClass {
-        font-size: .75rem;
-        }
-    }
-
-     @media(max-width: 350px) {
-        .randomWatch, .addWatchClass {
-        font-size: .7rem;
-        }
-    }
-
     .toggleBtn {
-    border: none !important;
-    border-color: none !important;
-    outline: none !important;
-}
-
-
-    /* .form-control {
-        padding: .25rem;
+        border: none !important;
+        border-color: none !important;
+        outline: none !important;
     }
 
-    .randomFont {
-        font-size: 1rem;
-        height: 2.35rem;
-    }
-
-    /* .btn {
-        height:2.75em;
-    } */
 
     .btn:focus {
         outline: none;
         border:none;
     }
 
+    @media(max-width: 900px) {
+        .randomWatch, .addWatchClass {
+        font-size: .85rem;
+        }
+    }
+
     @media(max-width: 750px) {
-    #mobileRow {
-        width: 100% !important;
+        #mobileRow {
+            width: 100% !important;
+        }
+    
+        .randomFont {
+            font-size: .75rem;
+        }
     }
 
-    .randomFont {
-        font-size: .75rem;
-    }
-}
+    @media(max-width: 400px) {
+        .randomWatch, .addWatchClass {
+            font-size: .75rem;
+        }
 
-@media(max-width: 750px) {
-    #mobileRow {
-        width: 100% !important;
+        .tiny {
+            height: auto
+        }
+
+
     }
-}
+
+     @media(max-width: 350px) {
+        .randomWatch, .addWatchClass {
+        font-size: .635rem;
+        }
+    }
+
+
 </style>
