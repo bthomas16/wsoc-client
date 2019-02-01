@@ -138,19 +138,6 @@ export default {
       this.mdSizeCard = 12
     },
 
-    startDrag (e) {
-      this.drag = true
-      this.draggingId = e.item.id
-    },
-
-    endDrag (e) {
-      this.drag = false
-      this.isAnimate = false
-      setTimeout(() => {
-        this.isAnimate = true
-      }, 400)
-    },
-
     orderChanged () {
       this.$emit('orderChanged')
     },

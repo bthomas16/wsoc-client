@@ -246,12 +246,6 @@ export default {
       }
       this.createAddWatch() // reset add watch to defaults
       this.addWatchCount = 1 // resets watch count
-
-      // TODO: NOT THIS
-    //   setTimeout(() => {
-    //     this.$store.dispatch('getNumberFSOT')
-    //     this.$store.dispatch('loadUserCollection')
-    //   }, 500)
     },
 
     backToEditStart () {
