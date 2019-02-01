@@ -32,15 +32,21 @@
                         </b-row>
                         <b-row align-h="between" align-v="center" class="d-none d-lg-flex mt-2" no-gutters>
                             <b-col cols="4" md="6" class="mt-1 mt-md-0 pl-3 pr-2">
-                                <b-btn size="sm" v-if="!isShowEditFlags" @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="w-100 h8 white p-1">Show Flags</b-btn>
-                                <b-btn size="sm" v-else @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="bg-navy w-100 h8 p-1">Hide Flags</b-btn>
+                                <b-btn size="sm" v-if="!isShowEditFlags" @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="w-100 white p-1">Show Flags</b-btn>
+                                <b-btn size="sm" v-else @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="bg-navy w-100 p-1">Hide Flags</b-btn>
                             </b-col>
-                            <b-col cols="8" md="6">
-                                <b-btn-group class="mt-1 mt-md-0 right mr-3">
-                                    <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
-                                    <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('md')">md</b-btn>
-                                    <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
-                                </b-btn-group>
+                            <b-col cols="8" md="6" class="pr-3 pl-1">
+                                <b-row no-gutters align-h="end">
+                                    <b-col cols="4" class="px-1">
+                                        <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>                                        
+                                    </b-col>
+                                    <b-col cols="4" class="px-1">
+                                        <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                                    </b-col>
+                                    <b-col cols="4" class="px-1 px-md-0 pl-md-1">
+                                        <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                                    </b-col>
+                                </b-row>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -66,15 +72,21 @@
                 <!-- Buttons for is Managing collection -->
                 <b-row align-v="center" align-h="between" class="d-lg-none mt-2" v-if="isManagingCollection" no-gutters>
                     <b-col cols="4" md="5" class="px-1">
-                        <b-btn size="sm" v-if="!isShowEditFlags" @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="w-100 h8 white p-1">Show Flags</b-btn>
+                        <b-btn size="sm" v-if="!isShowEditFlags" @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="w-100 white p-1">Show Flags</b-btn>
                         <b-btn size="sm" v-else @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="tiny bg-navy w-100 p-2">Hide Flags</b-btn>
                     </b-col>
-                    <b-col cols="8" md="7" class="nowrap">
-                       <b-btn-group class="right mr-1">
-                            <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
-                            <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('md')">md</b-btn>
-                            <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
-                        </b-btn-group>
+                    <b-col cols="7" md="6" offset="1" class="nowrap">
+                        <b-row no-gutters align-h="end">
+                            <b-col cols="4" class="px-1">
+                                <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>                                        
+                            </b-col>
+                            <b-col cols="4" class="px-1">
+                                <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                            </b-col>
+                            <b-col cols="4" class="px-1">
+                                <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                            </b-col>
+                        </b-row>
                     </b-col>
                 </b-row>
 
@@ -85,22 +97,28 @@
                         <b-row no-gutters align-v="center" align-h="between" id="mobileRow" class="mx-auto mt-md-2 flagWidth" v-if="!isManagingCollection">
                             <b-col cols="7"> 
                                 <b-row no-gutters align-h="between">
-                                    <b-col cols="6" class="mt-1 mt-md-0 pr-2">
-                                        <b-btn size="sm" v-if="!isShowFlags" @click="isShowFlags = !isShowFlags" variant="secondary" class="w-100 h8 white p-1">Show Flags</b-btn>
-                                        <b-btn size="sm" v-else @click="isShowFlags = !isShowFlags" variant="secondary" class="bg-navy w-100 h8 p-1">Hide Flags</b-btn>
+                                    <b-col cols="6" class="mt-1 mt-md-0 pr-1 pr-md-2">
+                                        <b-btn size="sm" v-if="!isShowFlags" @click="isShowFlags = !isShowFlags" variant="secondary" class="w-100 white p-1">Show Flags</b-btn>
+                                        <b-btn size="sm" v-else @click="isShowFlags = !isShowFlags" variant="secondary" class="bg-navy w-100 p-1">Hide Flags</b-btn>
                                     </b-col>
-                                    <b-col cols="6" class="mt-1 mt-md-0">
+                                    <b-col cols="6" class="mt-1 mt-md-0 pr-1 pr-md-0">
                                         <b-btn size="sm" v-if="isDragToOrganize" @click="isDragToOrganize = !isDragToOrganize" variant="secondary" class="bg-navy white p-1 h8 w-100" >Disable Drag</b-btn>
                                         <b-btn size="sm" v-else @click="isDragToOrganize = !isDragToOrganize" variant="secondary" class="p-1 h8 w-100">Enable Drag</b-btn>
                                     </b-col>
                                 </b-row>
                             </b-col>
-                            <b-col cols="5" class="nowrap">
-                                <b-btn-group class="mt-1 mt-md-0 right">
-                                    <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>
-                                    <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('md')">md</b-btn>
-                                    <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="px-md-3 right px-2 toggleBtn m-0" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
-                                </b-btn-group>
+                            <b-col cols="5" sm="4" offset-sm="1" class="nowrap mt-1 mt-md-0">
+                                <b-row no-gutters align-h="end">
+                                    <b-col cols="4" class="pl-1">
+                                        <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>                                        
+                                    </b-col>
+                                    <b-col cols="4" class="pl-1">
+                                        <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                                    </b-col>
+                                    <b-col cols="4" class="pl-1">
+                                        <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                                    </b-col>
+                                </b-row>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -331,6 +349,7 @@ export default {
         border: none !important;
         border-color: none !important;
         outline: none !important;
+        width: auto;
     }
 
 

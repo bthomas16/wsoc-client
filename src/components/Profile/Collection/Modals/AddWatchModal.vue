@@ -10,6 +10,20 @@
                 <b-col cols="12" class="mx-auto">
                     <!-- <b-row align-h="start" no-gutters class="border"> -->
 
+                        <vue-croppie
+                            ref=croppieRef
+                            :enableOrientation="true"
+                            :mouseWheelZoom="false"
+                            :viewport="{ width: 200, height: 200, type: 'circle' }"
+                            @result="result"
+                            @update="update">
+                        </vue-croppie>
+
+                        <img v-bind:src="cropped">
+                        
+                        <button @click="rotate()">Rotate</button>
+                        <button @click="crop()">Crop</button>
+
                         <draggable @start="startDrag" @end="endDrag" v-model="watchImages">
                             <transition-group name="swap-list" class="row">
                                 <b-col cols="6" md="4" lg="4" class="relative watchImgWrapper mb-2" v-for="(image, index) in addWatch.src.images" :key="index">
@@ -633,11 +647,40 @@ export default {
               { value: '30mm', text: 'Over 29mm Height' }
             ],
       drag: false,
-      draggingId: ''
+      draggingId: '',
+
+
+
+      cropped: null
     }
   },
 
   methods: {
+        crop() {
+            let options = {
+                format: 'jpeg', 
+                circle: false
+            }
+            this.$refs.croppieRef.result(options);
+        },
+
+        result(output) {
+            this.cropped = output;
+        },
+
+        update(val) {
+            // this.$refs.croppieRef.update(val);
+            this.crop()
+        },
+
+        rotate() {
+            // Rotates the image
+            this.$refs.croppieRef.rotate(90);
+            this.crop()
+        },
+
+
+
     addWatchSpecs (specs) {
       this.addWatch.specs =
             localStorage.setItem('addWatch', specs)
@@ -661,6 +704,9 @@ export default {
           src: image.Location, // s3 bucket url path
           order: image.order
         }
+        this.$refs.croppieRef.bind({
+            url: image.Location
+        })
         this.addWatch.src.images.push(imageObjToPush)
       })
     },
@@ -686,6 +732,12 @@ export default {
       this.drag = false
     }
 
+  },
+
+  mounted() {
+      this.$refs.croppieRef.bind({
+            url: ''
+        })
   },
 
   computed: {

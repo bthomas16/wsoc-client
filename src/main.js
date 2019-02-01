@@ -9,15 +9,14 @@ import store from './State/store.js'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueAnalytics from 'vue-analytics'
-import AutoRotate from 'vue-jpeg-auto-rotation'
-
+import VueCroppie from 'vue-croppie'
 
 const isProd = process.env.NODE_ENV === 'production'
 
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
 Vue.use(MainCSS)
-Vue.use(AutoRotate)
+Vue.use(VueCroppie)
 
 axios.defaults.baseURL = process.env.VUE_APP_ROOT_API
 

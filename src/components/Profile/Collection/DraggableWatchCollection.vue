@@ -27,9 +27,9 @@
                                             v-if="!isViewingPreviousWatches" 
                                             :src="isFavoriteWatch(watch.id) ? fullHeart : emptyHeart"
                                             @click="favoriteToggle(watch.id)"
-                                                class="pointer absolute r-0 r0 mr-1 right-align right" 
-                                                :class="currentCardSize == 'sm' ? 'smallHeartIcon' : 'heartIcon'">
-                                            </b-img>
+                                            class="pointer absolute r-0 r0 mr-1 right-align right" 
+                                            :class="currentCardSize == 'sm' ? 'smallHeartIcon' : 'heartIcon'">
+                                        </b-img>
                                         <b-col cols="12" md="5" class="m-0" :class="(currentCardSize == 'sm') ? 'watchImgWrapper_Sm' : (currentCardSize == 'md') ? 'watchImgWrapper_Md' : (currentCardSize == 'lg') ? 'watchImgWrapper_Lg' : 'watchImgWrapper_Sm'">
                                             <b-img
                                                 v-if="watch.src.images[0]"
