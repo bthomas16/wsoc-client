@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import UtilityMethod from './StoreUtilityMethods.js'
-import Utilities from '../Utilities/LoadImageOrientation.js'
 
 Vue.use(Vuex)
 
@@ -83,6 +82,15 @@ const SET_COOKIE_WOTD = 'SET_COOKIE_WOTD'
 
 const IS_SHUFFLE_WHILE_MANAGE = 'IS_SHUFFLE_WHILE_MANAGE'
 
+const SET_CROPPIE_WATCH_ORDER = 'SET_CROPPIE_WATCH_ORDER'
+
+const DETERMINE_IMAGE_CAN_BE_EDITED = 'DETERMINE_IMAGE_CAN_BE_EDITED'
+
+const REMOVE_WATCH_FROM_COLLECTION = 'REMOVE_WATCH_FROM_COLLECTION'
+
+const TOGGLE_IS_MODAL_POPPED = 'TOGGLE_IS_MODAL_POPPED'
+
+
 const state =
 {
   isLoading: false,
@@ -107,7 +115,10 @@ const state =
   isServerValidationError: false,
   serverValidationError: null,
   cookieValueWOTD: 0,
-  isShuffleWhileManage: false
+  isShuffleWhileManage: false,
+  croppieWatchOrder: 0,
+  isImageEditable: false,
+  isModalPopped: false // check for any modals showing on the page
 }
 
 const mutations =
@@ -260,6 +271,28 @@ const mutations =
 
   [IS_SHUFFLE_WHILE_MANAGE] (state, value) {
     state.isShuffleWhileManage = value
+  },
+
+  [SET_CROPPIE_WATCH_ORDER] (state, value) {
+    state.croppieWatchOrder = value
+  },
+
+  [DETERMINE_IMAGE_CAN_BE_EDITED] (state, value) {
+    state.isImageEditable = value
+  },
+
+  [REMOVE_WATCH_FROM_COLLECTION] (state, idToRemove) {
+    state.Collection = state.Collection.filter(watch => {
+      return watch.id !== idToRemove
+    })
+
+    state.FilteredCollection = state.FilteredCollection.filter(watch => {
+      return watch.id !== idToRemove
+    })
+  },
+
+  [TOGGLE_IS_MODAL_POPPED] (state, value) {
+    state.isModalPopped = value
   }
 }
 
@@ -269,7 +302,6 @@ const actions =
     context.commit(LOADING)
     return axios.post('/api/user/login', formData)
       .then(res => {
-        console.log('should login', res.data.isSuccess)
         if (!res.data.isSuccess) {
           console.log(res.data, 'ok mostly fuck with me')
           context.commit(NOT_LOADING)
@@ -279,7 +311,6 @@ const actions =
         localStorage.setItem('watchJwt', res.data.token)
         context.commit(AUTH_SUCCESS, res.data.user)
         context.commit(NOT_LOADING)
-        console.log(res.data, 'ok fuck with me')
         return res.data
       }).catch(err => {
         console.log(err.data, 'ok srsly fuck with me')
@@ -329,6 +360,12 @@ const actions =
       context.commit(NOT_LOADING)
       context.commit(INVALIDATE_JWT)
       context.commit(SERVER_VALIDATION_ERROR)
+
+      // this.$ga.event({
+      //   eventCategory: 'ERROR',
+      //   eventAction: 'GET_User()_Server_Validation_Error',
+      //   eventLabel: '[store] Error on GET User'
+      // })
     })
   },
 
@@ -410,6 +447,12 @@ const actions =
         context.commit(NOT_LOADING)
         context.commit(INVALIDATE_JWT)
         context.commit(SERVER_VALIDATION_ERROR)
+
+        // this.$ga.event({
+        //   eventCategory: 'ERROR',
+        //   eventAction: 'POST_submitNewWatch()_Server_Validation_Error',
+        //   eventLabel: '[store] Error on POST submitNewWatch()'
+        // })
         return err
       })
   },
@@ -436,6 +479,13 @@ const actions =
         context.commit(NOT_LOADING)
         context.commit(INVALIDATE_JWT)
         context.commit(SERVER_VALIDATION_ERROR)
+
+        // Analytics
+        // this.$ga.event({
+        //   eventCategory: 'ERROR',
+        //   eventAction: 'PUT_submitEditWatch()_Server_Validation_Error',
+        //   eventLabel: '[store] Error on PUT submitEditWatch()'
+        // })
         return err
       })
   },
@@ -454,11 +504,19 @@ const actions =
     })
       .then((res) => {
         context.commit(NOT_LOADING)
-        return res
+        context.commit(REMOVE_WATCH_FROM_COLLECTION, res.data.id)
       }).catch((err) => {
+        console.log('err :', err)
         context.commit(NOT_LOADING)
         context.commit(INVALIDATE_JWT)
         context.commit(SERVER_VALIDATION_ERROR)
+
+        // Analytics
+        // this.$ga.event({
+        //   eventCategory: 'ERROR',
+        //   eventAction: 'PUT_removeExistingWatch()_Server_Validation_Error',
+        //   eventLabel: '[store] Error on PUT removeExistingWatch()'
+        // })
         return err
       })
   },
@@ -480,6 +538,14 @@ const actions =
         context.commit(NOT_LOADING)
         context.commit(INVALIDATE_JWT)
         context.commit(SERVER_VALIDATION_ERROR)
+
+
+        // Analytics
+        // this.$ga.event({
+        //   eventCategory: 'ERROR',
+        //   eventAction: 'POST_createRemoveWatch()_Server_Validation_Error',
+        //   eventLabel: '[store] Error on POST createRemoveWatch()'
+        // })
         return err
       })
   },
@@ -504,6 +570,13 @@ const actions =
     }).catch(err => {
       context.commit(INVALIDATE_JWT)
       context.commit(SERVER_VALIDATION_ERROR)
+
+      // Analytics
+      // this.$ga.event({
+      //   eventCategory: 'ERROR',
+      //   eventAction: 'PUT_updateCollectionOrder()_Server_Validation_Error',
+      //   eventLabel: '[store] Error on PUT updateCollectionOrder()'
+      // })
       return err
     })
   },
@@ -522,6 +595,13 @@ const actions =
     }).catch(err => {
       context.commit(INVALIDATE_JWT)
       context.commit(SERVER_VALIDATION_ERROR)
+
+      // Analytics
+      // this.$ga.event({
+      //   eventCategory: 'ERROR',
+      //   eventAction: 'GET_getFavorites()_Server_Validation_Error',
+      //   eventLabel: '[store] Error on GET getFavorites()'
+      // })
       return err
     })
   },
@@ -540,6 +620,13 @@ const actions =
     }).catch(err => {
       context.commit(INVALIDATE_JWT)
       context.commit(SERVER_VALIDATION_ERROR)
+
+      // Analytics
+      // this.$ga.event({
+      //   eventCategory: 'ERROR',
+      //   eventAction: 'GET_getNumberFSOT()_Server_Validation_Error',
+      //   eventLabel: '[store] Error on GET getNumberFSOT()'
+      // })
       return err
     })
   },
@@ -561,11 +648,17 @@ const actions =
         'authorization': localStorage.getItem('watchJwt')
       }
     }).then(res => {
-      console.log('toggled', res.data)
       context.commit(TOGGLE_FAVORITE, res.data.favorites)
     }).catch(err => {
       context.commit(INVALIDATE_JWT)
       context.commit(SERVER_VALIDATION_ERROR)
+
+      // Analytics
+      // this.$ga.event({
+      //   eventCategory: 'ERROR',
+      //   eventAction: 'POST_toggleWatchFavorite()_Server_Validation_Error',
+      //   eventLabel: '[store] Error on POST toggleWatchFavorite()'
+      // })
       return err
     })
   },
@@ -610,6 +703,13 @@ const actions =
       console.log(err)
       context.commit(INVALIDATE_JWT)
       context.commit(SERVER_VALIDATION_ERROR)
+
+      // Analytics
+      // this.$ga.event({
+      //   eventCategory: 'ERROR',
+      //   eventAction: 'GET_getFilteredCollection()_Server_Validation_Error',
+      //   eventLabel: '[store] Error on GET getFilteredCollection()'
+      // })
       return err
     })
   },
@@ -633,33 +733,41 @@ const actions =
         context.commit(NOT_LOADING)
         // context.commit(INVALIDATE_JWT)
         context.commit(SERVER_VALIDATION_ERROR)
+
+        // Analytics
+        // this.$ga.event({
+        //   eventCategory: 'ERROR',
+        //   eventAction: 'GET_getFilteredCollectionBySearchTerm()_Server_Validation_Error',
+        //   eventLabel: '[store] Error on GET getFilteredCollectionBySearchTerm()'
+        // })
         return err
       })
   },
 
-  uploadImagesToAwsS3 (context, images) {
-    let imagesFormData = new FormData()
-
-    for (var i = 0; i < images.length; i++) {
-      let image = images[i]
-      imagesFormData.append('images[' + i + ']', image)
-    }
+  uploadImagesToAwsS3 (context, fileArr) {
     context.commit(LOADING)
     return axios({
       method: 'POST',
       url: '/api/upload/watch-images',
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
         'authorization': localStorage.getItem('watchJwt')
       },
-      data: imagesFormData
+      data: fileArr
     })
       .then((res) => {
         context.commit(NOT_LOADING)
-        return res.data.uploadedImages
+        return res.data
       }).catch((err) => {
         context.commit(INVALIDATE_JWT)
         context.commit(SERVER_VALIDATION_ERROR)
+
+        // Analytics
+        // this.$ga.event({
+        //   eventCategory: 'ERROR',
+        //   eventAction: 'POST_uploadImagesToAwsS3()_Server_Validation_Error',
+        //   eventLabel: '[store] Error on POST uploadImagesToAwsS3()'
+        // })
         return err
       })
   },
@@ -684,6 +792,13 @@ const actions =
         context.commit(NOT_LOADING)
         context.commit(INVALIDATE_JWT)
         context.commit(SERVER_VALIDATION_ERROR)
+
+        // Analytics
+        // this.$ga.event({
+        //   eventCategory: 'ERROR',
+        //   eventAction: 'PUT_uploadProfileImageToAwsS3()_Server_Validation_Error',
+        //   eventLabel: '[store] Error on PUT uploadProfileImageToAwsS3()'
+        // })
         return err
       })
   },
@@ -706,6 +821,13 @@ const actions =
         context.commit(NOT_LOADING)
         context.commit(INVALIDATE_JWT)
         context.commit(SERVER_VALIDATION_ERROR)
+
+        // Analytics
+        // this.$ga.event({
+        //   eventCategory: 'ERROR',
+        //   eventAction: 'PUT_editUserProfile()_Server_Validation_Error',
+        //   eventLabel: '[store] Error on PUT editUserProfile()'
+        // })
         return err
       })
   },
@@ -726,35 +848,33 @@ const actions =
       console.log(err)
     })
   },
-  getWatchNewsArticles (context) {
-    context.commit(LOADING)
-    return axios({
-      method: 'GET',
-      url: '/api/watch-news'
-    }).then(res => {
-      console.log('heres articles', res)
-      context.commit(NOT_LOADING)
-      return res.data.articles
-    }).catch(err => {
-      console.log(err)
-      context.commit(NOT_LOADING)
-    })
-  },
+  // getWatchNewsArticles (context) {
+  //   context.commit(LOADING)
+  //   return axios({
+  //     method: 'GET',
+  //     url: '/api/watch-news'
+  //   }).then(res => {
+  //     context.commit(NOT_LOADING)
+  //     return res.data.articles
+  //   }).catch(err => {
+  //     console.log(err)
+  //     context.commit(NOT_LOADING)
+  //   })
+  // },
 
-  getWatchNewsArticleById (context, id) {
-    context.commit(LOADING)
-    return axios({
-      method: 'GET',
-      url: '/api/watch-news/' + id
-    }).then(res => {
-      console.log('article here', res.data.article)
-      context.commit(NOT_LOADING)
-      return res.data.article
-    }).catch(err => {
-      console.log(err)
-      context.commit(NOT_LOADING)
-    })
-  },
+  // getWatchNewsArticleById (context, id) {
+  //   context.commit(LOADING)
+  //   return axios({
+  //     method: 'GET',
+  //     url: '/api/watch-news/' + id
+  //   }).then(res => {
+  //     context.commit(NOT_LOADING)
+  //     return res.data.article
+  //   }).catch(err => {
+  //     console.log(err)
+  //     context.commit(NOT_LOADING)
+  //   })
+  // },
 
   viewingPreviousWatches (context, value) {
     context.commit(VIEWING_PREVIOUS_WATCHES, value)
@@ -783,7 +903,6 @@ const actions =
 
   getWatchShareById (context, watchId) {
     context.commit(LOADING)
-    console.log('soup')
     return axios({
       method: 'GET',
       url: '/api/watch-share/by-watchid',
@@ -808,7 +927,6 @@ const actions =
       url: '/api/email/contact',
       data: formData
     }).then(res => {
-      console.log(res.data)
       context.commit(NOT_LOADING)
       return res.data
     }).catch(err => {
@@ -824,7 +942,6 @@ const actions =
       url: '/api/email/welcome',
       data: formData
     }).then(res => {
-      console.log(res.data)
       context.commit(NOT_LOADING)
       return res.data
     }).catch(err => {
@@ -840,7 +957,6 @@ const actions =
       url: '/api/email/forgot-password',
       data: formData
     }).then(res => {
-      console.log(res.data)
       context.commit(NOT_LOADING)
       return res.data
     }).catch(err => {
@@ -855,6 +971,17 @@ const actions =
 
   isTryingShuffleWhileManage (context, value) {
     context.commit(IS_SHUFFLE_WHILE_MANAGE, value)
+  },
+  setCroppieWatchOrder (context, value) {
+    context.commit(SET_CROPPIE_WATCH_ORDER, value)
+  },
+
+  CanImageCanBeEditedByUrl (context, value) {
+    context.commit(DETERMINE_IMAGE_CAN_BE_EDITED, value)
+  },
+
+  ToggleIsModalPopped (context, value) {
+    context.commit(TOGGLE_IS_MODAL_POPPED, value)
   }
 }
 

@@ -1,42 +1,45 @@
 <template>
     <b-container fluid class="relative">
 
-            <b-row no-gutters v-show="isS3UploadEvent" class="p-2">
-                <loader></loader>
-            </b-row>
+            
             <!-- Add Img Row -->
 
             <b-row v-show="!isS3UploadEvent" align-h="center" align-v="center" :class="addWatchCount == 1 ? '' : 'hidden'" no-gutters>
                 <b-col cols="12" class="mx-auto">
                     <!-- <b-row align-h="start" no-gutters class="border"> -->
 
-                        <vue-croppie
-                            ref=croppieRef
-                            :enableOrientation="true"
-                            :mouseWheelZoom="false"
-                            :viewport="{ width: 200, height: 200, type: 'circle' }"
-                            @result="result"
-                            @update="update">
-                        </vue-croppie>
+                        <b-row no-gutters align-v="start" v-show="isShowingCroppie">
+                            <b-col cols="12" md="10" class="mx-auto" style="height: 300px; width: 300px;" >
+                                <vue-croppie
+                                    ref=croppieRef
+                                    :enableOrientation="true"
+                                    :mouseWheelZoom="false"
+                                    :viewport="{ width: 250, height: 250, type: 'square' }"
+                                    @result="result"
+                                    @update="update">
+                                </vue-croppie>
+                            </b-col>
 
-                        <img v-bind:src="cropped">
+                            <b-col cols="12" class="mt-5">
+                                <b-btn class="bg-light-blue" varaint="secondary" @click="rotate()">Rotate</b-btn >
+                                <b-btn class="ml-2 bg-green" varaint="secondary" @click="saveCrop()">Save</b-btn>
+                            </b-col>
+                        </b-row>
                         
-                        <button @click="rotate()">Rotate</button>
-                        <button @click="crop()">Crop</button>
-
-                        <draggable @start="startDrag" @end="endDrag" v-model="watchImages">
+                        <draggable @start="startDrag" @end="endDrag" v-model="watchImages" class="mt-4">
                             <transition-group name="swap-list" class="row">
                                 <b-col cols="6" md="4" lg="4" class="relative watchImgWrapper mb-2" v-for="(image, index) in addWatch.src.images" :key="index">
-                                    <div class="absolute t-0 white bg-red p-1 mb-3 h8 pointer white border-radius-qtr" @click="removeWatchImage(index)" v-if="addWatch.src.images.length > 1">X</div>
+                                    <div class="mr-3 mr-md-2 r-0 absolute t-0 white bg-red p-1 mb-3 h8 pointer white border-radius-qtr" @click="removeWatchImage(index)" v-if="addWatch.src.images.length > 1">X</div>
+                                    <div class="absolute t-0 white bg-light-yellow p-1 mb-3 h8 pointer white border-radius-qtr" v-if="!ContainsS3Information(image.src.substring(0, 30))" @click="SetCroppieWatchAndDispatchCroppieWatchOrder(index)"><b-img src="/img/icons/editIcon.png" fluid class="editIcon"></b-img></div>
                                     <b-img :src="image.src" fluid class="mx-auto watchImg" thumbnail></b-img>
                                 </b-col>
                             </transition-group>
                         </draggable>
 
-                        <file-selector id="fileSelector" :isPreviewBox="true" v-model="file" v-on:setImagesOnAddWatch="setImagesOnAddWatch" v-on:isS3UploadingEvent="isS3UploadingEventListener" v-if="!addWatch.src.images.length"></file-selector>
+                        <file-selector id="fileSelector" :isPreviewBox="true" v-model="file" v-on:setImagesOnAddWatch="setImagesOnAddWatch" v-if="!addWatch.src.images.length"></file-selector>
                     <!-- </b-row> -->
                 </b-col>
-                <file-selector id="fileSelector" :isPreviewBox="false" v-model="file" v-on:setImagesOnAddWatch="setImagesOnAddWatch" v-on:isS3UploadingEvent="isS3UploadingEventListener" class="mt-4"></file-selector>
+                <file-selector id="fileSelector" :isPreviewBox="false" v-model="file" v-on:setImagesOnAddWatch="setImagesOnAddWatch" class="mt-4"></file-selector>
             </b-row>
 
             <!-- Add Specs Row -->
@@ -293,6 +296,21 @@
                             </b-col>
                         </b-row>
                     </li>
+                    <!-- <li class="my-2">
+                        <b-row align-v="center">
+                            <b-col cols="4" class="formLabel">
+                                <strong>Case Material:</strong>
+                            </b-col>
+                            <b-col cols="8" class="formText">
+                                <b-form-input v-model="addWatch.caseMaterial"
+                                    type="text"
+                                    placeholder="Case Material"
+                                    description="Provide the case material used for this watch"
+                                    label="Case Material">
+                                </b-form-input>
+                            </b-col>
+                        </b-row>
+                    </li> -->
                     <li class="my-2">
                         <b-row align-v="center">
                             <b-col cols="4" class="nowrap formLabel">
@@ -463,13 +481,13 @@
 <script>
 import axios from 'axios'
 import draggable from 'vuedraggable'
-import loader from '../../../Loader.vue'
 import FileSelector from '../FileSelector.vue'
+import LoadImageUtility from '../../../../Utilities/LoadImageUtility'
+
 
 export default {
   components: {
     draggable,
-    loader,
     fileSelector: FileSelector
   },
   name: 'addWatchModal',
@@ -650,18 +668,45 @@ export default {
       draggingId: '',
 
 
-
+      isShowingCroppie: false,
       cropped: null
     }
   },
 
   methods: {
+    ContainsS3Information(str) {
+        let val = LoadImageUtility.ContainsS3Information(str)
+        this.$store.dispatch('CanImageCanBeEditedByUrl', val)
+        return val
+    },
+
+
+      saveCrop() {
+          this.crop()
+          this.SetCropBackToImageSrc(this.cropped)
+          setTimeout(()=> {
+              this.isShowingCroppie = false
+          },400)
+
+          this.$ga.event({
+                eventCategory: 'Manage_Collection',
+                eventAction: 'Crop_Watch_Save_Btn_Click',
+                eventLabel: 'Saving Cropped Watch Image'
+            })
+      },
+
         crop() {
             let options = {
                 format: 'jpeg', 
                 circle: false
             }
+            // this.isShowingCroppie = false
             this.$refs.croppieRef.result(options);
+        },
+
+        SetCropBackToImageSrc(croppedImg) {
+            let croppieIndex = this.$store.state.croppieWatchOrder
+            this.addWatch.src.images[croppieIndex].src = croppedImg
         },
 
         result(output) {
@@ -675,8 +720,14 @@ export default {
 
         rotate() {
             // Rotates the image
-            this.$refs.croppieRef.rotate(90);
-            this.crop()
+            this.$refs.croppieRef.rotate(-90);
+            // this.crop()
+
+            this.$ga.event({
+                eventCategory: 'Manage_Collection',
+                eventAction: 'Rotate_Watch_Btn_Click',
+                eventLabel: 'Rotating Crop Watch Image'
+            })
         },
 
 
@@ -699,21 +750,27 @@ export default {
     },
 
     setImagesOnAddWatch (images) {
-      images.forEach(image => {
+        let orderCount = 0
+        images.forEach(img => {
         let imageObjToPush = {
-          src: image.Location, // s3 bucket url path
-          order: image.order
+          src: img.imgBase64Url, // s3 bucket url path
+          order: orderCount,
+          fileName: img.fileName
         }
-        this.$refs.croppieRef.bind({
-            url: image.Location
-        })
         this.addWatch.src.images.push(imageObjToPush)
+        orderCount++
       })
     },
 
-    isS3UploadingEventListener(value) {
-        this.isS3UploadEvent = value;
+    SetCroppieWatchAndDispatchCroppieWatchOrder (watchIndex) {
+        this.isShowingCroppie = true
+        this.$store.dispatch('setCroppieWatchOrder', watchIndex)
+        this.$refs.croppieRef.bind({
+            url: this.addWatch.src.images[this.$store.state.croppieWatchOrder].src
+        })
     },
+
+    
 
     removeWatchImage (indexToRemove) {
       if (this.addWatch.src.images.length > 1) {
@@ -732,12 +789,6 @@ export default {
       this.drag = false
     }
 
-  },
-
-  mounted() {
-      this.$refs.croppieRef.bind({
-            url: ''
-        })
   },
 
   computed: {
@@ -761,15 +812,15 @@ export default {
         return this.addWatch.src.images
       }
     }
-  }
+  },
+  
 }
 </script>
 
 <style scoped>
-    .formLabel {
-
+    .editIcon {
+        width: 15px;
     }
-
     .imgTile {
        width: 100%;
        height:auto;
@@ -864,11 +915,5 @@ export default {
         width: 100%;
         min-height: 6rem;
         }
-    }
-
-    /* ANIMATIONS */
-
-    .swap-list-move {
-        transition: transform .75s;
     }
 </style>

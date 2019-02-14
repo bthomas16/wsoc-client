@@ -27,7 +27,7 @@ const router = new VueRouter({
 })
 
 Vue.use(VueAnalytics, {
-  id: 'UA-131185774-1',
+  id: 'UA-131185774-2',
   router,
   debug: {
     enabled: !isProd,

@@ -1,18 +1,20 @@
 <template>
-    <b-container fluid>
-
-        <!-- <p v-if="img1.src">LOADING</p> -->
+    <b-container v-if="isAuthLoading">
+        <loader></loader>
+    </b-container>
+    <b-container fluid v-else>
         <b-row align-v="start" align-h="center" no-gutters>
             <b-col cols="12" class="p-0 m-0">
                 <b-row no-gutters>
-                    <b-col class="relative imgWrapper" :class="env == 'development' ? 'devBackground' : 'background'">
+                    <b-col class="relative imgWrapper">
                         <b-row no-gutters align-h="center">
-                            <b-col id="titleCard" class="absolute bgYellow center t-0 p-2 p-md-3" cols="11" md="8" lg="6">
-                                <p class="h1 white center">Watch SOC</p>
-                                <p class="h2 m-h2 white center">Manage your current, past & future <strong class="nowrap">Watch SOC</strong> </p>
-                            </b-col>
+                            <transition name="fadeIn">
+                                <b-col v-if="!isLoading" id="titleCard" class="absolute bgYellow center t-0 p-2 p-md-3" cols="11" md="8" lg="6">
+                                    <p class="h1 white center">Watch SOC</p>
+                                    <p class="h2 m-h2 white center">Manage your current, past & future <strong class="nowrap">Watch SOC</strong> </p>
+                                </b-col>
+                            </transition>
                         </b-row>
-                        <!-- <b-img class="img w-100" :src="ROOT_API + '/api/static-assets/watcheshomecardbg_copy.jpg'"></b-img> -->
                     </b-col>
                 </b-row>
             </b-col>
@@ -21,8 +23,8 @@
                     <b-col cols="12" md="6" class="my-0 bg-white h-100">
                         <p v-if="!isRegister" class=" h3 my-0 py-2 p-1 p-md-2 bg-light-blue white left">Register to<span class="nowrap left"> Manage your collection!</span></p>
                         <p v-if="isRegister" class=" h3 my-0 py-2 p-1 p-md-2 bg-light-blue white left">Login to<span class="nowrap left"> Manage your collection!</span></p>
-                        <app-register class="mt-2 px-md-3 px-lg-0" v-if="!isRegister" v-on:ToggleShowingAlert="showingAlertChangeHeight"  v-on:toggleAuthView="toggleAuthParent"></app-register>
-                        <app-login class="mt-2 px-md-3 px-lg-0" v-if="isRegister" v-on:ToggleShowingAlert="showingAlertChangeHeight" v-on:toggleAuthView="toggleAuthParent"></app-login>
+                        <app-register class="mt-2 px-md-3 px-lg-0" v-if="!isRegister" v-on:ToggleShowingAlert="showingAlertChangeHeight"  v-on:toggleAuthView="toggleAuthParent" v-on:toggleAuthLoading="toggleAuthLoading"></app-register>
+                        <app-login class="mt-2 px-md-3 px-lg-0" v-if="isRegister" v-on:ToggleShowingAlert="showingAlertChangeHeight" v-on:toggleAuthView="toggleAuthParent" v-on:toggleAuthLoading="toggleAuthLoading"></app-login>
                     </b-col>
                     <b-col cols="12" md="6" class="d-none d-md-block bgBlue h-100 m-0 p-2" :class="isShowingAlert ? 'lineHeightAlert' : 'lineHeight'">
                         <ul class="mt-0 pl-md-0 pl-lg-4 nowrap">
@@ -41,13 +43,13 @@
                 <featured-collection class="h-100"></featured-collection>
             </b-col>
         </b-row>
-
     </b-container>
 </template>
 
 <script>
 import Register from './Register.vue'
 import Login from './Login.vue'
+import Loader from '../Loader.vue'
 
 import FeaturedCollection from '../FeaturedCollection.vue'
 
@@ -56,7 +58,8 @@ export default {
   components: {
     appRegister: Register,
     appLogin: Login,
-    featuredCollection: FeaturedCollection
+    featuredCollection: FeaturedCollection,
+    loader: Loader
   },
   
   data () {
@@ -66,7 +69,8 @@ export default {
       showLogin: false,
       env: process.env.NODE_ENV,
       isRegister: true,
-      isShowingAlert: false
+      isShowingAlert: false,
+      isAuthLoading: false
     }
   },
   methods: {
@@ -80,7 +84,17 @@ export default {
 
     showingAlertChangeHeight(val) {
         this.isShowingAlert = val
+    },
+
+    toggleAuthLoading (value) {
+        this.isAuthLoading = value
     }
+  },
+
+  computed: {
+      loading () {
+          return this.$store.state.isLoading
+      }
   }
 }
 </script>
@@ -111,7 +125,6 @@ export default {
         background-repeat: no-repeat;
         margin-top: 1rem;
         background-image: url('/img/icons/favicon-32x32.png');
-        
     }
 
     .lineHeight {
@@ -122,28 +135,13 @@ export default {
         line-height: 35px;
     }
 
-
-    
-    
-
-    /* ul {
-        margin: 70px;
-    } */
-
     .imgWrapper {
        background-repeat: no-repeat;
        background-size: cover;
        background-position: center; 
-       height: 27rem;
+       height: 25rem;
        overflow: hidden;
-    }
-
-    .devBackground {
-        background-image: linear-gradient(rgba(0, 0, 0, .25), rgba(0, 0, 0, .25)), url('http://localhost:8081/api/static-assets/watcheshomecardbg.jpg');   
-    }
-
-    .background {
-        background-image: linear-gradient(rgba(0, 0, 0, .25), rgba(0, 0, 0, .25)), url('/api/static-assets/watcheshomecardbg.jpg');           
+       background-image: linear-gradient(rgba(0, 0, 0, .25), rgba(0, 0, 0, .25)), url('/img/icons/watcheshomecardbg.jpg');           
     }
 
     #titleCard {
@@ -156,9 +154,6 @@ export default {
         border-bottom: 2px solid gray;
         outline: none;
     }
-
-
-/*  */
 
     #watch-collection {
         /* background: rgba(40,40,40,.2   ); */
@@ -180,18 +175,6 @@ export default {
 
     .card {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    }
-
-    .fade-enter-active,
-    .fade-leave-active {
-    transition-duration: 0.1s;
-    transition-property: opacity;
-    transition-timing-function: ease;
-    }
-
-    .fade-enter,
-    .fade-leave-active {
-    opacity: 0
     }
 
     @media(max-width: 995px){

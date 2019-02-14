@@ -3,8 +3,8 @@
         <b-row class="bg-darkgray p-2" no-gutters>
             <b-col cols="6">
                 <ul class="white">
-                    <li><router-link to="/discover">Discover Watches</router-link></li>
-                    <li><router-link to="/contact">Contact Us</router-link></li>
+                    <li @click="gaEvent('Discover')"><router-link to="/discover">Discover Watches</router-link></li>
+                    <li @click="gaEvent('Contact')"><router-link to="/contact">Contact Us</router-link></li>
                     <!-- <li>About Us</li> -->
                 </ul>
             </b-col>
@@ -23,10 +23,12 @@ export default {
   name: 'Footer',
 
   methods: {
-    logout () {
-      this.$store.dispatch('logout').then(() => {
-        location.reload()
-      })
+    gaEvent(label) {
+        this.$ga.event({
+            eventCategory: 'Footer',
+            eventAction: 'Footer_Link_Click',
+            eventLabel: label
+        })
     }
   },
 

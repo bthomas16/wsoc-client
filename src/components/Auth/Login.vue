@@ -61,8 +61,9 @@ export default {
   methods: {
     onSubmit () {
       this.showAlert = false
-      console.log('submitting', this.form)
+      this.$emit('toggleAuthLoading', true)
       this.$store.dispatch('login', this.form).then((res) => {
+        this.$emit('toggleAuthLoading', false)
         if (res.isSuccess) {
           this.$router.push({ path: '/profile' })
           this.showAlert = false
@@ -76,7 +77,12 @@ export default {
     },
 
     toggleAuthChild () {
+      this.$emit('ToggleShowingAlert', false)  
       this.$emit('toggleAuthView')
+    },
+
+    toggleAuthLoading () {
+      this.$emit(toggleAuthLoading, true)
     }
   }
 }

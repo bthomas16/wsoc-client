@@ -60,7 +60,6 @@ export default {
   methods: {
     getWatchInfoById (watchInfoId) {
       this.$store.dispatch('getWatchInfoById', watchInfoId).then(res => {
-        console.log('res', res)
         this.currentWatchInfo = res
       })
     }

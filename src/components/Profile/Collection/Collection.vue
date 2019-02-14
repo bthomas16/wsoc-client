@@ -1,10 +1,10 @@
 <template>
     <b-container v-if="!isCollectionLoaded" class="z-4">
-        <b-row align-h="center" align-v="center">
-            <b-col class="mx-auto mt-5 center">LOADING...</b-col>
+        <b-row align-h="center" align-v="center" class="mt-2 p-3">
+            <loader></loader>
         </b-row>
     </b-container>
-    <b-container fluid v-else >
+    <b-container fluid v-else>
          <b-row v-if="Collection.length == 0 && !isManagingCollection" align-h="center" no-gutters>
             <b-col cols="10" md="8" class="border my-5 center p-2 p-md-5" id="begin-collection">
                 <p class="h2 center">Welcome to your <span class="nowrap">Watch Collection!</span></p>
@@ -23,8 +23,8 @@
                         <strong>{{User.firstName}}'s Collection</strong>
                     </b-col>
                     <b-col cols="12" md="7" lg="6" class="p-0 m-0 center m-left-align mt-2 mt-md-0">
-                        <p cols="12" class="mb-1 mb-md-0 m-h2 h4 left-align m-left-align w-75 mw-100" @click="OpenWotdSeeMore(WOTD.id)">Watch of The Day: <span class="bold pointer">{{titleCase(WOTD.name)}}</span> <strong></strong> </p>
-                        <p class="my-0 m-h2 mt-0 h4 left-align m-left-align w-75 mw-100">Total Value: <strong class="green">${{getCollectionTotalValue}}</strong> </p>
+                        <!-- <p cols="12" class="mb-1 mb-md-0 m-h2 h4 left-align m-left-align w-75 mw-100" @click="OpenWotdSeeMore(WOTD.id)">Watch of The Day: <span class="bold pointer">{{titleCase(WOTD.name)}}</span> <strong></strong> </p> -->
+                        <p class="my-0 m-h2 mt-0 h4 left-align m-left-align w-75 mw-100">Total Value: <strong class="green">${{getCollectionTotalValue()}}</strong> </p>
                     </b-col>
                 </b-row>
 
@@ -60,7 +60,8 @@
         <!-- SEE MORE MODAL -->
         <b-modal
             ref="seeMoreModal"
-            id="see-more-modal">
+            id="see-more-modal"
+            class="z-4">
             <div slot="modal-title" class="breakWord" v-if="selectedWatch.name">{{ titleCase(selectedWatch.name) }}</div>
             <div slot="modal-header-close" class="w-100 mt-1" @click="resetWatchFormAndModals">
                 X
@@ -86,13 +87,18 @@
         <b-modal
             id="add-watch-modal"
             ref="addWatchModal"
-            size="lg">
+            size="lg"
+            class="z-4">
             <b-row no-gutters slot="modal-title" v-if="isAddingWatch">Adding Watch</b-row>
             <b-row no-gutters slot="modal-title" v-if="isEditingExistingWatch" class="breakWord">Editing {{titleCase(addWatch.name)}}</b-row>
             <b-row no-gutters slot="modal-header-close" class="w-100 mt-1" @click="resetWatchFormAndModals">
                 X
             </b-row>
+            <b-row no-gutters v-show="isS3UploadEvent" class="p-2">
+                <loader></loader>
+            </b-row>
             <add-watch-modal
+                v-show="!isS3UploadEvent"
                 :previewWatch="previewWatch"
                 :addWatch="addWatch"
                 :addWatchCount="addWatchCount">
@@ -104,7 +110,7 @@
                 </b-col>
                 <b-col cols="12">
                     <b-row v-if="addWatchCount == 1 " no-gutters align-h="end">
-                        <b-btn size="sm" class="right bg-light-blue white" variant="secondary" @click="addWatchCount++" :disabled="!addWatch.src.images.length">
+                        <b-btn size="sm" class="right bg-light-blue white p-2" variant="secondary" @click="uploadImagesToAwsS3" :disabled="!addWatch.src.images.length">
                             Add Details
                         </b-btn>
                     </b-row>
@@ -140,6 +146,10 @@ import DraggableWatchCollection from './DraggableWatchCollection.vue'
 import NonDraggableWatchCollection from './NonDraggableWatchCollection.vue'
 import ManageCollection from './ManageCollection.vue'
 import { setTimeout } from 'timers'
+import loader from '../../Loader.vue'
+import LoadImageUtility from '../../../Utilities/LoadImageUtility'
+import ImgBase64 from 'base64-img'
+
 
 export default {
   components: {
@@ -147,10 +157,12 @@ export default {
     addWatchModal: AddWatchModal,
     draggableWatchCollection: DraggableWatchCollection,
     nonDraggableWatchCollection: NonDraggableWatchCollection,
-    manageCollection: ManageCollection
+    manageCollection: ManageCollection,
+    loader: loader
   },
   data () {
     return {
+      isS3UploadEvent: false,
       isChangedOrder: false,
       addWatchCount: 1,
 
@@ -175,9 +187,56 @@ export default {
   },
 
   methods: {
+    uploadImagesToAwsS3 () {
+      let files = this.addWatch.src.images
+      this.addWatchCount++
+      this.S3UploadEventListener(true)
+      let fileArr = []
+      files.forEach(file => {
+          if (!LoadImageUtility.ContainsS3Information(file.src.substring(0, 30))) {
+              fileArr.push(
+              { src: file.src,
+                fileName: file.fileName
+              })
+          } 
+      })
+      if (fileArr[0]) {
+          this.$store.dispatch('uploadImagesToAwsS3', fileArr)
+            .then(images => {  
+            // images = array of s3 image objects
+                if (images[0] ) {
+                    for (let i = 0; i < images.length; i++) {
+                        if (!LoadImageUtility.ContainsS3Information(this.addWatch.src.images[i].src.substring(0, 30))) {
+                            this.addWatch.src.images[i].src = images[i].Location
+                    } 
+                }
+            } else {
+                for (let i = 0; i < images.length; i++) {
+                    this.addWatch.src.images[i].src = images[i].Location
+                }
+            }
+            this.S3UploadEventListener(false)
+        }).catch(err => console.log(err))
+      } else {
+          this.S3UploadEventListener(false) 
+      }
+
+    },
+
+    S3UploadEventListener(value) {
+        this.isS3UploadEvent = value;
+    },
+
     selectWatch (watch) {
       this.selectedWatch = watch
       this.$refs.seeMoreModal.show()
+
+    // Analytics
+      this.$ga.event({
+        eventCategory: 'Watch_Collection',
+        eventAction: 'See_More_Modal_Click',
+        eventLabel: 'Open See More Watch Modal'
+      })
     },
 
     editWatchModal (watch) {
@@ -187,11 +246,24 @@ export default {
       this.addWatch.name = this.titleCase(watch.name)
       this.addWatch.brand = this.titleCase(watch.brand)
       this.$refs.addWatchModal.show()
+
+      // Analytics
+      this.$ga.event({
+        eventCategory: 'Manage_Collection',
+        eventAction: 'Edit_Watch_Modal_Click',
+        eventLabel: 'Begin Editing Watch'
+      })
     },
 
     OpenWotdSeeMore (watchId) {
       let watch = this.Collection.find(x => x.id === watchId)
       this.selectWatch(watch)
+
+        this.$ga.event({
+            eventCategory: 'Watch_Collection',
+            eventAction: 'WOTD_Btn_Click',
+            eventLabel: 'WOTD + See More Watch Modal'
+        })
     },
 
     SelectRandomWatch () {
@@ -199,12 +271,14 @@ export default {
       let min = 0
       let index = Math.floor(Math.random() * (max - min) + min)
       let randomWatch = this.Collection[index]
-      console.log('we out here', randomWatch)
       this.selectWatch(randomWatch)
-    },
 
-    openWatchModal () {
-      this.$rers.addWatchModal.show()
+      // Analytics
+      this.$ga.event({
+        eventCategory: 'Manage_Collection',
+        eventAction: 'Random_Watch_Btn_Click',
+        eventLabel: 'Random Watch + See More Watch Modal'
+      })
     },
 
     addWatchModal () {
@@ -212,6 +286,13 @@ export default {
       this.isAddingWatch = true
       this.isEditingExistingWatch = false
       this.$refs.addWatchModal.show()
+
+      // Analytics
+      this.$ga.event({
+        eventCategory: 'Manage_Collection',
+        eventAction: 'Add_Watch_Btn_Click',
+        eventLabel: 'Begin Adding Watch'
+      })
     },
 
     resetWatchFormAndModals () {
@@ -226,10 +307,16 @@ export default {
     previewWatch () {
       if (this.addWatch.brand) { this.addWatch.brand = this.addWatch.brand.toLowerCase() }
       this.addWatch.name = this.addWatch.name.toLowerCase()
-      console.log(this.addWatch)
       this.selectedWatch = this.addWatch
 
       this.$refs.seeMoreModal.show()
+
+      // Analytics
+      this.$ga.event({
+        eventCategory: 'Manage_Collection',
+        eventAction: 'Add_Watch_Modal_Click',
+        eventLabel: 'Preview Adding Watch'
+      })
     },
 
     submitWatch () {
@@ -240,9 +327,21 @@ export default {
       if (!this.addWatch.id) {
         // watch doesnt exist yet, create new watch
         this.$store.dispatch('submitNewWatch', this.addWatch)
+
+        this.$ga.event({
+            eventCategory: 'Manage_Collection',
+            eventAction: 'Add_Watch_Modal_Click',
+            eventLabel: 'Submit New Watch'
+        })
       } else {
           // editing existing watch
         this.$store.dispatch('submitEditWatch', this.addWatch)
+
+        this.$ga.event({
+            eventCategory: 'Manage_Collection',
+            eventAction: 'Edit_Watch_Modal_Click',
+            eventLabel: 'Submit Edit Watch'
+        })
       }
       this.createAddWatch() // reset add watch to defaults
       this.addWatchCount = 1 // resets watch count
@@ -252,6 +351,12 @@ export default {
       this.addWatchCount = 1
       this.$refs.addWatchModal.show()
       this.$refs.seeMoreModal.hide()
+
+      this.$ga.event({
+        eventCategory: 'Manage_Collection',
+        eventAction: 'Add_Watch_Modal_Click',
+        eventLabel: 'Restart Editing Watch'
+      })
     },
 
     createAddWatch () {
@@ -291,27 +396,24 @@ export default {
         splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1)
       }
       return splitStr.join(' ')
-    }
-  },
+    },
 
-  computed:
-    {
     getCollectionTotalValue () {
         let val = 0
-        this.$store.state.Collection.forEach(x => {
+        let Collection = this.$store.state.Collection
+        if (Collection[0]) {
+            Collection.forEach(x => {
           if (x.forSalePrice) {
             val += +x.forSalePrice
-            console.log('sale', val)
           } else if (x.marketValue) {
             val += +x.marketValue
-            console.log('mkt', val)
             
           } else if (x.forTradeValue) {
             val += +x.forTradeValue
-            console.log('trade', val)
-            
           }
         })
+        }
+        
         
         if (val > 0) {
           return val
@@ -319,7 +421,10 @@ export default {
           return 'N/A'
         }
       },
+  },
 
+  computed:
+    {
       isLoading () {
         return this.$store.state.isLoading
       },
@@ -354,16 +459,16 @@ export default {
         return this.$store.state.isFilteringCollection
       },
 
-      WOTD () {
-          let Collection = this.$store.state.Collection;
-          if (Collection) {
-            let i = this.$store.state.cookieValueWOTD
-            let c = this.$store.state.Collection[i];
-            return { name: c.name, id: c.id }
-          } else {
-              return 'Add a Watch to your Collection!'
-          }
-      }
+    //   WOTD () {
+    //       let Collection = this.$store.state.Collection;
+    //       if (Collection[0]) {
+    //         let i = this.$store.state.cookieValueWOTD
+    //         let c = this.$store.state.Collection[i];
+    //         return { name: c.name, id: c.id }
+    //       } else {
+    //           return 'Add a Watch to your Collection!'
+    //       }
+    //   }
     },
 
   created: function () {

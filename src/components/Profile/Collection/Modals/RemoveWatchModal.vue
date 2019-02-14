@@ -28,7 +28,7 @@
                         class="w-100 px-2 my-0"
                         label="How much did you sell this watch for?"
                         label-for="inputHorizontal">
-                        <b-form-input placeholder="$200" v-model="reasonsWatchMoved.value"></b-form-input>
+                        <b-form-input type="number" placeholder="$200" v-model="reasonsWatchMoved.value"></b-form-input>
                     </b-form-group>
                 </b-form-row>
 
@@ -38,7 +38,7 @@
                         :label-cols="5"
                         breakpoint="md"
                         class="w-100 px-2 my-0"
-                        label="Who did you trade this watch for?"
+                        label="Who did you trade this watch to?"
                         label-for="inputHorizontal">
                         <b-form-input placeholder="John Smith" v-model="reasonsWatchMoved.receivedBy"></b-form-input>
                     </b-form-group>
@@ -49,14 +49,14 @@
                         class="w-100 px-2 my-0"
                         label="What value did you trade this watch at?"
                         label-for="inputHorizontal">
-                        <b-form-input placeholder="Orienteering" v-model="reasonsWatchMoved.value"></b-form-input>
+                        <b-form-input type="number" placeholder="Orienteering" v-model="reasonsWatchMoved.value"></b-form-input>
                     </b-form-group>
                     <b-form-group id=""
                         horizontal
                         :label-cols="5"
                         breakpoint="md"
                         class="w-100 px-2 my-0 mb-0"
-                        label="Watch traded for:"
+                        label="Watch(es) traded for:"
                         label-for="inputHorizontal">
                         <b-row v-if="reasonsWatchMoved.trades.length" class="mb-2 pl-1 bg-gray b-0 w-100 d-block d-md-none" no-gutters order="2">
                             <ul class="p-1 m-0">
@@ -64,7 +64,7 @@
                             </ul>
                         </b-row>
                         <b-row no-gutters>
-                            <b-col class="px-1 xelative">
+                            <b-col class="pr-1 xelative">
                                 <b-form-input  placeholder="$Value" v-model="watchTradedForValue"></b-form-input>
                             </b-col>
                             <b-col class="px-1">
@@ -74,7 +74,7 @@
                                 <b-form-input  placeholder="Name" v-model="watchTradedForName"></b-form-input>
                             </b-col>
                         </b-row>
-                        <b-btn variant="default" class="bg-light-blue white right mt-2" @click="addWatchTraded" :disabled="!watchTradedForName">Add Acquired Watch</b-btn>
+                        <b-btn variant="default" class="bg-light-blue white right mt-2" @click="addWatchTraded" :disabled="!watchTradedForName">Received Watch</b-btn>
                     </b-form-group>
                     <b-row v-if="reasonsWatchMoved.trades.length" class="tradedWatchList bg-light-yellow  b-0 w-65 d-none d-md-block" no-gutters order="2">
                         <ul class="p-1 m-0">
@@ -107,7 +107,7 @@
                         :label-cols="5"
                         breakpoint="md"
                         class="w-100 px-2 my-0 mb-0 relative"
-                        label="Watch traded for:"
+                        label="Watch(es) traded for:"
                         label-for="inputHorizontal"
                         order="1">
                         <b-row v-if="reasonsWatchMoved.trades.length" class="mb-2 pl-1 bg-gray b-0 w-100 d-block d-md-none" no-gutters order="2">
@@ -116,7 +116,7 @@
                             </ul>
                         </b-row>
                         <b-row no-gutters order="3">
-                            <b-col class="px-1 relative">
+                            <b-col class="pr-1 relative">
                                 <b-form-input  placeholder="$Value" v-model="watchTradedForValue"></b-form-input>
                             </b-col>
                             <b-col class="px-1 relative">
@@ -126,7 +126,7 @@
                                 <b-form-input  placeholder="Name" v-model="watchTradedForName"></b-form-input>
                             </b-col>
                         </b-row>
-                        <b-btn variant="default" class="bg-light-blue white right mt-2" @click="addWatchTraded" :disabled="!watchTradedForName">Add Acquired Watch</b-btn>
+                        <b-btn variant="default" class="bg-light-blue white right mt-2" @click="addWatchTraded" :disabled="!watchTradedForName">Received Watch</b-btn>
                     </b-form-group>
                     <b-row v-if="reasonsWatchMoved.trades.length" class="tradedWatchList bg-light-yellow b-0 w-65 d-none d-md-block" no-gutters order="2">
                         <ul class="p-1 m-0">
@@ -164,7 +164,7 @@
                         class="w-100 px-2 my-0"
                         label="What value did this watch hold?"
                         label-for="inputHorizontal">
-                        <b-form-input placeholder="John Smith" v-model="reasonsWatchMoved.value"></b-form-input>
+                        <b-form-input type="number" placeholder="John Smith" v-model="reasonsWatchMoved.value"></b-form-input>
                     </b-form-group>
                 </b-row>
             </b-col>
@@ -183,7 +183,7 @@ export default {
       watchId: 0,
       watchTradedForBrand: '',
       watchTradedForName: '',
-      watchTradedForValue: '',
+      watchTradedForValue: 0,
       watchTradedFor: '',
       watchesTradedFor: []
     }

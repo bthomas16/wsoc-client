@@ -82,7 +82,6 @@ export default {
         const urlParams = new URLSearchParams(window.location.search);
         const watchId = urlParams.get('watchId');
         this.$store.dispatch('getWatchShareById', watchId).then(watch => {
-            console.log('got our watch', watch)
             this.watch = watch
             this.hasWatchToShow = true;
         })

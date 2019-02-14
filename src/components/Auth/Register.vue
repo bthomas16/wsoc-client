@@ -108,8 +108,10 @@ export default {
     onSubmit () {
       this.showAlert = false
       this.form.email.toLowerCase()
+      this.$emit('toggleAuthLoading', true)
       this.$store.dispatch('register', this.form)
         .then((res) => {
+          this.$emit('toggleAuthLoading', false)
           if (res.isSuccess) {
             this.$store.dispatch('sendWelcomeEmail', this.form)
             this.$router.push({ path: '/profile' })
@@ -131,6 +133,7 @@ export default {
     },
 
     toggleAuthChild () {
+      this.$emit('ToggleShowingAlert', false)  
       this.$emit('toggleAuthView')
     },
 

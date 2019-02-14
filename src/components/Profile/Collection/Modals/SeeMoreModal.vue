@@ -8,7 +8,7 @@
                 :controls="selectedWatch.src.images.length > 1 ? true : false"
                 :indicators="selectedWatch.src.images.length > 1 ? true : false">
                 <b-carousel-slide
-                    v-for="image in selectedWatch.src.images" :key="image.order" class="watchImgWrapper">
+                    v-for="(image, index) in selectedWatch.src.images" :key="index" class="watchImgWrapper">
                     <b-img slot="img" class="watchImg"
                     :src="image.src" alt="image slot" thumbnail fluid>
                     </b-img>
@@ -27,7 +27,7 @@
                         <strong class="relative">Condition:</strong><span class="brown nowrap"> {{selectedWatch.condition || 0}}/10</span>
                     </b-col>
                     <b-col cols="12" md="6" v-if="isShowDetails">
-                        <p class="nowrap underline gray my-1"  @click="isShowDetails = false"><em>Hide Details</em></p>
+                        <p class="nowrap underline gray my-1"  @click="toggleShowDetails"><em>Hide Details</em></p>
                     </b-col>
                 </b-row>
                 <ul class="mt-0 p-0 m-0">
@@ -40,7 +40,7 @@
                         <span> {{titleCase(selectedWatch.name)}}</span>
                     </li>
 
-                    <li class="italic gray pointer underline" v-if="!isShowDetails"><p @click="isShowDetails = true"><em>Show Details</em></p></li>
+                    <li class="italic gray pointer underline" v-if="!isShowDetails"><p @click="toggleShowDetails"><em>Show Details</em></p></li>
 
                     <span v-if="isShowDetails">
                         <li v-if="selectedWatch.value">
@@ -161,6 +161,16 @@ export default {
     }
   },
   methods: {
+  toggleShowDetails() {
+      this.isShowDetails = !this.isShowDetails
+
+      this.$ga.event({
+        eventCategory: 'See_More_Modal',
+        eventAction: 'Show/Hide_Details_Toggle',
+        eventLabel: this.isShowDetails
+    })
+  },
+
     watchStyleDisplayName (style) {
       return style.charAt(0).toUpperCase() + style.substr(1)
     },

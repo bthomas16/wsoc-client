@@ -12,10 +12,7 @@
                             :watch="watch"
                             :isShowFlags="isShowFlags"
                             :isShowEditFlags="isShowEditFlags"
-                            :isManagingCollection="isManagingCollection"
-                            v-on:editWatch="editWatch"
-                            v-on:removeWatchModal="removeWatchModal"
-                            v-on:removedWatchModal="removedWatchModal">
+                            :isManagingCollection="isManagingCollection">
                         </watch-flags>
 
                         <!-- // WATCH // -->
@@ -33,7 +30,7 @@
                                         <b-col cols="12" md="5" class="m-0" :class="(currentCardSize == 'sm') ? 'watchImgWrapper_Sm' : (currentCardSize == 'md') ? 'watchImgWrapper_Md' : (currentCardSize == 'lg') ? 'watchImgWrapper_Lg' : 'watchImgWrapper_Sm'">
                                             <b-img
                                                 v-if="watch.src.images[0]"
-                                                @click="isViewingPreviousWatches ?  removedWatchModal(watch) : selectWatch(watch)"
+                                                @click="selectWatch(watch)"
                                                 :src="watch.src.images[0].src"
                                                 class="watchImg pointer h-100">
                                             </b-img>
@@ -156,40 +153,6 @@ export default {
 
     selectWatch (watch) {
       this.$emit('selectWatch', watch)
-    },
-
-    editWatch (watch) {
-      this.$emit('editWatchModal', watch)
-    },
-
-    // Remove a watch From Collection
-    removeWatchModal (watch) {
-      this.watchToRemove = watch
-      this.$refs.removeWatchModal.show()
-    },
-
-    openModal () {
-      this.$refs.removedWatchModal.show()
-    },
-
-    // View a watch that has been removed from collection
-    removedWatchModal (watch) {
-      this.removedWatchToSee = watch
-      this.$refs.removedWatchModal.show()
-    },
-
-    submitRemoveWatchForm () {
-      let watchDetails = { watchToRemove: this.watchToRemove, reasonsWatchMoved: this.reasonsWatchMoved }
-      this.$store.dispatch('createRemoveWatch', watchDetails)
-      this.$store.dispatch('removeExistingWatch', this.watchToRemove.id).then(() => {
-        // TODO: NOT THIS
-        setTimeout(() => {
-          this.resetReasonsWatchMoved()
-          this.$store.dispatch('getNumberFSOT')
-          this.$store.dispatch('loadUserCollection')
-          this.$refs.removeWatchModal.hide()
-        }, 1)
-      })
     },
 
     favoriteToggle (watchId) {
@@ -316,9 +279,7 @@ export default {
 
 <style scoped>
 
-.swap-list-move {
-        transition: transform .7s;
-    }
+
 
 
 .bgYellow {
@@ -508,11 +469,6 @@ export default {
         .flag {
             font-size: 10.5px;
             padding: .2em !important;
-        }
-
-        .smallHeartIcon {
-        width: 14px;
-        z-index: 999;
         }
 
         .heartIcon {

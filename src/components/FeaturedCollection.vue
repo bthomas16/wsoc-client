@@ -179,7 +179,8 @@ export default {
       this.$ga.event({
         eventCategory: 'Advertising',
         eventAction: 'Featured_Collection_Advertisement_Click',
-        eventLabel: watch.name + ' - ' + watch.id
+        eventLabel: 'Featured Watch + See More Modal',
+        eventValue: watch.id
       })
     },
 

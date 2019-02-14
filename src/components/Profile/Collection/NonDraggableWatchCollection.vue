@@ -1,5 +1,6 @@
 <template>
     <b-container fluid>
+        <transition-group name="swap-list">
             <b-col :cols="smSizeCard" :md="mdSizeCard" class="left p-half" v-for="watch in Collection" :key="watch.id" :id="watch.id">
                 <b-row align-v="start" align-h="around" class="watch mb-1" no-gutters>
                     <!-- // Share Flag -->
@@ -50,6 +51,7 @@
                     </b-col>
                 </b-row>
             </b-col>
+        </transition-group>
 
         <b-modal
             id="remove-watch-modal"
@@ -95,6 +97,7 @@ export default {
 
   data () {
     return {
+
       ROOT_API: process.env.VUE_APP_ROOT_API,
       drag: false,
       emptyHeart: process.env.VUE_APP_ROOT_API + '/api/static-assets/empty-heart.png',
@@ -108,7 +111,7 @@ export default {
       reasonsWatchMoved: {
         receivedBy: '',
         typeMoved: '',
-        value: '',
+        value: 0,
         trades: []
       },
 
@@ -146,7 +149,7 @@ export default {
       this.reasonsWatchMoved = {
         receivedBy: null,
         typeMoved: null,
-        value: null,
+        value: 0,
         trades: []
       }
     },
@@ -178,9 +181,7 @@ export default {
     submitRemoveWatchForm () {
       let watchDetails = { watchToRemove: this.watchToRemove, reasonsWatchMoved: this.reasonsWatchMoved }
       this.$store.dispatch('createRemoveWatch', watchDetails)
-      this.$store.dispatch('removeExistingWatch', this.watchToRemove.id).then((res) => {
-          this.$store.dispatch('getNumberFSOT')
-          this.$store.dispatch('loadUserCollection')
+      this.$store.dispatch('removeExistingWatch', this.watchToRemove.id).then(() => {
           this.resetReasonsWatchMoved()
           this.$refs.removeWatchModal.hide()
       })
@@ -249,20 +250,20 @@ export default {
     },
 
     Collection: {
-      set (newCollectionOrder) {
-        if (!this.isManagingCollection) {
-          this.$store.dispatch('isTryingShuffleWhileManage', false)            
-          return this.$store.dispatch('updateCollectionOrder', newCollectionOrder)
-        } else {
-            this.$store.dispatch('isTryingShuffleWhileManage', true)
-        }
-      },
-      get () {
-        if (this.isManagingCollection) {
-          return this.$store.state.FilteredCollection
-        } else {
-            return this.$store.state.Collection
-        }
+        get () {
+            if (this.isManagingCollection) {
+                return this.$store.state.FilteredCollection
+            } else {
+                return this.$store.state.Collection
+            }
+        },
+        set (newCollectionOrder) {
+            if (!this.isManagingCollection) {
+                this.$store.dispatch('isTryingShuffleWhileManage', false)            
+                return this.$store.dispatch('updateCollectionOrder', newCollectionOrder)
+            } else {
+                this.$store.dispatch('isTryingShuffleWhileManage', true)
+            }
       }
     },
 
@@ -297,7 +298,7 @@ export default {
     mdSizeCard () {
       return this.$store.state.DesktopCardSizeToUse
     }
-  }
+  },
 }
 </script>
 
@@ -367,12 +368,12 @@ export default {
 
     .smallHeartIcon {
         width: 25px;
-        z-index: 999;
+        z-index: 2;
     }
 
     .heartIcon {
         width: 35px;
-        z-index: 999;
+        z-index: 2;
     }
 
     
@@ -449,7 +450,7 @@ export default {
         }
 
         .heartIcon {
-            width: 20px;
+            width: 28px;
         }
     }
 
@@ -476,7 +477,7 @@ export default {
 
         .smallHeartIcon {
         width: 18px;
-        z-index: 999;
+        z-index: 2;
         }
     }
 
@@ -494,5 +495,9 @@ export default {
             width: 20px;
         }
     }
+
+
+
+
 
 </style>

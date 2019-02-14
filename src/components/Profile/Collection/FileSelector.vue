@@ -9,7 +9,7 @@
                         <b-img class="" :src="ROOT_API + '/api/static-assets/add-img-icon.png'" fluid></b-img>
                     </div>
                     <!-- Now, the file input that we hide. -->
-                    <input type="file" @change="uploadImagesToAwsS3()" multiple/>
+                    <input type="file" @change="uploadImagesToBase64" accept="image/*" multiple/>
                 </label>
             </b-col>
            <b-col cols="8" md="6" class="mx-auto center h5" v-else>
@@ -20,7 +20,7 @@
                     <span>Select Images</span>
                     </div>
                     <!-- Now, the file input that we hide. -->
-                    <input type="file" @change="uploadImagesToAwsS3()" multiple/>
+                    <input type="file" @change="uploadImagesToBase64" accept="image/*" multiple/>
                 </label>
             </b-col>
         </b-row>
@@ -37,24 +37,50 @@ export default {
   data: function () {
     return {
       ROOT_API: process.env.VUE_APP_ROOT_API,
-      isS3Uploading: false
+      isS3Uploading: false,
+      imgBase64Array: []
     }
   },
 
   methods: {
-    uploadImagesToAwsS3 (e) {;
-      let files = event.target.files
-      this.isS3Uploading = true
-      this.$emit('isS3UploadingEvent', this.isS3Uploading)
-      this.$store.dispatch('uploadImagesToAwsS3', files)
-        .then(data => {
-            // data = array of s3 image objects
-          this.$emit('setImagesOnAddWatch', data)
-          this.isS3Uploading = false
-          this.$emit('isS3UploadingEvent', this.isS3Uploading)
-        }).catch(err => console.log(err))
+        uploadImagesToBase64 (e) {
+            let files = e.target.files
+            this.TransformFilesIntoBase64Array(files)
+        },
+
+        TransformFilesIntoBase64Array (files) {
+            
+            const vm = this
+
+            for (let index = 0; index < files.length; index++) {
+                
+                let fSize = files[index].size / 1024 / 1024              
+                if (fSize < 3) { // 3MB max file size
+
+                    let FR = new FileReader();
+
+                    FR.onload = function(e) {
+                        let result = e.target.result
+                        let imgBase64Url = e.target.result
+                        vm.imgBase64Array.push(
+                            { imgBase64Url,
+                              order: index,
+                              fileName: files[index].name
+                            })
+                        if (vm.imgBase64Array.length == files.length) {
+                            vm.$emit('setImagesOnAddWatch', vm.imgBase64Array)
+                        }
+                    }
+                    
+                    FR.readAsDataURL( files[index] )
+
+                }
+                else {
+                    console.log('File size is too large', fSize, '/ 3')
+                }
+            }
+        }
     }
-  }
 
 }
 </script>

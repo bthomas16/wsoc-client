@@ -2,11 +2,11 @@
     <b-container>
         <b-row align-v="center" align-h="center" class="py-3 relative">
             <b-col cols="4" offset="8" class="pointer relative settingIconWrapper">
-                <b-img fluid :src="ROOT_API + '/api/static-assets/editIcon.png'" v-b-modal.editProfileModal id="settingIcon" class="mr-2 absolute t-0 right-align"></b-img>
+                <b-img fluid :src="'/img/icons/editIcon.png'" @click="openEditProfileModal" id="settingIcon" class="mr-2 absolute t-0 right-align"></b-img>
             </b-col>
             <b-col cols="5" sm="4" md="12" class="m-0 mx-auto center p-md-2 pt-lg-3">
 
-                <b-img v-if="!isLoaded" :src="User.imgSrc || ROOT_API + '/api/static-assets/blankprofpic.png'" fluid style="height: auto; max-height: 125px;" class="profPic mx-auto box-shadow-light" rounded></b-img>
+                <b-img v-if="!isLoaded" :src="User.imgSrc || '/img/icons/blankprofpic.png'" fluid style="height: auto; max-height: 125px;" class="profPic mx-auto box-shadow-light" rounded></b-img>
                 <div id="loader" class="h-100" v-if="isLoaded">Loading...</div>
 
             </b-col>
@@ -79,6 +79,16 @@ export default {
     }
   },
   methods: {
+    openEditProfileModal () {
+        this.$refs.editProfileModal.show()
+
+     // Analytics
+      this.$ga.event({
+        eventCategory: 'ERROR',
+        eventAction: 'MANUAL__PAGE_REFRESH'
+      })
+    },
+
     submitEditProfile () {
       this.isShowErrorMessage = false
       this.$store.dispatch('editUserProfile', this.userProfileEditing).then((data) => { // edit profile
@@ -91,6 +101,12 @@ export default {
         }
       }).catch(err => {
         console.log(err)
+      })
+
+       // Analytics
+      this.$ga.event({
+        eventCategory: 'Edit_Profile',
+        eventAction: 'Submit_Edit_Profile'
       })
     },
 
@@ -122,13 +138,6 @@ export default {
     Favorites () {
       return this.$store.state.Favorites.length
     }
-
-    // errorObj() {
-    //     return {
-    //         isSuccess: true,
-    //         message: 'Test'
-    //     }
-    // }
   },
 
   created: function () {

@@ -3,7 +3,40 @@
 html, body {
     margin: 0;
     height: 100%;
+    overscroll-behavior-y: contain;
+    scroll-behavior: smooth;  
 }
+
+/* ANIMATIONS */
+
+.faderade-enter-active {
+    transition: all .3s;
+    opacity: 0;
+}
+
+.faderade-leave-active {
+    transition: all .2s;
+    
+    transform: translateX(100px);
+    display: none;
+    opacity: 0;
+}
+
+.fadeIn-enter-active {
+    opacity: .75;
+    transition: all .25s;
+}
+
+.fadeIn-leave-active {
+    transition: all .15s;
+    opacity: .25;
+}
+
+.swap-list-move {
+    transition: transform .7s;
+}
+
+/* END ANIMATIONS */
 
 .none {
     display: none !important;

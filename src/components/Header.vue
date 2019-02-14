@@ -3,20 +3,20 @@
 
   <b-navbar-toggle target="navCollapse"></b-navbar-toggle>
 
-  <b-navbar-brand><router-link class="white rubik" :to="isAuthorized ? '/profile' : '/'"><b-img src="/img/icons/logo.png" class="logo"></b-img></router-link></b-navbar-brand>
+  <b-navbar-brand @click="gaEvent('Brand')"><router-link class="white rubik" :to="isAuthorized ? '/profile' : '/'"><b-img src="/img/icons/logo.png" class="logo"></b-img></router-link></b-navbar-brand>
 
   <b-collapse is-nav ref="navCollapse" id="navCollapse" class="rubik">
 
     <b-navbar-nav class="mt1 white ml-0 relative" @click="tryToggle">
-        <b-nav-item v-if="isAuthorized"><router-link to="/profile">My Profile</router-link></b-nav-item>
-        <b-nav-item v-else><router-link to="/">Home</router-link></b-nav-item>
-        <b-nav-item><router-link to="/discover">Discover</router-link></b-nav-item>
+        <b-nav-item @click="gaEvent('Profile')" v-if="isAuthorized"><router-link to="/profile">My Profile</router-link></b-nav-item>
+        <b-nav-item @click="gaEvent('Home')" v-else><router-link to="/">Home</router-link></b-nav-item>
+        <b-nav-item @click="gaEvent('Discover')"><router-link to="/discover">Discover</router-link></b-nav-item>
         <!-- <b-nav-item><router-link to="/watch-news">Watch News</router-link></b-nav-item>  -->
-        <b-nav-item><router-link to="/contact">Contact Us</router-link></b-nav-item>
-        <b-nav-item @click="logout" class="white d-block d-lg-none absolute t-0 r-0 r0 right" v-if="isAuthorized">Logout</b-nav-item>
+        <b-nav-item @click="gaEvent('Contact')"><router-link to="/contact">Contact Us</router-link></b-nav-item>
+        <b-nav-item @click="logout('Logout')" class="white d-block d-lg-none absolute t-0 r-0 r0 right" v-if="isAuthorized">Logout</b-nav-item>
     </b-navbar-nav>
 
-    <b-nav-item @click="logout" class="d-none absolute d-lg-block r0 mr-md-4 my-0 white" v-if="isAuthorized" right>Logout</b-nav-item>
+    <b-nav-item @click="logout('Logout')" class="d-none absolute d-lg-block r0 mr-md-4 my-0 white" v-if="isAuthorized" right>Logout</b-nav-item>
 
   </b-collapse>
 </b-navbar>
@@ -26,8 +26,13 @@
 <script>
 export default {
   methods: {
-    logout () {
+    logout (label) {
       this.$store.dispatch('logout').then(() => {
+        this.$ga.event({
+          eventCategory: 'Header',
+          eventAction: 'Header_Link_Click',
+          eventLabel: label
+        })
         location.reload()
       })
     },
@@ -36,6 +41,15 @@ export default {
       if (window.innerWidth < 993) {
         this.$refs.navCollapse.toggle()
       }
+    },
+
+    // Analytics
+    gaEvent(label) {
+      this.$ga.event({
+        eventCategory: 'Header',
+        eventAction: 'Header_Link_Click',
+        eventLabel: label
+      })
     }
   },
 

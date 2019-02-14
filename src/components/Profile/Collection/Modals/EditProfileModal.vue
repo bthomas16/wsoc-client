@@ -7,7 +7,7 @@
         </b-row>
         <b-row no-gutters align-h="center">
             <b-col cols="8" class="center mb-3 imgSelect">
-                <b-img id="profileImgEditModal" class="box-shadow-light mb-2 center ml-0" fluid :src="userProfileEditing.imgSrc || ROOT_API + '/api/static-assets/blankprofpic.png'"></b-img>
+                <b-img id="profileImgEditModal" class="box-shadow-light mb-2 center ml-0" fluid :src="userProfileEditing.imgSrc || '/img/icons/blankprofpic.png'"></b-img>
                 <label class="file-select w-100 mw-100">
                     <!-- We can't use a normal button element here, as it would become the target of the label. -->
                     <div class="bg-navy  white pointer py-2 mt-2 bg">
@@ -15,7 +15,7 @@
                     <span>Select Images</span>
                     </div>
                     <!-- Now, the file input that we hide. -->
-                    <input class="my-2 left-align w-100 center mx-auto" value="Upload Photo" type="file" @change="uploadProfileImageToAwsS3()"/>
+                    <input class="my-2 left-align w-100 center mx-auto d-none" accept="image/*" value="Upload Photo" type="file" @change="uploadProfileImageToAwsS3()"/>
                 </label>
             </b-col>
             <b-col cols="12">
@@ -85,9 +85,9 @@ export default {
 </script>
 
 <style scoped>
-    .imgSelect > input[type="file"] {
-        display: none;
-    }
+    /* .imgSelect > input[type="file"] {
+        display: none !important;
+    } */
 
     .border-bottom-only {
         border-bottom: 1px solid gray !important;

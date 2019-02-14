@@ -4,125 +4,133 @@
             <b-col>
 
                 <!-- Button to manage collection Collection -->
-                <b-row class="mb-2 mb-md-2 relative" no-gutters align-h="center">
-                    <b-col cols="12" md="10" class="border-bottom"></b-col>
-                    <b-col cols="12" md="10" class="px-1 px-md-0">
-                        <b-row no-gutters align-h="between" align-v="center">
-                            <b-col cols="12">
-                                <strong v-if="isTryingShuffle" class="red" >*Can't organize while Managing Collection</strong>
-                            </b-col>
-                            <b-col cols="12" md="6" class="left-align pointer gray bold h4 m-h2 my-1" v-if="isManagingCollection" >
-                                <b-btn variant="outline-success" class="green" @click="toggleIsManagingCollection">Done</b-btn>
-                                <b-btn v-if="sortCategory || searchTermToFilterBy" variant="outline-secondary" class="ml-2" @click="resetCollectionFilter">Reset Filters</b-btn>
-                            </b-col>
-                        </b-row>
-                    </b-col>
-                </b-row>
+                
 
             <!-- FILTER & SORT WATCH ARRAY -->
-                <b-row ref="sortFilterId" class="px-0 px-md-2" align-v="start" align-h="center" v-if="isManagingCollection" no-gutters>
-                    <b-col cols="4" md="5"  class="manage-btn-border px-1 px-md-2" >
-                        <b-row align-v="start" align-h="center" id="watch-controls" no-gutters class="px-md-2">
-                            <b-col lg="6" cols="12" class="mx-auto center px-md-2 p-0" >
-                                <b-button id="manageButton" variant="default" class="bg-light-blue white randomWatch center " block size="" @click="selectRandomWatch">Random Watch</b-button>
-                            </b-col>
-                            <b-col lg="6" cols="12" class="mt-2 mt-lg-0 px-md-2 p-0">
-                                <b-button class=" bg-green white addWatchClass" id="addWatchButton" variant="default" @click="addNewWatch" size="" block>Add Watch</b-button>
-                            </b-col>
-                        </b-row>
-                        <b-row align-h="between" align-v="center" class="d-none d-lg-flex mt-2" no-gutters>
-                            <b-col cols="4" md="6" class="mt-1 mt-md-0 pl-3 pr-2">
-                                <b-btn size="sm" v-if="!isShowEditFlags" @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="w-100 white p-1">Show Flags</b-btn>
-                                <b-btn size="sm" v-else @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="bg-navy w-100 p-1">Hide Flags</b-btn>
-                            </b-col>
-                            <b-col cols="8" md="6" class="pr-3 pl-1">
-                                <b-row no-gutters align-h="end">
-                                    <b-col cols="4" class="px-1">
-                                        <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>                                        
-                                    </b-col>
-                                    <b-col cols="4" class="px-1">
-                                        <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('md')">md</b-btn>
-                                    </b-col>
-                                    <b-col cols="4" class="px-1 px-md-0 pl-md-1">
-                                        <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
-                                    </b-col>
-                                </b-row>
-                            </b-col>
-                        </b-row>
-                    </b-col>
-                    <b-col cols="8" md="7">
-                        <b-row no-gutters>
-                            <b-col cols="12" class="mx-auto selectWrapper">
-                                <b-input-group prepend="&#9906;" class="px-1" size="">
-                                    <b-form-input class="filterText" id="searchInput" type="text" placeholder="Search" size="" @input="filterBySearchTerm" v-model="searchTermToFilterBy"></b-form-input>
-                                </b-input-group>
-                            </b-col>
-                        </b-row>
-                        <b-row align-v="start" align-h="start" no-gutters class="mt-2">
-                            <b-col cols="5" class="mx-auto px-1">
-                                <b-form-select class="filterText p-1" :options="sortCategories" v-model="sortCategory" @change="selectSortCategory"></b-form-select>
-                            </b-col>
-                            <b-col cols="7" class="mx-auto px-1">
-                                <b-form-select class="filterText p-1" :options="categoryOptions" v-model="categoryOption" @change="selectCategoryOption" :disabled="!sortCategory"></b-form-select>
-                            </b-col>
-                        </b-row>
-                    </b-col>
-                </b-row>
+                <!-- <transition-group name="faderade"> -->
+                    <b-row class="mb-2 mb-md-2 relative" no-gutters align-h="center" key="1">
+                        <b-col cols="12" md="10" class="border-bottom"></b-col>
+                        <b-col cols="12" md="10" class="px-1 px-md-0">
+                            <b-row no-gutters align-h="between" align-v="center">
+                                <!-- <b-col cols="12">
+                                    <strong v-if="isTryingShuffle" class="red" >*Can't organize while Managing Collection</strong>
+                                </b-col> -->
+                                <b-col cols="12" md="6" class="left-align pointer gray bold h4 m-h2 my-1" v-show="isManagingCollection" >
+                                    <b-btn variant="outline-success" class="green" @click="toggleIsManagingCollection">Done</b-btn>
+                                    <b-btn v-show="sortCategory || searchTermToFilterBy" variant="outline-secondary" class="ml-2" @click="resetCollectionFilter">Reset Filters</b-btn>
+                                </b-col>
+                            </b-row>
+                        </b-col>
+                    </b-row>
+                    <b-row key="2" ref="sortFilterId" class="px-0 px-md-2" align-v="start" align-h="center" v-show="isManagingCollection" no-gutters>
+                        <b-col cols="4" md="5"  class="manage-btn-border px-1 px-md-2" >
+                            <b-row align-v="start" align-h="center" id="watch-controls" no-gutters class="px-md-2">
+                                <b-col lg="6" cols="12" class="mx-auto center px-md-2 p-0" >
+                                    <b-button id="manageButton" variant="default" class="bg-light-blue white btnFontSize center " block size="" @click="selectRandomWatch">Random Watch</b-button>
+                                </b-col>
+                                <b-col lg="6" cols="12" class="mt-2 mt-lg-0 px-md-2 p-0">
+                                    <b-button class="bg-green white btnFontSize" id="addWatchButton" variant="default" @click="addNewWatch" size="" block>Add Watch</b-button>
+                                </b-col>
+                            </b-row>
+                            <b-row align-h="between" align-v="center" class="d-none d-lg-flex mt-2" no-gutters>
+                                <b-col cols="4" md="6" class="mt-1 mt-md-0 pl-3 pr-2">
+                                    <b-btn size="sm" v-if="!isShowEditFlags" @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="btnFontSize w-100 white p-1">Show Flags</b-btn>
+                                    <b-btn size="sm" v-else @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="btnFontSize bg-navy w-100 p-1">Hide Flags</b-btn>
+                                </b-col>
+                                <b-col cols="8" md="6" class="pr-3 pl-1">
+                                    <b-row no-gutters align-h="end">
+                                        <b-col cols="4" class="px-1">
+                                            <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : ''" variant="secondary" class="w-100 btn toggleBtn" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>                                        
+                                        </b-col>
+                                        <b-col cols="4" class="px-1">
+                                            <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : ''" variant="secondary" class="w-100 btn toggleBtn" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                                        </b-col>
+                                        <b-col cols="4" class="px-1 px-md-0 pl-md-1">
+                                            <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : ''" variant="secondary" class="w-100 btn toggleBtn" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                                        </b-col>
+                                    </b-row>
+                                </b-col>
+                            </b-row>
+                        </b-col>
+                        <b-col cols="8" md="7">
+                            <b-row no-gutters>
+                                <b-col cols="12" class="mx-auto selectWrapper">
+                                    <b-input-group prepend="&#9906;" class="px-1" size="">
+                                        <b-form-input class="filterText" id="searchInput" type="text" placeholder="Search" size="" @input="filterBySearchTerm" v-model="searchTermToFilterBy"></b-form-input>
+                                    </b-input-group>
+                                </b-col>
+                            </b-row>
+                            <b-row align-v="start" align-h="start" no-gutters class="mt-2">
+                                <b-col cols="5" class="mx-auto px-1">
+                                    <b-form-select class="filterText p-1" :options="sortCategories" v-model="sortCategory" @change="selectSortCategory"></b-form-select>
+                                </b-col>
+                                <b-col cols="7" class="mx-auto px-1">
+                                    <b-form-select class="filterText p-1" :options="categoryOptions" v-model="categoryOption" @change="selectCategoryOption" :disabled="!sortCategory"></b-form-select>
+                                </b-col>
+                            </b-row>
+                        </b-col>
+                    </b-row>
+                <!-- </transition-group> -->
 
                 <!-- Buttons for is Managing collection -->
-                <b-row align-v="center" align-h="between" class="d-lg-none mt-2" v-if="isManagingCollection" no-gutters>
-                    <b-col cols="4" md="5" class="px-1">
-                        <b-btn size="sm" v-if="!isShowEditFlags" @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="w-100 white p-1">Show Flags</b-btn>
-                        <b-btn size="sm" v-else @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="tiny bg-navy w-100 p-2">Hide Flags</b-btn>
-                    </b-col>
-                    <b-col cols="7" md="6" offset="1" class="nowrap">
-                        <b-row no-gutters align-h="end">
-                            <b-col cols="4" class="px-1">
-                                <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>                                        
-                            </b-col>
-                            <b-col cols="4" class="px-1">
-                                <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('md')">md</b-btn>
-                            </b-col>
-                            <b-col cols="4" class="px-1">
-                                <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
-                            </b-col>
-                        </b-row>
-                    </b-col>
-                </b-row>
+                <!-- <transition name="faderade"> -->
+                    <b-row align-v="start" align-h="between" class="d-lg-none mt-2 px-md-2" v-show="isManagingCollection" no-gutters>
+                        <b-col cols="4" md="5" class="px-1 px-md-4">
+                            <b-btn size="sm" v-if="!isShowEditFlags" @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="btnFontSize w-100 white p-1">Show Flags</b-btn>
+                            <b-btn size="sm" v-else @click="isShowEditFlags = !isShowEditFlags" variant="secondary" class="bg-navy btnFontSize w-100 p-2">Hide Flags</b-btn>
+                        </b-col>
+                        <b-col cols="8" md="7"  class="nowrap">
+                            <b-row no-gutters align-h="center">
+                                <b-col cols="4" class="px-1">
+                                    <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : ''" variant="secondary" class="w-100 btn toggleBtn" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>                                        
+                                </b-col>
+                                <b-col cols="4" class="px-1">
+                                    <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : ''" variant="secondary" class="w-100 btn toggleBtn" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                                </b-col>
+                                <b-col cols="4" class="px-1">
+                                    <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : ''" variant="secondary" class="w-100 btn toggleBtn" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                                </b-col>
+                            </b-row>
+                        </b-col>
+                    </b-row>
+                <!-- </transition> -->
 
                 <!-- Buttons for not managing collection -->
-                <b-row v-if="!isManagingCollection" no-gutters>
-                    <b-col class="mx-auto px-2 px-md-0" cols="12" md="10" lg="8"    >
-                        <b-btn variant="default" class="white my-0 bg-light-blue" size="sm" @click="toggleIsManagingCollection" block>Manage Collection</b-btn>
-                        <b-row no-gutters align-v="center" align-h="between" id="mobileRow" class="mx-auto mt-md-2 flagWidth" v-if="!isManagingCollection">
-                            <b-col cols="7"> 
-                                <b-row no-gutters align-h="between">
-                                    <b-col cols="6" class="mt-1 mt-md-0 pr-1 pr-md-2">
-                                        <b-btn size="sm" v-if="!isShowFlags" @click="isShowFlags = !isShowFlags" variant="secondary" class="w-100 white p-1">Show Flags</b-btn>
-                                        <b-btn size="sm" v-else @click="isShowFlags = !isShowFlags" variant="secondary" class="bg-navy w-100 p-1">Hide Flags</b-btn>
-                                    </b-col>
-                                    <b-col cols="6" class="mt-1 mt-md-0 pr-1 pr-md-0">
-                                        <b-btn size="sm" v-if="isDragToOrganize" @click="isDragToOrganize = !isDragToOrganize" variant="secondary" class="bg-navy white p-1 h8 w-100" >Disable Drag</b-btn>
-                                        <b-btn size="sm" v-else @click="isDragToOrganize = !isDragToOrganize" variant="secondary" class="p-1 h8 w-100">Enable Drag</b-btn>
-                                    </b-col>
-                                </b-row>
-                            </b-col>
-                            <b-col cols="5" sm="4" offset-sm="1" class="nowrap mt-1 mt-md-0">
-                                <b-row no-gutters align-h="end">
-                                    <b-col cols="4" class="pl-1">
-                                        <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>                                        
-                                    </b-col>
-                                    <b-col cols="4" class="pl-1">
-                                        <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('md')">md</b-btn>
-                                    </b-col>
-                                    <b-col cols="4" class="pl-1">
-                                        <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : 'btn bg-darkgray'" variant="secondary" class="w-100 toggleBtn" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
-                                    </b-col>
-                                </b-row>
-                            </b-col>
-                        </b-row>
-                    </b-col>
-                </b-row>
+                <!-- <transition name="faderade"> -->
+                    <b-row v-show="!isManagingCollection" no-gutters>
+                        <b-col class="mx-auto px-2 px-md-0" cols="12" md="10" lg="8"    >
+                            <b-btn variant="default" class="white my-0 bg-light-blue" size="sm" @click="toggleIsManagingCollection" block>Manage Collection</b-btn>
+                            <b-row no-gutters align-v="center" align-h="between" id="mobileRow" class="mx-auto mt-md-2 flagWidth" v-if="!isManagingCollection">
+                                <b-col cols="7"> 
+                                    <b-row no-gutters align-h="between">
+                                        <b-col cols="6" class="mt-1 mt-md-0 pr-1 pr-md-2">
+                                            <b-btn size="sm" v-if="!isShowFlags" @click="isShowFlags = !isShowFlags" variant="secondary" class="btnFontSize w-100 white p-1">Show Flags</b-btn>
+                                            <b-btn size="sm" v-else @click="isShowFlags = !isShowFlags" variant="secondary" class="btnFontSize bg-navy w-100 p-1">Hide Flags</b-btn>
+                                        </b-col>
+                                        <b-col cols="6" class="mt-1 mt-md-0 pr-1 pr-md-0">
+                                            <b-btn size="sm" v-if="isDragToOrganize" @click="isDragToOrganize = !isDragToOrganize" variant="secondary" class="bg-navy white p-1 h8 w-100" >Disable Drag</b-btn>
+                                            <b-btn size="sm" v-else @click="isDragToOrganize = !isDragToOrganize" variant="secondary" class="p-1 h8 w-100">Enable Drag</b-btn>
+                                        </b-col>
+                                    </b-row>
+                                </b-col>
+                                <b-col cols="5" sm="4" offset-sm="1" class="nowrap mt-1 mt-md-0">
+                                    <b-row no-gutters align-h="end">
+                                        <b-col cols="4" class="pl-1">
+                                            <b-btn :class="currentCardSize == 'sm' ? 'btn bg-navy white border' : ''" variant="secondary" class="w-100 btn toggleBtn" size="sm" @click="sizeCardToUse('sm')">sm</b-btn>                                        
+                                        </b-col>
+                                        <b-col cols="4" class="pl-1">
+                                            <b-btn :class="currentCardSize == 'md' ? 'btn bg-navy white border' : ''" variant="secondary" class="w-100 btn toggleBtn" size="sm" @click="sizeCardToUse('md')">md</b-btn>
+                                        </b-col>
+                                        <b-col cols="4" class="pl-1">
+                                            <b-btn :class="currentCardSize == 'lg' ? 'btn bg-navy white border' : ''" variant="secondary" class="w-100 btn toggleBtn" size="sm" @click="sizeCardToUse('lg')">lg</b-btn>
+                                        </b-col>
+                                    </b-row>
+                                </b-col>
+                            </b-row>
+                        </b-col>
+                    </b-row>
+                <!-- </transition> -->
+
             </b-col>
 
         <!-- END MANAGE COLLECTION -->
@@ -159,23 +167,39 @@ export default {
       categoryOption: null
     }
   },
-  methods: {
+  methods: { 
+    
+
     sizeCardToUse (val) {
       this.$store.dispatch('sizeCardToUse', val)
+
+       // Analytics
+      this.$ga.event({
+        eventCategory: 'Manage_Collection',
+        eventAction: 'Size_Watch_Card_Selection',
+        eventLabel: "Using (" + val + ") Watch Card Size"
+      })
     },
 
     toggleIsManagingCollection () {
       this.resetCollectionFilter()
       this.$store.dispatch('toggleIsManagingCollection')
       this.$store.dispatch('toggleIsDragToOrganize', false)
+
+       // Analytics
+      this.$ga.event({
+        eventCategory: 'Manage_Collection_Btn',
+        eventAction: 'Manage_Collection_Btn_Toggle',
+        eventLabel: this.$store.state.isManagingCollection ? 'true' : 'false'
+      })
     },
 
-    selectSortCategory (eventValue) {
+    selectSortCategory (eventLabel) {
       this.searchTermToFilterBy = ''
-      this.sortCategory = eventValue
+      this.sortCategory = eventLabel
       this.categoryOption = null
 
-      switch (eventValue) {
+      switch (eventLabel) {
         case 'condition':
           this.categoryOptions = [
             { value: null, text: 'Category', disabled: true },
@@ -231,8 +255,8 @@ export default {
       }
     },
 
-    selectCategoryOption (eventValue) {
-      this.categoryOption = eventValue
+    selectCategoryOption (eventLabel) {
+      this.categoryOption = eventLabel
       this.filterCollection(this.sortCategory, this.categoryOption)
     },
 
@@ -241,17 +265,24 @@ export default {
         category: sortCategory,
         option: categoryOption
       }
-      this.$store.dispatch('isTryingShuffleWhileManage', false) 
+    //   this.$store.dispatch('isTryingShuffleWhileManage', false) 
       this.$store.dispatch('getFilteredCollection', filterObj)
         if (sortCategory != 'previous') {
           this.$store.dispatch('viewingPreviousWatches', false)
       }
+
+      // Analytics
+      this.$ga.event({
+        eventCategory: 'Manage_Collection',
+        eventAction: 'Search_By_Filters',
+        eventLabel: "Searching by filters: " + sortCategory + ' - ' + categoryOption
+      })
     },
 
-    filterBySearchTerm (eventValue) {
-    if (eventValue) {
-        this.$store.dispatch('isTryingShuffleWhileManage', false) 
-        this.$store.dispatch('getFilteredCollectionBySearchTerm', eventValue.toLowerCase())
+    filterBySearchTerm (eventLabel) {
+    if (eventLabel) {
+        // this.$store.dispatch('isTryingShuffleWhileManage', false) 
+        this.$store.dispatch('getFilteredCollectionBySearchTerm', eventLabel.toLowerCase())
       }
       else {
         this.$store.dispatch('viewingPreviousWatches', false)
@@ -259,6 +290,13 @@ export default {
         this.categoryOption = null
         this.$store.dispatch('getFilteredCollectionBySearchTerm', '')          
       }
+
+      // Analytics
+      this.$ga.event({
+        eventCategory: 'Manage_Collection',
+        eventAction: 'Search_By_Term',
+        eventLabel: "Searching by term: " + eventLabel
+      })
     },
 
     selectRandomWatch () {
@@ -274,9 +312,8 @@ export default {
     resetCollectionFilter () {
       this.selectSortCategory()
       this.$store.dispatch('viewingPreviousWatches', false)
-      this.$store.state.FilteredCollection = this.$store.state.Collection //TODO: NOT THIS
+      this.$store.state.FilteredCollection = this.$store.state.Collection
     }
-
   },
 
   computed: {
@@ -312,7 +349,6 @@ export default {
         return this.$store.state.isDragToOrganize
       },
       set (value) {
-          console.log(value)
         this.$store.dispatch('toggleIsDragToOrganize', value)
       }
     },
@@ -321,9 +357,9 @@ export default {
       return this.$store.state.CurrentCardSize
     },
 
-    isTryingShuffle() {
-        return this.$store.state.isShuffleWhileManage
-    }
+    // isTryingShuffle() {
+    //     return this.$store.state.isShuffleWhileManage
+    // }
   }
 
 }
@@ -336,7 +372,7 @@ export default {
         font-size: 16px;
     }
 
-    .randomWatch, .addWatchClass {
+    .btnFontSize {
         font-size: 1rem;
     }
     
@@ -359,7 +395,7 @@ export default {
     }
 
     @media(max-width: 900px) {
-        .randomWatch, .addWatchClass {
+        .btnFontSize {
         font-size: .85rem;
         }
     }
@@ -375,7 +411,7 @@ export default {
     }
 
     @media(max-width: 400px) {
-        .randomWatch, .addWatchClass {
+        .btnFontSize {
             font-size: .75rem;
         }
 
@@ -387,10 +423,8 @@ export default {
     }
 
      @media(max-width: 350px) {
-        .randomWatch, .addWatchClass {
+        .btnFontSize {
         font-size: .635rem;
         }
     }
-
-
 </style>
