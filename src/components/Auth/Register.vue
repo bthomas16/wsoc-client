@@ -111,16 +111,17 @@ export default {
       this.$emit('toggleAuthLoading', true)
       this.$store.dispatch('register', this.form)
         .then((res) => {
-          this.$emit('toggleAuthLoading', false)
           if (res.isSuccess) {
+            this.$emit('toggleAuthLoading', false)
             this.$store.dispatch('sendWelcomeEmail', this.form)
             this.$router.push({ path: '/profile' })
           } else {
+            this.$emit('toggleAuthLoading', false)
             this.showAlert = true
             this.responseMessage = res.message
             this.responseStyle = 'danger'
             this.isRefreshPage = res.isRefreshPage
-          this.$emit('ToggleShowingAlert', true)          
+            this.$emit('ToggleShowingAlert', true)          
             
           }
         }).catch(err => {

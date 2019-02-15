@@ -63,11 +63,10 @@ export default {
       this.showAlert = false
       this.$emit('toggleAuthLoading', true)
       this.$store.dispatch('login', this.form).then((res) => {
-        this.$emit('toggleAuthLoading', false)
         if (res.isSuccess) {
           this.$router.push({ path: '/profile' })
           this.showAlert = false
-        } else {
+        } else {         
           this.showAlert = true
           this.responseStyle = 'danger'
           this.$emit('ToggleShowingAlert', true)          

@@ -303,7 +303,6 @@ const actions =
     return axios.post('/api/user/login', formData)
       .then(res => {
         if (!res.data.isSuccess) {
-          console.log(res.data, 'ok mostly fuck with me')
           context.commit(NOT_LOADING)
           context.commit(AUTH_FAILURE)
           return res.data

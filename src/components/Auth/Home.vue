@@ -1,8 +1,8 @@
 <template>
-    <b-container v-if="isAuthLoading">
-        <loader></loader>
-    </b-container>
-    <b-container fluid v-else>
+    <b-container fluid>
+        <loader v-if="isLoading" class="bg-white z-4"></loader>
+
+
         <b-row align-v="start" align-h="center" no-gutters>
             <b-col cols="12" class="p-0 m-0">
                 <b-row no-gutters>
@@ -92,7 +92,7 @@ export default {
   },
 
   computed: {
-      loading () {
+      isLoading () {
           return this.$store.state.isLoading
       }
   }
