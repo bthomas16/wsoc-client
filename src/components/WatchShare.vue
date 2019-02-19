@@ -20,8 +20,8 @@
                     <b-col cols="12" class="px-2 center mx-auto">
                         <p v-if="watch.condition"><strong>Condition:</strong> {{watch.condition}} / 10</p>
                         <p v-if="watch.watchStyle"><strong>Style:</strong> {{watch.watchStyle}}</p>
-                        <p v-if="watch.sizeWidth"><strong>Case Width:</strong> {{watch.sizeWidth}}mm</p>
-                        <p v-if="watch.sizeLugToLug"><strong>Lug Size:</strong> {{watch.sizeLugToLug}}mm</p>
+                        <p v-if="watch.sizeWidth"><strong>Case Width:</strong> {{watch.sizeWidth}}</p>
+                        <p v-if="watch.sizeLugToLug"><strong>Lug Size:</strong> {{watch.sizeLugToLug}}</p>
                         <p v-if="watch.movementType"><strong>Movement Type:</strong> {{watch.movementType}}</p>
                         <p v-if="watch.movement"><strong>Movement:</strong> {{watch.movement}}</p>
                         <p v-if="watch.crystal"><strong>Crystal:</strong> {{watch.crystal}}</p>

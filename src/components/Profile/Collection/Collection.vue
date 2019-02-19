@@ -5,7 +5,7 @@
         </b-row>
     </b-container>
     <b-container fluid v-else>
-         <b-row v-if="Collection.length == 0 && !isManagingCollection" align-h="center" no-gutters>
+         <b-row v-if="Collection.length == 0 && !isManagingCollection" align-h="center" no-gutters class="mb-6 mb-mlg-0">
             <b-col cols="10" md="8" class="border my-5 center p-2 p-md-5" id="begin-collection">
                 <p class="h2 center">Welcome to your <span class="nowrap">Watch Collection!</span></p>
                 <p class="h4 m-h2 mt-4 mt-md-5">Get started by adding a watch!</p>
@@ -194,33 +194,62 @@ export default {
       let fileArr = []
       files.forEach(file => {
           if (!LoadImageUtility.ContainsS3Information(file.src.substring(0, 30))) {
+              console.log('new image, so going to save base 64 to s3', file)
               fileArr.push(
               { src: file.src,
-                fileName: file.fileName
+                // fileName: file.fileName
               })
           } 
       })
       if (fileArr[0]) {
-          this.$store.dispatch('uploadImagesToAwsS3', fileArr)
+        console.log('There are new images to upload, so I will upload this array of base 64 images to s3', fileArr, this.addWatch.src.images.length)
+        this.$store.dispatch('uploadImagesToAwsS3', fileArr)
             .then(images => {  
-            // images = array of s3 image objects
-                if (images[0] ) {
-                    for (let i = 0; i < images.length; i++) {
-                        if (!LoadImageUtility.ContainsS3Information(this.addWatch.src.images[i].src.substring(0, 30))) {
-                            this.addWatch.src.images[i].src = images[i].Location
-                    } 
-                }
-            } else {
-                for (let i = 0; i < images.length; i++) {
-                    this.addWatch.src.images[i].src = images[i].Location
+            let tempArr = this.addWatch.src.images.concat(images)
+            let imagesCount = 0;
+            for (let i = 0; i < tempArr.length; i++) {
+                if (!LoadImageUtility.ContainsS3Information(tempArr[i].src.substring(0, 30))) { // if the src property on the index of the current array does not contaain S3 information
+                    tempArr[i].src = images[imagesCount].src
+                    // tempArr[i].order = i
+                    imagesCount++
                 }
             }
-            this.S3UploadEventListener(false)
-        }).catch(err => console.log(err))
-      } else {
-          this.S3UploadEventListener(false) 
-      }
+            imagesCount = 0
 
+                
+
+            // this.addWatch.src.images = tempArr
+            this.S3UploadEventListener(false)
+            fileArr = []
+
+
+
+
+
+            // console.log('got this back', images)
+            //     let currentArr = this.addWatch.src.images
+            //     // images.forEach(s3Img => { // for each new s3 image check the current images for the next non s3 image str, map it
+            //     for (let j = 0; j < images.length; j++) {
+            //         for (let i = 0; i < currentArr.length; i++) {
+            //             if (!LoadImageUtility.ContainsS3Information(currentArr[i].src.substring(0, 30))) { // if the current img is not a S3 bucket string, let's make it one
+            //                     console.log('its new!!',currentArr[i].src, 'to become',  images[j].Location)
+            //                     currentArr[i].src = images[j].Location
+            //                     currentArr[i].order = i
+            //                     currentArr[i].fileName = images[j].fileName
+            //                     break
+            //                 }
+            //             }
+            //         }
+            // this.addWatch.src.images = currentArr
+            
+        }).catch(err => {
+            console.log(err)
+            this.S3UploadEventListener(false) 
+        })
+      }
+      else {
+          this.S3UploadEventListener(false)
+      }
     },
 
     S3UploadEventListener(value) {

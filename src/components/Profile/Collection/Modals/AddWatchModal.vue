@@ -159,7 +159,7 @@
                                             <strong>Movement Caliber:</strong>
                                         </b-col>
                                         <b-col cols="12" sm="8" class="formText">
-                                            <b-form-input :class="addWatch.movement ? 'yesValue' : 'formBorder'" v-model="addWatch.movement" type="text"></b-form-input>
+                                            <b-form-input placeholder="ETA 2824-2" :class="addWatch.movement ? 'yesValue' : 'formBorder'" v-model="addWatch.movement" type="text"></b-form-input>
                                             <!-- <b-form-select :class="addWatch.movement ? 'yesValue' : 'formBorder'" :options="movementOptions" v-model="addWatch.movement" type="text"/> -->
                                         </b-col>
                                     </b-row>
@@ -170,7 +170,8 @@
                                             <strong>Size (Lug to Lug):</strong>
                                         </b-col>
                                         <b-col cols="12" md="8" class="formText">
-                                            <b-form-select :class="addWatch.sizeLugToLug ? 'yesValue' : 'formBorder'" :options="sizeLugToLugOptions" v-model="addWatch.sizeLugToLug" type="text"/>
+                                            <b-form-input placeholder="22mm" :class="addWatch.sizeLugToLug ? 'yesValue' : 'formBorder'" v-model="addWatch.sizeLugToLug" type="text"></b-form-input>
+                                            <!-- <b-form-select :class="addWatch.sizeLugToLug ? 'yesValue' : 'formBorder'" :options="sizeLugToLugOptions" v-model="addWatch.sizeLugToLug" type="text"/> -->
                                         </b-col>
                                     </b-row>
                                 </li>
@@ -182,12 +183,14 @@
                                         <b-col cols="12" md="8" class="formText">
                                             <b-row no-gutters align-v="baseline">
                                                 <b-col class="px-1 formText">
-                                                    <b-form-select :class="addWatch.sizeWidth ? 'yesValue' : 'formBorder'" :options="sizeWidthOptions" v-model="addWatch.sizeWidth" type="number"/>
+                                                    <b-form-input placeholder="43mm" :class="addWatch.sizeWidth ? 'yesValue' : 'formBorder'" v-model="addWatch.sizeWidth" type="text"></b-form-input>    
+                                                    <!-- <b-form-select :class="addWatch.sizeWidth ? 'yesValue' : 'formBorder'" :options="sizeWidthOptions" v-model="addWatch.sizeWidth" type="number"/> -->
                                                     <p class="center p-0 m-0"><em>Width</em></p>
                                                 </b-col>
                                                 <h6 class="p-2">X</h6>
                                                 <b-col class="px-1 formText">
-                                                    <b-form-select :class="addWatch.sizeHeight ? 'yesValue' : 'formBorder'" :options="sizeHeightOptions" v-model="addWatch.sizeHeight" type="number"/>
+                                                    <b-form-input placeholder="13mm" :class="addWatch.sizeHeight ? 'yesValue' : 'formBorder'" v-model="addWatch.sizeHeight" type="text"></b-form-input>                                                    
+                                                    <!-- <b-form-select :class="addWatch.sizeHeight ? 'yesValue' : 'formBorder'" :options="sizeHeightOptions" v-model="addWatch.sizeHeight" type="number"/> -->
                                                     <p class="center p-0 m-0"><em>Height</em></p>
                                                 </b-col>
                                             </b-row>
@@ -240,12 +243,11 @@
 
                         <b-row no-gutters>
                             <b-col cols="12" class="left">
-                                <b-form-group class="my-1 py-0" label="Is Watch Full Kit?" horizontal label-cols="6">
+                                <b-form-group class="my-1 py-0" label="Is watch Full Kit?" horizontal label-cols="6">
                                     <b-form-radio-group id="fullKit"
                                                         buttons
                                                         size="sm"
-                                                        button-variant="primary"
-                                                        class="bg-light-blue red"
+                                                        button-variant="outline-primary"
                                                         v-model="addWatch.isFullKit"
                                                         :options="fullKitOptions"
                                                         name="fullKitOptions" />
@@ -255,11 +257,11 @@
                         </b-row>
                         <b-row no-gutters align-="center" class="left">
                             <b-col cols="12">
-                                <b-form-group class="my-1 py-0" label="Is Watch For Sale?" horizontal label-cols="6">
+                                <b-form-group class="my-1 py-0" label="Is watch For Sale?" horizontal label-cols="6">
                                     <b-form-radio-group id="forSale"
                                                         buttons
                                                         size="sm"
-                                                        button-variant="primary"
+                                                        button-variant="outline-primary"
                                                         v-model="addWatch.isForSale"
                                                         :options="isForSaleOptions"
                                                         name="fullKitOptions" />
@@ -268,11 +270,11 @@
                         </b-row>
                         <b-row no-gutters align-="center" class="left">
                             <b-col cols="12">
-                                <b-form-group class="my-1 py-0" label="Is Watch For Trade?" horizontal label-cols="6">
+                                <b-form-group class="my-1 py-0" label="Is watch For Trade?" horizontal label-cols="6">
                                     <b-form-radio-group id="forTrade"
                                                         buttons
                                                         size="sm"
-                                                        button-variant="primary"
+                                                        button-variant="outline-primary"
                                                         v-model="addWatch.isForTrade"
                                                         :options="isForTradeOptions"
                                                         name="fullKitOptions" />
@@ -349,11 +351,19 @@
                                 <strong>Accuracy:</strong>
                             </b-col>
                             <b-col cols="8" class="formText red">
-                                <b-form-select
+                                <b-form-input 
+                                    v-model="addWatch.accuracy"
+                                    type="text"
+                                    :class="addWatch.ref ? 'yesValue' : 'formBorder'"
+                                    placeholder="+6s"
+                                    description="Watches daily accuracy"
+                                    label="Watch Accuracy">
+                                </b-form-input>
+                                <!-- <b-form-select
                                 type="text"
                                 :class="addWatch.accuracy ? 'yesValue' : 'formBorder'"
                                 :options="accuracyOptions"
-                                v-model="addWatch.accuracy"/>
+                                v-model="addWatch.accuracy"/> -->
                             </b-col>
                         </b-row>
                     </li>
@@ -410,9 +420,9 @@
                 <p class="gray center mt-2 border-bottom h5 nowrap">This section is only visible to you</p>
 
                 <b-col class="mt-3" cols="12">
-                    <b-row align-v="center">
+                    <b-row align-v="center" v-if="addWatch.acquiredFor && addWatch.marketValue">
                         <b-col cols="6" class="formLabel nowrap">
-                            <strong>Turnaround:</strong><span class="green ml-0 ml-md-4"> ${{addWatch.marketValue - addWatch.acquiredFor || 0}}</span>
+                            <strong>Turnaround:</strong><span class="ml-0 ml-md-4" :class="getTurnaroundValue(addWatch.marketValue, addWatch.acquiredFor) > 0 ? 'green' : getTurnaroundValue(addWatch.marketValue, addWatch.acquiredFor) == 0 ? 'black' : 'red'"> ${{getTurnaroundValue(addWatch.marketValue, addWatch.acquiredFor)}}</span>
                         </b-col>
                     </b-row>
                     <ul>
@@ -750,17 +760,16 @@ export default {
     },
 
     setImagesOnAddWatch (images) {
-        let orderCount = 0
         images.forEach(img => {
-        let imageObjToPush = {
-          src: img.imgBase64Url, // s3 bucket url path
-          order: orderCount,
-          fileName: img.fileName
-        }
-        this.addWatch.src.images.push(imageObjToPush)
-        orderCount++
-      })
-    },
+            let imageObjToPush = {
+                src: img, 
+                order: this.addWatch.src.images.length// s3 bucket url path
+                // fileName: img.fileName
+            }
+            this.addWatch.src.images.push(imageObjToPush)
+            })
+        // console.log('loupiie', imgArr)
+        },
 
     SetCroppieWatchAndDispatchCroppieWatchOrder (watchIndex) {
         this.isShowingCroppie = true
@@ -787,6 +796,10 @@ export default {
 
     endDrag (e) {
       this.drag = false
+    },
+
+    getTurnaroundValue (mktVal, acqVal) {
+        return mktVal - acqVal
     }
 
   },

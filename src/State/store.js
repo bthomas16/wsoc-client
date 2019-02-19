@@ -342,6 +342,24 @@ const actions =
       })
   },
 
+  validateEmailAddressUnique (context, emailAddress) 
+  {
+    return axios({
+      method: 'GET',
+      url: '/api/user/validate-email',
+      params: { email: emailAddress },
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': localStorage.getItem('watchJwt')
+      }
+    }).then(res => {
+      console.log(res.data.isSuccess, 'rrooze')
+      return res.data.isSuccess
+    }).catch(err => {
+      console.log(err)
+  })
+},  
+
   user (context) {
     context.commit(LOADING)
     axios({

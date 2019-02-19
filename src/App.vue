@@ -1,13 +1,15 @@
 <template>
   <b-container fluid id="app" class="w-100 p-0 relative">
-      <app-header id="header" v-if="!isLoading"></app-header>
+      <app-header id="header"></app-header>
 
-        <on-scroll-menu class="scrollMenu" v-if="isProfilePage"> </on-scroll-menu>
+      <on-scroll-menu class="scrollMenu" v-if="isProfilePage"> </on-scroll-menu>
 
 
-        <transition name="slide-fade">
-            <router-view id="body" :key="$route.fullPath"></router-view>
-        </transition>
+      <transition name="slide-fade">
+          <router-view id="body" class="fullHeight" :key="$route.fullPath"></router-view>
+      </transition>
+
+
       <app-footer v-if="!isLoading" id="footer" :class="isProfilePage && (CollectionLength > 5) ? 'mt-5' : 'mt-0'"></app-footer>
 
       
@@ -42,13 +44,10 @@ export default {
     },
 
     isProfilePage () {
-      console.log(window.location)
       if (window.location.pathname == '/profile') {
         return true
       }
-      else {
-        return false
-      }
+      return false
     },
 
     CollectionLength () {
@@ -63,6 +62,10 @@ export default {
 </script>
 
 <style scoped>
+
+.fullHeight {
+  min-height: 82.5vh;
+}
 
 #app {
   overflow: scroll;

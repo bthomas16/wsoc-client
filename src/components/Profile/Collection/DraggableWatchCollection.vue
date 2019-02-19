@@ -354,12 +354,12 @@ export default {
 
     .smallHeartIcon {
         width: 25px;
-        z-index: 999;
+        z-index: 1;
     }
 
     .heartIcon {
         width: 35px;
-        z-index: 999;
+        z-index: 1;
     }
 
     @media(max-width: 1000px) {
@@ -457,7 +457,7 @@ export default {
 
         .smallHeartIcon {
         width: 18px;
-        z-index: 999;
+        z-index: 1;
         }
     }
 

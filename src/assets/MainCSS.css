@@ -78,6 +78,10 @@ html, body {
     margin-left: 5em;
 }
 
+.mb-6 {
+    margin-bottom: 5rem;
+}
+
 .full,.container {
     width:100% !important;
 }
@@ -419,17 +423,25 @@ ul, li {
         padding-right: .75em !important;
     }
 
-    .md-h6{font-size:.4rem !important};
+    .md-h6{font-size:.4rem !important}
 }
 
 @media(max-width: 500px) {
     .m-h1{font-size:1.5rem !important}.m-h2{font-size:.85rem !important}.m-h3{font-size:.75rem !important}.m-h4{font-size:.6rem !important}.m-h5{font-size:.5rem !important}.m-h6{font-size:.35rem !important;}.m-h7{font-size:.75rem !important}.m-h8{font-size:.15rem !important}
     
+
+    .mb-6 {
+        margin-bottom: 7rem;
+    }
 }
 
 @media(max-width: 350px) {
-    .m-h7{font-size:.5rem !important};
+    .m-h7{font-size:.5rem !important}
     
+
+    .mb-6 {
+        margin-bottom: 8rem;
+    }
 }
 
 

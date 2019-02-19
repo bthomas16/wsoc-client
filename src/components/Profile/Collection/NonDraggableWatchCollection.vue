@@ -184,6 +184,14 @@ export default {
       this.$store.dispatch('removeExistingWatch', this.watchToRemove.id).then(() => {
           this.resetReasonsWatchMoved()
           this.$refs.removeWatchModal.hide()
+          this.$store.dispatch('toggleIsManagingCollection')
+
+        //   if (!this.Collection[0]) {
+        //       console.log('toggggglin')
+        //       this.$store.dispatch('toggleIsManagingCollection')
+        //       this.$store.dispatch('toggleIsDragToOrganize', false)
+        //       this.$store.dispatch('viewingPreviousWatches', false)
+        //   }
       })
     },
 
@@ -247,6 +255,10 @@ export default {
 
     currentCardSize() {
         return this.$store.state.CurrentCardSize
+    },
+
+    FilteredCollection () {
+        return this.$store.state.FilteredCollection
     },
 
     Collection: {
@@ -368,12 +380,12 @@ export default {
 
     .smallHeartIcon {
         width: 25px;
-        z-index: 2;
+        z-index: 1;
     }
 
     .heartIcon {
         width: 35px;
-        z-index: 2;
+        z-index: 1;
     }
 
     
@@ -477,7 +489,7 @@ export default {
 
         .smallHeartIcon {
         width: 18px;
-        z-index: 2;
+        z-index: 1;
         }
     }
 

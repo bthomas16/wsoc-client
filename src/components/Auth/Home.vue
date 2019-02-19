@@ -1,9 +1,9 @@
 <template>
     <b-container fluid>
-        <loader v-if="isLoading" class="bg-white z-4"></loader>
+        <loader v-if="isLoading"></loader>
 
 
-        <b-row align-v="start" align-h="center" no-gutters>
+        <b-row align-v="start" align-h="center" no-gutters v-show="!isLoading">
             <b-col cols="12" class="p-0 m-0">
                 <b-row no-gutters>
                     <b-col class="relative imgWrapper">

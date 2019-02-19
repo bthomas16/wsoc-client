@@ -23,7 +23,7 @@
                     <div slot="modal-title">
                         Editing: {{userProfileEditing.firstName}}
                     </div>
-                    <edit-profile :userProfileEditing="userProfileEditing" :errorObj="errorObj"></edit-profile>
+                    <edit-profile :isUniqueEmail="isUniqueEmail" v-on:IsEmailUniqueVal="IsEmailUniqueVal" :userProfileEditing="userProfileEditing" :errorObj="errorObj"></edit-profile>
                     <div slot="modal-footer" class="w-100 mt-0 p-0">
                         <b-row no-gutters align-v="center">
                             <b-col cols="9" class="mt-3" v-if="userProfileEditing.newPassword && userProfileEditing.confirmNewPassword">
@@ -40,11 +40,9 @@
                                 <input class="float-right btn bg-green white" variant="info" type="submit" value="Submit"
                                     @click="submitEditProfile"
                                     :disabled="
-                                    (!userProfileEditing.email) || (!userProfileEditing.firstName) ||
+                                    (!userProfileEditing.email) || (!userProfileEditing.firstName) || (!isUniqueEmail) ||
                                     (userProfileEditing.newPassword != userProfileEditing.confirmNewPassword) ||
-                                    (
-                                        (userProfileEditing.oldPassword == '') && (userProfileEditing.newPassword != '')
-                                    )"
+                                    ((userProfileEditing.oldPassword == '') && (userProfileEditing.newPassword != ''))"
                                 />
                             </b-col>
                         </b-row>
@@ -73,6 +71,7 @@ export default {
         isSuccess: true,
         message: ''
       },
+      isUniqueEmail: true,
       isShowErrorMessage: false,
       isLoaded: false,
       ROOT_API: process.env.VUE_APP_ROOT_API
@@ -87,6 +86,14 @@ export default {
         eventCategory: 'ERROR',
         eventAction: 'MANUAL__PAGE_REFRESH'
       })
+    },
+
+    // Only used on edit profile now
+    IsEmailUniqueVal (email) {
+        this.$store.dispatch('validateEmailAddressUnique', email).then((res) => {
+            console.log('res bitch ass', res)
+            this.isUniqueEmail = res;
+        })
     },
 
     submitEditProfile () {

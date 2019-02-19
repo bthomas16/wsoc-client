@@ -7,15 +7,15 @@
         </b-row>
         <b-row no-gutters align-h="center">
             <b-col cols="8" class="center mb-3 imgSelect">
-                <b-img id="profileImgEditModal" class="box-shadow-light mb-2 center ml-0" fluid :src="userProfileEditing.imgSrc || '/img/icons/blankprofpic.png'"></b-img>
+                <b-img id="profileImgEditModal" class="box-shadow-light mb-2 center ml-0" fluid  thumbnail :src="userProfileEditing.imgSrc || '/img/icons/blankprofpic.png'"></b-img>
                 <label class="file-select w-100 mw-100">
                     <!-- We can't use a normal button element here, as it would become the target of the label. -->
-                    <div class="bg-navy  white pointer py-2 mt-2 bg">
+                    <div class="bg-navy  white pointer py-2 mt-2 bg box-shadow-light">
                     <!-- Display the filename if a file has been selected. -->
-                    <span>Select Images</span>
+                    <span>Select Image</span>
                     </div>
                     <!-- Now, the file input that we hide. -->
-                    <input class="my-2 left-align w-100 center mx-auto d-none" accept="image/*" value="Upload Photo" type="file" @change="uploadProfileImageToAwsS3()"/>
+                    <input class="my-2 left-align w-100 center mx-auto d-none" accept="image/*" capture value="Upload Photo" type="file" @change="uploadProfileImageToAwsS3()"/>
                 </label>
             </b-col>
             <b-col cols="12">
@@ -30,8 +30,9 @@
                         <p class="h8">Last Name</p>
                     </b-col>
                     <b-col cols="12">
-                        <b-input required class="no-border border-bottom-only" type="email" v-model="userProfileEditing.email" />
-                        <p class="h8">Email Address</p>
+                        <b-input @change="ValidateEmailAddress" required class="no-border border-bottom-only" type="email" v-model="userProfileEditing.email" />
+                        <p class="h8" v-if="isUniqueEmail">Email Address</p>
+                        <p class="h8 red" v-else>*Email Address is not available</p>
                     </b-col>
                 </b-row>
                 <b-row no-gutters align-h="between">
@@ -58,12 +59,12 @@
 
 export default {
   name: 'editProfileModal',
-  props: ['userProfileEditing', 'errorObj'],
+  props: ['userProfileEditing', 'errorObj', 'isUniqueEmail'],
 
   data () {
     return {
       newPassword: '',
-      ROOT_API: process.env.VUE_APP_ROOT_API
+      ROOT_API: process.env.VUE_APP_ROOT_API,
     }
   },
   methods: {
@@ -72,6 +73,10 @@ export default {
       this.$store.dispatch('uploadProfileImageToAwsS3', files).then((data) => {
         this.userProfileEditing.imgSrc = data.Location
       })
+    },
+
+    ValidateEmailAddress (email) {
+        this.$emit('IsEmailUniqueVal', email)
     }
   },
 
@@ -91,6 +96,7 @@ export default {
 
     .border-bottom-only {
         border-bottom: 1px solid gray !important;
+        border-radius: 0;
         width: 95%;
     }
 

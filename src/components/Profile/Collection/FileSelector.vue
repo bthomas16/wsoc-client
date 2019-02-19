@@ -43,44 +43,54 @@ export default {
   },
 
   methods: {
-        uploadImagesToBase64 (e) {
+        async uploadImagesToBase64 (e) {
+            const vm = this
+            const poop = []
+
             let files = e.target.files
-            this.TransformFilesIntoBase64Array(files)
+
+            for (let j = 0; j < files.length; j++) {
+                await vm.getBase64Url(files[j]).then(b64Url => {
+
+                    vm.imgBase64Array.push(b64Url)
+
+                    if (vm.imgBase64Array.length == files.length) {
+                        vm.$emit('setImagesOnAddWatch', vm.imgBase64Array)
+                        // vm.$refs.fileUpload.value = ''
+                        vm.imgBase64Array = []    
+                    }
+                })
+            }
         },
 
-        TransformFilesIntoBase64Array (files) {
-            
-            const vm = this
 
-            for (let index = 0; index < files.length; index++) {
-                
-                let fSize = files[index].size / 1024 / 1024              
-                if (fSize < 3) { // 3MB max file size
-
-                    let FR = new FileReader();
-
-                    FR.onload = function(e) {
-                        let result = e.target.result
-                        let imgBase64Url = e.target.result
-                        vm.imgBase64Array.push(
-                            { imgBase64Url,
-                              order: index,
-                              fileName: files[index].name
-                            })
-                        if (vm.imgBase64Array.length == files.length) {
-                            vm.$emit('setImagesOnAddWatch', vm.imgBase64Array)
-                        }
-                    }
-                    
-                    FR.readAsDataURL( files[index] )
-
-                }
-                else {
-                    console.log('File size is too large', fSize, '/ 3')
-                }
-            }
+        getBase64Url (file) {
+            return new Promise((resolve, reject) => {
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (e) => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
         }
-    }
+    },
+
+
+
+    // FR.onload = function(e) {
+                    //     let result = e.target.result
+                    //     let imgBase64Url = e.target.result
+                    //     vm.imgBase64Array.push(
+                    //         { imgBase64Url,
+                    //           order: index,
+                    //           fileName: files[index].name
+                    //         })
+                    //     if (vm.imgBase64Array.length == files.length) {
+                    //         vm.$emit('setImagesOnAddWatch', vm.imgBase64Array)
+                    //     }
+                    // }
+            
+
+    
 
 }
 </script>

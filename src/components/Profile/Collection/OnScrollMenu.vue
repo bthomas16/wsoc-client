@@ -1,6 +1,6 @@
 <template>
-    <transition name="fadeIn">
-        <b-row v-if="isScrolling" class="bgOpaque py-2 " no-gutters :class="needsMarginBottom ? 'nbm fixed' : ''">
+    <transition name="fadeIn" v-if="IsCollectionLength">
+        <b-row v-if="isScrolling" class="bgOpaque py-2" no-gutters :class="needsMarginBottom ? 'nbm fixed' : ''" >
             <b-col cols="6" md="3" offset-md="3" class="center">
                 <b-btn class="btn" varaint="secondary" @click="scrollToTop">Back to Top</b-btn> 
             </b-col>
@@ -51,6 +51,10 @@ export default {
             set (value) {
                 this.$store.dispatch('toggleIsDragToOrganize', value)
             }
+        },
+
+        IsCollectionLength () {
+            return this.$store.state.Collection.length > 0 
         }
     },
 
