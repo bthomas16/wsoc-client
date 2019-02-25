@@ -1,12 +1,12 @@
 <template>
-    <transition name="fadeIn" v-if="IsCollectionLength">
+    <transition name="fadeIn" v-if="IsCollectionLength" v-show="isOnProfilePage">
         <b-row v-if="isScrolling" class="bgOpaque py-2" no-gutters :class="needsMarginBottom ? 'nbm fixed' : ''" >
-            <b-col cols="6" md="3" offset-md="3" class="center">
-                <b-btn class="btn" varaint="secondary" @click="scrollToTop">Back to Top</b-btn> 
+            <b-col :cols="IsManagingCollection ? 8 : 6" :md="IsManagingCollection ? 6 : 3" class="center mx-auto" :class="IsManagingCollection ? 'mx-auto' : ''">
+                <b-btn class="btn w-90" varaint="secondary" @click="scrollToTop">Back to Top</b-btn> 
             </b-col>
-                <b-col cols="6" md="3"  class="center">
-                    <b-btn v-show="isDragToOrganize" class="btn bg-navy white" varaint="secondary" @click="isDragToOrganize = !isDragToOrganize">Disable Drag</b-btn> 
-                    <b-btn v-show="!isDragToOrganize" class="btn" varaint="secondary" @click="isDragToOrganize = !isDragToOrganize">Enable Drag</b-btn> 
+                <b-col cols="6" md="3"  class="center mx-auto" :class="IsManagingCollection ? 'd-none' : ''">
+                    <b-btn v-show="isDragToOrganize" class="btn w-90 bg-navy white" varaint="secondary" @click="isDragToOrganize = !isDragToOrganize">Disable Drag</b-btn> 
+                    <b-btn v-show="!isDragToOrganize" class="btn w-90" varaint="secondary" @click="isDragToOrganize = !isDragToOrganize">Enable Drag</b-btn> 
             </b-col>
         </b-row>
     </transition>
@@ -18,7 +18,8 @@ export default {
     data () {
         return {
             isScrolling: false,
-            needsMarginBottom: false
+            needsMarginBottom: false,
+            isOnProfilePage: false
         }
     },
     methods: {
@@ -31,10 +32,8 @@ export default {
             let documentHeight = document.body.clientHeight; // total document height (px)
             this.isScrolling = window.scrollY > 175
 
-            console.log(documentHeight)
 
             if (scrollTop + windowHeight > documentHeight + 735) {
-                console.log((scrollTop + windowHeight), (documentHeight + 775))
                 this.needsMarginBottom = true
             }
             else {
@@ -55,11 +54,19 @@ export default {
 
         IsCollectionLength () {
             return this.$store.state.Collection.length > 0 
+        },
+
+        IsManagingCollection () {
+            return this.$store.state.isManagingCollection
         }
     },
 
     created () {
         window.addEventListener('scroll', this.handleScroll)
+         if (window.location.pathname == '/profile') {
+            this.isOnProfilePage = true
+        }
+        this.isOnProfilePage = false
     },
 
     destroyed () {
@@ -75,6 +82,10 @@ export default {
 
     .nbm {
         margin-bottom: 5rem;
+    }
+
+    .w-90 {
+        width: 75%;
     }
 </style>
 

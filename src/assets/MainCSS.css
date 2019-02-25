@@ -7,6 +7,10 @@ html, body {
     scroll-behavior: smooth;  
 }
 
+.modalIndex {
+    z-index: 9999999999999;
+}
+
 /* ANIMATIONS */
 
 .faderade-enter-active {

@@ -19,7 +19,7 @@
 
             <!-- // Edit Modal -->
             <b-row no-gutters>
-                <b-modal id="editProfileModal" ref="editProfileModal">
+                <b-modal id="editProfileModal" ref="editProfileModal" class="modalIndex">
                     <div slot="modal-title">
                         Editing: {{userProfileEditing.firstName}}
                     </div>
@@ -91,7 +91,6 @@ export default {
     // Only used on edit profile now
     IsEmailUniqueVal (email) {
         this.$store.dispatch('validateEmailAddressUnique', email).then((res) => {
-            console.log('res bitch ass', res)
             this.isUniqueEmail = res;
         })
     },
@@ -107,7 +106,7 @@ export default {
           this.errorObj.message = data.message
         }
       }).catch(err => {
-        console.log(err)
+        // console.log(err)
       })
 
        // Analytics

@@ -1,5 +1,5 @@
 <template>
-    <b-container fluid class="relative">
+    <b-container fluid class="relative" @click="closeAutCompleteBoxes">
 
             
             <!-- Add Img Row -->
@@ -80,13 +80,21 @@
                                             <strong>Brand:</strong>
                                         </b-col>
                                         <b-col cols="8" class="formText">
-                                            <b-form-input v-model="addWatch.brand"
+                                            <input v-model="addWatch.brand"
                                                 type="text"
+                                                class="w-100 form-control"
                                                 placeholder="Watch Brand"
                                                 :class="addWatch.brand ? 'yesValue' : 'formBorder'"
                                                 description="Provide a brand for the watch"
-                                                label="Watch Brand">
-                                            </b-form-input>
+                                                label="Watch Brand"
+                                                @input="autoCompleteSearchForBrands(addWatch.brand, 'brand', 'Brands')"
+                                                
+                                                @keydown.down="onArrowDown"
+                                                @keydown.up="onArrowUp"
+                                                @keydown.enter="onEnter"
+                                                @keydown.tab="onEnter"
+                                            />
+                                            <acc v-show="isShowBrandAutoCompleteBox && addWatch.brand" fieldToSet="brand" :arrowCounter="arrowCounter" :results="autoCompleteResults" v-on:selectAutoCompleteResult="selectAutoCompleteResult"></acc>
                                         </b-col>
                                     </b-row>
                                 </li>
@@ -159,7 +167,18 @@
                                             <strong>Movement Caliber:</strong>
                                         </b-col>
                                         <b-col cols="12" sm="8" class="formText">
-                                            <b-form-input placeholder="ETA 2824-2" :class="addWatch.movement ? 'yesValue' : 'formBorder'" v-model="addWatch.movement" type="text"></b-form-input>
+                                            <input placeholder="ETA 2824-2" :class="addWatch.movement ? 'yesValue' : 'formBorder'" 
+                                            type="text"
+                                            class="w-100"
+                                            v-model="addWatch.movement" 
+                                            @input="autoCompleteSearchForMovements(addWatch.movement, 'movement', 'Movements')"
+                                                
+                                            @keydown.down="onArrowDown"
+                                            @keydown.up="onArrowUp"
+                                            @keydown.enter="onEnter"
+                                            @keydown.tab="onEnter"
+                                            />
+                                            <acc v-show="isShowMovementAutoCompleteBox && addWatch.movement" fieldToSet="movement" :arrowCounter="arrowCounter" :results="autoCompleteResults" v-on:selectAutoCompleteResult="selectAutoCompleteResult"></acc>
                                             <!-- <b-form-select :class="addWatch.movement ? 'yesValue' : 'formBorder'" :options="movementOptions" v-model="addWatch.movement" type="text"/> -->
                                         </b-col>
                                     </b-row>
@@ -492,12 +511,15 @@
 import axios from 'axios'
 import draggable from 'vuedraggable'
 import FileSelector from '../FileSelector.vue'
+import AutoCompleteComponent from '../../../AutoComplete.vue'
+import AutoComplete from '../../../../AutoCompleteCollections/AutoComplete.js'
 import LoadImageUtility from '../../../../Utilities/LoadImageUtility'
 
 
 export default {
   components: {
     draggable,
+    acc: AutoCompleteComponent,
     fileSelector: FileSelector
   },
   name: 'addWatchModal',
@@ -509,7 +531,14 @@ export default {
   },
 
   data () {
+
     return {
+      fieldToSet: '',
+      arrowCounter: -1,
+      autoCompleteResults: [],
+      keyboardEnterSubmitAddWatchFieldToSet: '',
+      isShowBrandAutoCompleteBox: false,
+      isShowMovementAutoCompleteBox: false,
       isS3UploadEvent: false,        
       file: null,
       addWatchTitle: 'Add your first watch!',
@@ -684,6 +713,82 @@ export default {
   },
 
   methods: {
+
+    //   AUTOCOMPLETE METHODS
+
+    closeAutCompleteBoxes () {
+        this.isShowBrandAutoCompleteBox = false
+        this.isShowMovementAutoCompleteBox = false
+        
+        this.autoCompleteResults = []
+    },
+
+    onArrowDown() {
+        if (this.arrowCounter < this.autoCompleteResults.length) {
+          this.arrowCounter = this.arrowCounter + 1;
+        }
+      },
+
+      onArrowUp() {
+        if (this.arrowCounter > 0) {
+          this.arrowCounter = this.arrowCounter - 1;
+        }
+      },
+
+      onEnter() {
+        this.selectAutoCompleteResult(this.keyboardEnterSubmitAddWatchFieldToSet, this.autoCompleteResults[this.arrowCounter])
+        this.arrowCounter = -1;
+      },
+
+      autoCompleteSearchForBrands (searchTerm, addWatchField, Category) {
+          // searchTerm is set with v-model
+           this.isShowBrandAutoCompleteBox = true  
+           this.keyboardEnterSubmitAddWatchFieldToSet = "brand"
+           //get all amatching
+           let allMatchingResults = AutoComplete.AutoComplete(Category, searchTerm)
+           let StartingLetterMatchesSearchTerm = allMatchingResults.filter(result => {
+               return result.charAt(0).toLowerCase() == searchTerm.charAt(0).toLowerCase()
+           })
+
+            // concat, remove matching
+            let catArr = StartingLetterMatchesSearchTerm.concat(allMatchingResults)
+            this.autoCompleteResults = catArr.filter((result, index) => {
+                return catArr.indexOf(result) == index
+            })
+      },
+
+      autoCompleteSearchForMovements (searchTerm, addWatchField, Category) {
+          // searchTerm is set with v-model
+        
+           this.isShowMovementAutoCompleteBox = true
+           this.keyboardEnterSubmitAddWatchFieldToSet = "movement"
+           
+           //get all amatching
+           let allMatchingResults = AutoComplete.AutoComplete(Category, searchTerm)
+           let StartingLetterMatchesSearchTerm = allMatchingResults.filter(result => {
+               return result.charAt(0).toLowerCase() == searchTerm.charAt(0).toLowerCase()
+           })
+
+            // concat, remove matching
+            let catArr = StartingLetterMatchesSearchTerm.concat(allMatchingResults)
+            this.autoCompleteResults = catArr.filter((result, index) => {
+                return catArr.indexOf(result) == index
+            })
+      },
+
+      selectAutoCompleteResult (fieldToSet, result) {
+          this.addWatch[fieldToSet] = result
+          setTimeout(() => {
+              this.isShowBrandAutoCompleteBox = false  
+              this.isShowMovementAutoCompleteBox = false
+              this.autoCompleteResults
+          })
+      },
+
+
+    //   END OF AUTOCOMPLETE
+
+
     ContainsS3Information(str) {
         let val = LoadImageUtility.ContainsS3Information(str)
         this.$store.dispatch('CanImageCanBeEditedByUrl', val)
@@ -885,7 +990,7 @@ export default {
         color: black;
         font-weight: bolder;
         border:none;
-        border-bottom: lightgreen .25px solid;
+        border-bottom: lightgreen 1.5px solid;
     }
 
     .noValue {

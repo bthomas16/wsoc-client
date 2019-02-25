@@ -36,11 +36,11 @@
                                             </b-img>
                                         </b-col>
                                         <b-col cols="12" md="7" class="d-none d-md-block m-0 bg-gray relative">
-                                            <ul class="pl-1 pl-md-3 p-0 mb-1 absolute b-0 black bold left-align specs">
+                                            <ul class="pl-1 pl-md-3 p-0 mb-1 absolute b-0 black left-align specs">
                                                 <li>{{truncatedWatchName(titleCase(watch.brand), currentTruncatedLength)}}</li>
                                                 <li>{{truncatedWatchName(titleCase(watch.name), currentTruncatedLength)}}</li>
                                                 <li v-if="watch.sizeWidth && currentCardSize != 'sm'">{{watch.sizeWidth}}</li>
-                                                <li v-if="currentCardSize != 'sm'">{{watch.movement}}</li>
+                                                <li v-if="currentCardSize != 'sm'" class="h5 my-1">{{watch.movement}}</li>
                                             </ul>
                                         </b-col>
                                     </b-row>
@@ -60,8 +60,6 @@
 <script>
 import axios from 'axios'
 import draggable from 'vuedraggable'
-import RemoveWatchModal from './Modals/RemoveWatchModal.vue'
-import SeeRemovedWatchModal from './Modals/SeeRemovedWatchModal.vue'
 import WatchFlags from './WatchFlags.vue'
 import ShareFlag from './ShareFlag.vue'
 
@@ -69,8 +67,6 @@ export default {
   name: 'draggableWatchCollection',
   components: {
     draggable,
-    seeRemovedWatchModal: SeeRemovedWatchModal,
-    removeWatchModal: RemoveWatchModal,
     watchFlags: WatchFlags,
     shareFlag: ShareFlag
   },

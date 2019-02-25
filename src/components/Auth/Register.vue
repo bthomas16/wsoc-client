@@ -112,6 +112,25 @@ export default {
       this.$store.dispatch('register', this.form)
         .then((res) => {
           if (res.isSuccess) {
+            // PWA SHIT
+            if (this.$store.state.DelayPrompt) {
+                this.$store.state.DelayPrompt.prompt()
+    
+                this.$store.state.DelayPrompt.userChoice.then(selection => {
+                if (selection.outcome === 'accepted') {
+                    this.$ga.event({
+                        eventCategory: 'PWA Banner Prompt',
+                        eventAction: 'Accept Banner',
+                    })
+                } else {
+                    this.$ga.event({
+                        eventCategory: 'PWA Banner Prompt',
+                        eventAction: 'Decline Banner',
+                    })
+                }
+              })
+            }
+
             this.$emit('toggleAuthLoading', false)
             this.$store.dispatch('sendWelcomeEmail', this.form)
             this.$router.push({ path: '/profile' })

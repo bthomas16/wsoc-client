@@ -37,11 +37,11 @@
                                         </b-img>
                                     </b-col>
                                     <b-col cols="12" md="7" class="d-none d-md-block m-0 bg-gray relative">
-                                        <ul class="pl-1 pl-md-3 p-0 mb-1 absolute b-0 black bold left-align specs">
+                                        <ul class="pl-1 pl-md-3 p-0 mb-1 absolute b-0 black left-align specs">
                                             <li>{{truncatedWatchName(titleCase(watch.brand), currentTruncatedLength)}}</li>
                                             <li>{{truncatedWatchName(titleCase(watch.name), currentTruncatedLength)}}</li>
                                             <li v-if="watch.sizeWidth && currentCardSize != 'sm'">{{watch.sizeWidth}}</li>
-                                            <li v-if="currentCardSize != 'sm'">{{watch.movement}}</li>
+                                            <li v-if="currentCardSize != 'sm'" class="h5 my-1">{{watch.movement}}</li>
                                         </ul>
                                     </b-col>
                                 </b-row>
@@ -56,6 +56,7 @@
         <b-modal
             id="remove-watch-modal"
             ref="removeWatchModal"
+            class="modalIndex"
             size="lg">
             <b-row slot="modal-title" no-gutters v-if="watchToRemove" class="red">Removing &nbsp; <strong class="black">{{ titleCase(watchToRemove.name)}}</strong></b-row>
             <div slot="modal-header-close" class="w-100 mt-1" @click="resetReasonsWatchMoved">X</div>
@@ -68,7 +69,9 @@
         <b-modal
             id="removed-watch-modal"
             ref="removedWatchModal"
-            size="lg" lazy>
+            size="lg" 
+            class="modalIndex"
+            lazy>
             <b-row slot="modal-title" no-gutters v-if="removedWatchToSee" class="red">Removed <strong class="black"> &nbsp;{{ titleCase(removedWatchToSee.name)}}</strong></b-row>
             <div slot="modal-header-close" class="w-100 mt-1">X</div>
              <see-removed-watch-modal :removedWatchToSee="removedWatchToSee"></see-removed-watch-modal>

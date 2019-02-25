@@ -35,7 +35,15 @@ export default {
   methods: {
      closeToBottom () {
         return true
+    },
+
+    data () {
+      return {
+        isProfilePage: false
+      }
     }
+
+    
   },
 
   computed: {
@@ -44,7 +52,7 @@ export default {
     },
 
     isProfilePage () {
-      if (window.location.pathname == '/profile') {
+      if (this.$route.fullPath == '/profile') {
         return true
       }
       return false
@@ -56,7 +64,19 @@ export default {
 
     isModalPopped () {
       return this.$store.state.isModalPooped
-    },
+    }
+  },
+
+  created () {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault
+      let delayPrompt = e
+      this.$store.state.DelayPrompt = e
+    })
+  },
+
+  destroyed () {
+      window.removeEventListener('beforeinstallprompt');
   }
 }
 </script>
@@ -64,7 +84,7 @@ export default {
 <style scoped>
 
 .fullHeight {
-  min-height: 82.5vh;
+  min-height: 91vh;
 }
 
 #app {

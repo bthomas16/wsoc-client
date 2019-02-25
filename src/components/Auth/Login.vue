@@ -64,6 +64,25 @@ export default {
       this.$emit('toggleAuthLoading', true)
       this.$store.dispatch('login', this.form).then((res) => {
         if (res.isSuccess) {
+          // PWA SHIT
+          if (this.$store.state.DelayPrompt) {
+            this.$store.state.DelayPrompt.prompt()
+  
+            this.$store.state.DelayPrompt.userChoice.then(selection => {
+              if (selection.outcome === 'accepted') {
+                  this.$ga.event({
+                      eventCategory: 'PWA Banner Prompt',
+                      eventAction: 'Accept Banner',
+                  })
+              } else {
+                  this.$ga.event({
+                      eventCategory: 'PWA Banner Prompt',
+                      eventAction: 'Decline Banner',
+                  })
+              }
+            })
+          }
+
           this.$router.push({ path: '/profile' })
           this.showAlert = false
         } else {         

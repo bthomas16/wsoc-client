@@ -61,11 +61,11 @@
                         </li>
                         <li v-if="selectedWatch.sizeWidth && selectedWatch.sizeHeight">
                             <strong>Size:</strong>
-                            <span> {{selectedWatch.sizeWidth}} x {{selectedWatch.sizeHeight}}</span>
+                            <span> {{selectedWatch.sizeWidth}}mm x {{selectedWatch.sizeHeight}}mm</span>
                         </li>
                         <li v-if="selectedWatch.sizeLugToLug">
                             <strong>Lug Size:</strong>
-                            <span> {{selectedWatch.sizeLugToLug}}</span>
+                            <span> {{selectedWatch.sizeLugToLug}}mm</span>
                         </li>
                         <li v-if="selectedWatch.crystal">
                             <strong>Crystal:</strong>

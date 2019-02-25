@@ -6,9 +6,10 @@
     </b-container>
     <b-container fluid v-else>
          <b-row v-if="Collection.length == 0 && !isManagingCollection" align-h="center" no-gutters class="mb-6 mb-mlg-0">
-            <b-col cols="10" md="8" class="border my-5 center p-2 p-md-5" id="begin-collection">
-                <p class="h2 center">Welcome to your <span class="nowrap">Watch Collection!</span></p>
-                <p class="h4 m-h2 mt-4 mt-md-5">Get started by adding a watch!</p>
+            <b-col cols="10" md="8" class="border my-5 center p-2 p-md-4" id="begin-collection">
+                <p class="h1 m-h1 border-bottom mx-auto" cols="12" md="6">State Of Collection</p>
+                <p class="h3 mt-4 mt-md-5 center">Welcome to your <span class="nowrap">Watch SOC!</span></p>
+                <p class="h4 m-h2 mt-3">Get started by adding a watch!</p>
                 <b-row>
                     <b-col cols="6" class="mx-auto my-3">
                         <b-button variant="success" class="my-2" size="lg" @click="addWatchModal" block>Add Watch</b-button>
@@ -61,7 +62,7 @@
         <b-modal
             ref="seeMoreModal"
             id="see-more-modal"
-            class="z-4">
+            class="modalIndex">
             <div slot="modal-title" class="breakWord" v-if="selectedWatch.name">{{ titleCase(selectedWatch.name) }}</div>
             <div slot="modal-header-close" class="w-100 mt-1" @click="resetWatchFormAndModals">
                 X
@@ -85,10 +86,9 @@
 
         <!-- ADD WATCH MODAL -->
         <b-modal
-            id="add-watch-modal"
             ref="addWatchModal"
-            size="lg"
-            class="z-4">
+            id="add-watch-modal"
+            class="modalIndex">
             <b-row no-gutters slot="modal-title" v-if="isAddingWatch">Adding Watch</b-row>
             <b-row no-gutters slot="modal-title" v-if="isEditingExistingWatch" class="breakWord">Editing {{titleCase(addWatch.name)}}</b-row>
             <b-row no-gutters slot="modal-header-close" class="w-100 mt-1" @click="resetWatchFormAndModals">
@@ -194,7 +194,7 @@ export default {
       let fileArr = []
       files.forEach(file => {
           if (!LoadImageUtility.ContainsS3Information(file.src.substring(0, 30))) {
-              console.log('new image, so going to save base 64 to s3', file)
+            //   console.log('new image, so going to save base 64 to s3', file)
               fileArr.push(
               { src: file.src,
                 // fileName: file.fileName
@@ -202,7 +202,7 @@ export default {
           } 
       })
       if (fileArr[0]) {
-        console.log('There are new images to upload, so I will upload this array of base 64 images to s3', fileArr, this.addWatch.src.images.length)
+        // console.log('There are new images to upload, so I will upload this array of base 64 images to s3', fileArr, this.addWatch.src.images.length)
         this.$store.dispatch('uploadImagesToAwsS3', fileArr)
             .then(images => {  
             let tempArr = this.addWatch.src.images.concat(images)
@@ -259,6 +259,7 @@ export default {
     selectWatch (watch) {
       this.selectedWatch = watch
       this.$refs.seeMoreModal.show()
+    //   this.$store.dispatch('ToggleIsModalPopped', true)
 
     // Analytics
       this.$ga.event({
@@ -275,6 +276,7 @@ export default {
       this.addWatch.name = this.titleCase(watch.name)
       this.addWatch.brand = this.titleCase(watch.brand)
       this.$refs.addWatchModal.show()
+    //   this.$store.dispatch('ToggleIsModalPopped', true)
 
       // Analytics
       this.$ga.event({
@@ -315,6 +317,7 @@ export default {
       this.isAddingWatch = true
       this.isEditingExistingWatch = false
       this.$refs.addWatchModal.show()
+    //   this.$store.dispatch('ToggleIsModalPopped', true)
 
       // Analytics
       this.$ga.event({
@@ -329,6 +332,7 @@ export default {
       this.isEditingExistingWatch = false
       this.$refs.addWatchModal.hide()
       this.$refs.seeMoreModal.hide()
+    //   this.$store.dispatch('ToggleIsModalPopped', false) // Modals closed
       this.addWatch = this.addWatch
       this.addWatchCount = 1
     },
@@ -339,6 +343,7 @@ export default {
       this.selectedWatch = this.addWatch
 
       this.$refs.seeMoreModal.show()
+    //   this.$store.dispatch('ToggleIsModalPopped', true)
 
       // Analytics
       this.$ga.event({
@@ -353,9 +358,28 @@ export default {
       this.isAddingWatch = false
       this.isEditingExistingWatch = false
       this.$refs.seeMoreModal.hide()
+    //   this.$store.dispatch('ToggleIsModalPopped', false)
       if (!this.addWatch.id) {
         // watch doesnt exist yet, create new watch
         this.$store.dispatch('submitNewWatch', this.addWatch)
+
+        if (this.$store.state.DelayPrompt) {
+            this.$store.state.DelayPrompt.prompt()
+    
+            this.$store.state.DelayPrompt.userChoice.then(selection => {
+                if (selection.outcome === 'accepted') {
+                    this.$ga.event({
+                        eventCategory: 'PWA Banner Prompt',
+                        eventAction: 'Accept Banner',
+                    })
+                } else {
+                    this.$ga.event({
+                        eventCategory: 'PWA Banner Prompt',
+                        eventAction: 'Decline Banner',
+                    })
+                }
+            })
+        }
 
         this.$ga.event({
             eventCategory: 'Manage_Collection',
@@ -454,6 +478,10 @@ export default {
 
   computed:
     {
+    //   IsModalPopped () {
+    //       return this.$store.state.isModalPopped
+    //   },
+
       isLoading () {
         return this.$store.state.isLoading
       },

@@ -23,8 +23,5 @@ export default {
 </script>
 
 <style scoped>
-.container-fluid {
-    min-height: 100vh;
-}
 
 </style>

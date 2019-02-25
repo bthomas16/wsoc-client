@@ -6,7 +6,7 @@
             </b-col>
         </b-row>
         <b-row no-gutters align-h="center">
-            <b-col cols="8" class="center mb-3 imgSelect">
+            <b-col cols="8" class="center mb-3 imgSelect" v-if="!isUploadingImage">
                 <b-img id="profileImgEditModal" class="box-shadow-light mb-2 center ml-0" fluid  thumbnail :src="userProfileEditing.imgSrc || '/img/icons/blankprofpic.png'"></b-img>
                 <label class="file-select w-100 mw-100">
                     <!-- We can't use a normal button element here, as it would become the target of the label. -->
@@ -17,6 +17,9 @@
                     <!-- Now, the file input that we hide. -->
                     <input class="my-2 left-align w-100 center mx-auto d-none" accept="image/*" capture value="Upload Photo" type="file" @change="uploadProfileImageToAwsS3()"/>
                 </label>
+            </b-col>
+            <b-col cols="8" v-else>
+                <loader></loader>
             </b-col>
             <b-col cols="12">
                 <b-form @submit.prevent="submitEditProfile">
@@ -56,22 +59,31 @@
 </template>
 
 <script>
+import Loader from '../../../Loader.vue'
 
 export default {
   name: 'editProfileModal',
+  components: {
+      loader: Loader
+  },
   props: ['userProfileEditing', 'errorObj', 'isUniqueEmail'],
 
   data () {
     return {
       newPassword: '',
       ROOT_API: process.env.VUE_APP_ROOT_API,
+      isUploadingImage: false
     }
   },
   methods: {
     uploadProfileImageToAwsS3 (e) {
+        this.isUploadingImage = true
       let files = event.target.files[0]
       this.$store.dispatch('uploadProfileImageToAwsS3', files).then((data) => {
         this.userProfileEditing.imgSrc = data.Location
+        this.isUploadingImage = false
+      }).catch(err => {
+        this.isUploadingImage = false
       })
     },
 

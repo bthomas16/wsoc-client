@@ -93,6 +93,7 @@ const TOGGLE_IS_MODAL_POPPED = 'TOGGLE_IS_MODAL_POPPED'
 
 const state =
 {
+  DelayPrompt: null,
   isLoading: false,
   isAuthorized: false,
   User: {},
@@ -108,7 +109,7 @@ const state =
   isViewingPreviousWatches: false,
   isShowFlags: true,
   isShowEditFlags: true,
-  isDragToOrganize: true,
+  isDragToOrganize: false,
   isUserLoaded: false,
   isCollectionLoaded: false,
   selectedWatch: {},
@@ -791,7 +792,7 @@ const actions =
 
   uploadProfileImageToAwsS3 (context, image) {
     let imageFormData = new FormData()
-    imageFormData.append('image[' + 1 + ']', image)
+    imageFormData.append('image[' + 0 + ']', image)
     context.commit(LOADING)
     return axios({
       method: 'PUT',
@@ -809,13 +810,6 @@ const actions =
         context.commit(NOT_LOADING)
         context.commit(INVALIDATE_JWT)
         context.commit(SERVER_VALIDATION_ERROR)
-
-        // Analytics
-        // this.$ga.event({
-        //   eventCategory: 'ERROR',
-        //   eventAction: 'PUT_uploadProfileImageToAwsS3()_Server_Validation_Error',
-        //   eventLabel: '[store] Error on PUT uploadProfileImageToAwsS3()'
-        // })
         return err
       })
   },
