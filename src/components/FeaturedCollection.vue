@@ -28,6 +28,9 @@
         </b-row>
 
         <b-modal :title="selectedWatch.name" ref="seeFeaturedWatchModal">
+
+            <div class="no-bg-touch-modal"></div>
+            
             <app-see-more :selectedWatch="selectedWatch"></app-see-more>
             <div slot="modal-footer" class="w-100">
                 <b-btn v-if="selectedWatch.isFeaturedWatch" variant="info" target="_blank" :href="selectedWatch.siteLink">

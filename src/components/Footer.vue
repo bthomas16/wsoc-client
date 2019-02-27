@@ -1,6 +1,6 @@
 <template>
     <b-container fluid>
-        <b-row class="bg-darkgray p-2" no-gutters>
+        <b-row class="bg-dg p-2" no-gutters>
             <b-col cols="6">
                 <ul class="white">
                     <li @click="gaEvent('Discover')"><router-link to="/discover">Discover Watches</router-link></li>
@@ -10,7 +10,7 @@
             </b-col>
         </b-row>
         <b-row no-gutters>
-            <b-col cols="12" class="bg-darkgray p-0 white center">
+            <b-col cols="12" class="bg-dg p-0 white center">
                 <!-- <p class="h7 my-0">ⒸAll Rights Reserved</p> -->
                 <p class="h6 my-0 mb-1">Watch SOC @{{DateYear}}  </p>
             </b-col>
@@ -41,6 +41,10 @@ export default {
 </script>
 
 <style scoped>
+    .bg-dg {
+        background-color: rgba(117,112,112,1);
+    }
+    
     a {
         color: white;
     }

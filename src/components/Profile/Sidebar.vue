@@ -1,5 +1,5 @@
 <template>
-    <b-container fluid class="h-100">
+    <b-container fluid>
         <b-row class="mt-0" no-gutters>
             <b-col class="advertisement border">
                 <a target="_blank" href="https://www.oceancrawler.com/" @click="gaEvent('Ocean Crawler', 1)">
@@ -36,6 +36,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

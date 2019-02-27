@@ -20,6 +20,9 @@
             <!-- // Edit Modal -->
             <b-row no-gutters>
                 <b-modal id="editProfileModal" ref="editProfileModal" class="modalIndex">
+
+                    <div class="no-bg-touch-modal"></div>
+                    
                     <div slot="modal-title">
                         Editing: {{userProfileEditing.firstName}}
                     </div>

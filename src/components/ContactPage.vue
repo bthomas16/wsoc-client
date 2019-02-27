@@ -31,13 +31,21 @@
                     </b-row>
                 </b-card>
             </b-col>
+            <b-col cols="12" class="footer">
+                <app-footer id="footer"></app-footer>
+            </b-col>
         </b-row>
     </b-container>
 </template>
 
 <script>
+import Footer from '../components/Footer.vue'
+
 export default {
   name: 'contactPage',
+  components: {
+    appFooter: Footer,
+  },
   data: function () {
     return {
       showResMessage: false,
@@ -69,6 +77,11 @@ export default {
 </script>
 
 <style scoped>
+    .footer {
+        bottom: 0;
+        position: absolute;
+    }
+    
     .background {
         background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/api/static-assets/tablebg.jpg");
         min-height: 100vh;

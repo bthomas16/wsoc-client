@@ -2,11 +2,11 @@
     <transition name="fadeIn" v-if="IsCollectionLength" v-show="isOnProfilePage">
         <b-row v-if="isScrolling" class="bgOpaque py-2" no-gutters :class="needsMarginBottom ? 'nbm fixed' : ''" >
             <b-col :cols="IsManagingCollection ? 8 : 6" :md="IsManagingCollection ? 6 : 3" class="center mx-auto" :class="IsManagingCollection ? 'mx-auto' : ''">
-                <b-btn class="btn w-90" varaint="secondary" @click="scrollToTop">Back to Top</b-btn> 
+                <b-btn class="btn w-90 p-0 p-md-1" varaint="secondary" @click="scrollToTop">Back to Top</b-btn> 
             </b-col>
                 <b-col cols="6" md="3"  class="center mx-auto" :class="IsManagingCollection ? 'd-none' : ''">
-                    <b-btn v-show="isDragToOrganize" class="btn w-90 bg-navy white" varaint="secondary" @click="isDragToOrganize = !isDragToOrganize">Disable Drag</b-btn> 
-                    <b-btn v-show="!isDragToOrganize" class="btn w-90" varaint="secondary" @click="isDragToOrganize = !isDragToOrganize">Enable Drag</b-btn> 
+                    <b-btn v-show="isDragToOrganize" class="btn w-90 p-0 bg-navy white" varaint="secondary" @click="isDragToOrganize = !isDragToOrganize">Disable Drag</b-btn> 
+                    <b-btn v-show="!isDragToOrganize" class="btn w-90 p-0" varaint="secondary" @click="isDragToOrganize = !isDragToOrganize">Enable Drag</b-btn> 
             </b-col>
         </b-row>
     </transition>

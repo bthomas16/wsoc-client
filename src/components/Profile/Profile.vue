@@ -7,14 +7,14 @@
                 <b-btn class="btn mx-auto white" variant="secondary" @click="reload">Refresh Page</b-btn>
             </b-row>
             
-            <b-row no-gutters v-else>
-                <b-col lg="2" md="3" cols="12" class="profileInfoBorder bg-lightgray mx-auto">
-                <app-profile-info></app-profile-info>
-                <b-row class="d-none d-md-block p-xl-4" no-gutters>
-                    <b-col class="mx-auto" cols="12" >
-                        <app-sidebar></app-sidebar>
-                    </b-col>
-                </b-row>
+            <b-row no-gutters v-else class="minHeight">
+                <b-col lg="2" md="3" cols="12" class="profileInfoBorder mx-auto">
+                    <app-profile-info></app-profile-info>
+                    <b-row class="d-none d-md-block p-xl-4" no-gutters>
+                        <b-col class="mx-auto" cols="12" >
+                            <app-sidebar></app-sidebar>
+                        </b-col>
+                    </b-row>
                 </b-col>
                 <b-col lg="10" md="9" cols="12">
                     <app-collection></app-collection>
@@ -96,12 +96,12 @@ export default {
 </script>
 
 <style scoped>
+.minHeight {
+    min-height: 100vh;
+}
 .container {
     max-width: 100%;
     background: white;
-}
-.mt-50 {
-    margin-top: 20em;
 }
 
 .profileInfoBorder {

@@ -58,6 +58,9 @@
             ref="removeWatchModal"
             class="modalIndex"
             size="lg">
+
+            <div class="no-bg-touch-modal"></div>
+
             <b-row slot="modal-title" no-gutters v-if="watchToRemove" class="red">Removing &nbsp; <strong class="black">{{ titleCase(watchToRemove.name)}}</strong></b-row>
             <div slot="modal-header-close" class="w-100 mt-1" @click="resetReasonsWatchMoved">X</div>
             <remove-watch-modal :watchToRemove="watchToRemove" :reasonsWatchMoved="reasonsWatchMoved"></remove-watch-modal>
@@ -72,6 +75,9 @@
             size="lg" 
             class="modalIndex"
             lazy>
+
+            <div class="no-bg-touch-modal"></div>
+            
             <b-row slot="modal-title" no-gutters v-if="removedWatchToSee" class="red">Removed <strong class="black"> &nbsp;{{ titleCase(removedWatchToSee.name)}}</strong></b-row>
             <div slot="modal-header-close" class="w-100 mt-1">X</div>
              <see-removed-watch-modal :removedWatchToSee="removedWatchToSee"></see-removed-watch-modal>

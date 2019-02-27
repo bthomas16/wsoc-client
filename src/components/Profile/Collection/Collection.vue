@@ -5,7 +5,7 @@
         </b-row>
     </b-container>
     <b-container fluid v-else>
-         <b-row v-if="Collection.length == 0 && !isManagingCollection" align-h="center" no-gutters class="mb-6 mb-mlg-0">
+         <b-row v-if="Collection.length == 0 && !isManagingCollection" align-h="center" no-gutters class="mb-5 mb-sm-6 mb-mlg-0">
             <b-col cols="10" md="8" class="border my-5 center p-2 p-md-4" id="begin-collection">
                 <p class="h1 m-h1 border-bottom mx-auto" cols="12" md="6">State Of Collection</p>
                 <p class="h3 mt-4 mt-md-5 center">Welcome to your <span class="nowrap">Watch SOC!</span></p>
@@ -62,9 +62,12 @@
         <b-modal
             ref="seeMoreModal"
             id="see-more-modal"
-            class="modalIndex">
+            class="modalIndex z-4">
+
+            <div class="no-bg-touch-modal z-4"></div>
+
             <div slot="modal-title" class="breakWord" v-if="selectedWatch.name">{{ titleCase(selectedWatch.name) }}</div>
-            <div slot="modal-header-close" class="w-100 mt-1" @click="resetWatchFormAndModals">
+            <div slot="modal-header-close" class="w-100 mt-1 z-4" @click="resetWatchFormAndModals">
                 X
             </div>
             <see-more-modal
@@ -88,16 +91,23 @@
         <b-modal
             ref="addWatchModal"
             id="add-watch-modal"
-            class="modalIndex">
+            class="modalIndex z-4">
+
+            
+
             <b-row no-gutters slot="modal-title" v-if="isAddingWatch">Adding Watch</b-row>
             <b-row no-gutters slot="modal-title" v-if="isEditingExistingWatch" class="breakWord">Editing {{titleCase(addWatch.name)}}</b-row>
-            <b-row no-gutters slot="modal-header-close" class="w-100 mt-1" @click="resetWatchFormAndModals">
+            <b-row no-gutters slot="modal-header-close" class="w-100 mt-1 DEX" @click="resetWatchFormAndModals">
                 X
             </b-row>
+
+            <div class="no-bg-touch-modal"></div>
+
             <b-row no-gutters v-show="isS3UploadEvent" class="p-2">
                 <loader></loader>
             </b-row>
             <add-watch-modal
+                class="pointer"
                 v-show="!isS3UploadEvent"
                 :previewWatch="previewWatch"
                 :addWatch="addWatch"
@@ -133,6 +143,7 @@
                     </b-row>
                 </b-col>
             </b-row>
+
         </b-modal>
 
     </b-container>
@@ -536,10 +547,11 @@ export default {
 </script>
 
 <style scoped>
-.breakWord {
-    word-wrap: break-word;
-    width: 100%;
-}
+    .breakWord {
+        word-wrap: break-word;
+        width: 100%;
+    }
+
     .dropdown {
         font-size: .5em;
     }
@@ -547,13 +559,13 @@ export default {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
-    .modal-dialog {
+    /* .modal-dialog {
         max-width: 48.5%;
         display: flex;
         justify-content: center;
         margin-left: auto;
         margin-right: auto;
-    }
+    } */
 
     .manage-btn-border {
         border-right: 1px solid lightgray;
@@ -564,9 +576,9 @@ export default {
         font-size: .85em;
     }
 
-    #add-watch-modal .modal-dialog {
+    /* #add-watch-modal .modal-dialog {
         width: 80% !important;
-    }
+    } */
 
     .modal-body {
         padding: .5rem;
@@ -614,9 +626,9 @@ export default {
 }
 
 @media(max-width: 750px) {
-    .modal-dialog {
+    /* .modal-dialog {
         max-width: 5%;
-    }
+    } */
 
     #watch-controls {
         font-size: 1em;

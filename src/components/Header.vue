@@ -62,6 +62,9 @@ export default {
 </script>
 
 <style scoped>
+.container-fluid {
+  font-family: 'Heebo', sans-serif;
+}
 
 /* .bg-header {
   background-color: rgba(86, 163, 166, .85)
@@ -102,7 +105,7 @@ li a:hover, .navbar-brand:hover {
 }
 
 li.nav-item a {
-  font-family: 'Roboto';
+  font-family: 'Varela Round';
 }
 
 #ads .img-fluid {

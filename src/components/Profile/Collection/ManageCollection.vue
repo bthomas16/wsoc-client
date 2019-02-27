@@ -32,10 +32,10 @@
                                 </b-col>
                             </b-row>
                             <b-row align-v="start" align-h="start" no-gutters class="mt-2">
-                                <b-col cols="5" class="mx-auto pr-1">
+                                <b-col cols="6" class="mx-auto pr-1">
                                     <b-form-select class="filterText p-1" :options="sortCategories" v-model="sortCategory" @change="selectSortCategory"></b-form-select>
                                 </b-col>
-                                <b-col cols="7" class="mx-auto pl-1">
+                                <b-col cols="6" class="mx-auto pl-1">
                                     <b-form-select class="filterText p-1" :options="categoryOptions" v-model="categoryOption" @change="selectCategoryOption" :disabled="!sortCategory"></b-form-select>
                                 </b-col>
                             </b-row>
@@ -178,6 +178,24 @@ export default {
       this.resetCollectionFilter()
       this.$store.dispatch('toggleIsManagingCollection')
       this.$store.dispatch('toggleIsDragToOrganize', false)
+
+      if (this.$store.state.DelayPrompt) {
+            this.$store.state.DelayPrompt.prompt()
+  
+            this.$store.state.DelayPrompt.userChoice.then(selection => {
+              if (selection.outcome === 'accepted') {
+                  this.$ga.event({
+                      eventCategory: 'PWA Banner Prompt',
+                      eventAction: 'Accept Banner',
+                  })
+              } else {
+                  this.$ga.event({
+                      eventCategory: 'PWA Banner Prompt',
+                      eventAction: 'Decline Banner',
+                  })
+              }
+            })
+          }
 
        // Analytics
       this.$ga.event({

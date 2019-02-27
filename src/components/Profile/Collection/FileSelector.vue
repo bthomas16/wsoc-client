@@ -1,7 +1,7 @@
 <template>
     <b-container>
         <b-row>
-            <b-col cols="4" md="2" class="left bg-white p-0 mt-1 mt-sm-2 mt-md-4 mt-lg-0 border box-shadow imgTile" v-if="isPreviewBox">
+            <b-col cols="3" md="2" class="left bg-white p-0 mt-1 mt-sm-2 mt-md-4 mt-lg-0 border box-shadow imgTile" v-if="isPreviewBox">
                 <label class="file-select">
                     <!-- We can't use a normal button element here, as it would become the target of the label. -->
                     <div class="select-button pointer bg-white">

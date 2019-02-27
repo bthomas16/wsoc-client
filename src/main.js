@@ -11,7 +11,12 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueAnalytics from 'vue-analytics'
 import VueCroppie from 'vue-croppie'
 
-const isProd = process.env.NODE_ENV === 'production'
+const isProductionEnvironment = process.env.NODE_ENV === 'production'
+const nodeEnv = process.env.NODE_ENV
+const isDomainOriginProduction = window.location.origin.includes('watchsoc')
+console.log('origin be', isDomainOriginProduction, window.location.origin)
+
+
 
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
@@ -26,14 +31,25 @@ const router = new VueRouter({
   routes
 })
 
-Vue.use(VueAnalytics, {
-  id: 'UA-131185774-2',
-  router,
-  debug: {
-    enabled: !isProd,
-    sendHitTask: isProd
-  }
-})
+if (isDomainOriginProduction) {
+  Vue.use(VueAnalytics, {
+    id: 'UA-131185774-2',
+    router,
+    debug: {
+      enabled: !isProductionEnvironment,
+      sendHitTask: isProductionEnvironment
+    }
+  })
+} else if (!isDomainOriginProduction && nodeEnv != 'development') {
+  Vue.use(VueAnalytics, {
+    id: 'UA-131185774-1',
+    router,
+    debug: {
+      enabled: true,
+      sendHitTask: true
+    }
+  })
+}
 
 if (('serviceWorker' in navigator) && (process.env.NODE_ENV !== 'development')) {
   navigator.serviceWorker.register('/service-worker.js')

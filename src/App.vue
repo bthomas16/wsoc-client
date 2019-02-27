@@ -8,10 +8,6 @@
       <transition name="slide-fade">
           <router-view id="body" class="fullHeight" :key="$route.fullPath"></router-view>
       </transition>
-
-
-      <app-footer v-if="!isLoading" id="footer" :class="isProfilePage && (CollectionLength > 5) ? 'mt-5' : 'mt-0'"></app-footer>
-
       
   </b-container>
 </template>
@@ -19,7 +15,6 @@
 <script>
 
 import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
 import Loader from './components/Loader.vue'
 import OnScrollMenu from './components/Profile/Collection/OnScrollMenu.vue'
 
@@ -27,7 +22,6 @@ export default {
 
   components: {
     appHeader: Header,
-    appFooter: Footer,
     appLoader: Loader,
     onScrollMenu: OnScrollMenu
   },
@@ -82,7 +76,6 @@ export default {
 </script>
 
 <style scoped>
-
 .fullHeight {
   min-height: 91vh;
 }
@@ -100,21 +93,16 @@ export default {
 
 .scrollMenu {
   bottom:0;
-  margin-bottom: 5rem;
   position: fixed;
   z-index: 3;
   width: 100%;
   
 }
 
-.borderRed {
-  border: 4px solid red;
-}
 
-.wrapper {
-  min-height: 100vh;
-  height: auto;
-}
+
+
+
 .slide-fade-enter-active {
   transition: all .35s ease;
 }

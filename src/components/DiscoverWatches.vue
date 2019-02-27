@@ -32,17 +32,22 @@
                     </b-col>
                 </b-row>
             </b-col>
+            <b-col cols="12">
+                <app-footer id="footer"></app-footer>
+            </b-col>
         </b-row>
     </b-container>
 </template>
 
 <script>
 import FeaturedCollection from './FeaturedCollection.vue'
+import Footer from '../components/Footer.vue'
 
 export default {
 
   name: 'discoverWatches',
   components: {
+    appFooter: Footer,
     featuredCollection: FeaturedCollection
   },
 
