@@ -1,6 +1,6 @@
 
 <template>
-    <b-container fluid :class="env == 'development' ? 'devBackgroundFeatured' : 'backgroundFeatured'">
+    <b-container fluid class="backgroundFeatured">
         <b-row no-gutters>
             <p class="bg-light-blue p-1 p-lg-2 white h2 m-h1 nowrap w-100"><strong>Featured Collection</strong></p>
             <b-col cols="12" class="mt-lg-1">
@@ -68,9 +68,9 @@ export default {
           name: 'Champion Diver',
           movementType: 'Automatic',
           movement: 'OC729 (Modified Seiko 4R36b)',
-          sizeWidth: '44mm',
-          sizeHeight: '15mm',
-          sizeLugToLug: '22mm',
+          sizeWidth: '44',
+          sizeHeight: '15',
+          sizeLugToLug: '22',
           accuracy: '+/- 5',
           crystal: 'Sapphire',
           watchStyle: 'Diver',
@@ -87,9 +87,9 @@ export default {
           name: 'Aragon Virtuoso',
           movementType: 'Automatic',
           movement: 'Valjoux 7750 Chronograph',
-          sizeWidth: '48mm',
-          sizeHeight: '18mm',
-          sizeLugToLug: '24mm',
+          sizeWidth: '48',
+          sizeHeight: '18',
+          sizeLugToLug: '24',
           crystal: 'Sapphire',
           watchStyle: 'Chronograph',
           waterResistance: '1000m',
@@ -105,9 +105,9 @@ export default {
           name: 'C60 Trident Pro',
           movementType: 'Automatic',
           movement: 'Sellita SW200-1',
-          sizeWidth: '43mm',
-          sizeHeight: '13mm',
-          sizeLugToLug: '22mm',
+          sizeWidth: '43',
+          sizeHeight: '13',
+          sizeLugToLug: '22',
           crystal: 'Sapphire',
           watchStyle: 'Diver',
           waterResistance: '600m',
@@ -124,9 +124,9 @@ export default {
           name: 'Hammerhead',
           movementType: 'Automatic',
           movement: 'Seiko NH35',
-          sizeWidth: '44mm',
-          sizeHeight: '17mm',
-          sizeLugToLug: '22mm',
+          sizeWidth: '44',
+          sizeHeight: '17',
+          sizeLugToLug: '22',
           crystal: 'Sapphire',
           watchStyle: 'Diver',
           waterResistance: '1000m',
@@ -142,9 +142,9 @@ export default {
           name: 'Orienteering BP',
           movementType: 'Automatic',
           movement: 'ETA 2824-2',
-          sizeWidth: '44mm',
-          sizeHeight: '14mm',
-          sizeLugToLug: '22mm',
+          sizeWidth: '44',
+          sizeHeight: '14',
+          sizeLugToLug: '22',
           crystal: 'Sapphire',
           watchStyle: 'Diver',
           waterResistance: '100m',
@@ -160,9 +160,9 @@ export default {
           name: 'Orienteering El Alamein',
           movementType: 'Automatic',
           movement: 'ETA 2824-2',
-          sizeWidth: '44mm',
-          sizeHeight: '14mm',
-          sizeLugToLug: '22mm',
+          sizeWidth: '44',
+          sizeHeight: '14',
+          sizeLugToLug: '22',
           crystal: 'Sapphire',
           watchStyle: 'Diver',
           waterResistance: '100m',
@@ -198,13 +198,7 @@ export default {
     .backgroundFeatured {
         padding: 0 !important;
         margin: 0;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/api/static-assets/tablebg.jpg");
-    }
-
-    .devBackgroundFeatured {
-        padding: 0 !important;
-        margin: 0;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("http://localhost:8081/api/static-assets/tablebg.jpg");
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/img/tablebg.jpg");
     }
 
     .watchImg {

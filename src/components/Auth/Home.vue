@@ -1,6 +1,6 @@
 <template>
     <b-container fluid>
-        <loader v-if="isLoading"></loader>
+        <loader v-if="isLoading" class="mt-2 p-3"></loader>
 
 
         <b-row align-v="start" align-h="center" no-gutters v-show="!isLoading">

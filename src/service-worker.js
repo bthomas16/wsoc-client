@@ -3,7 +3,7 @@ workbox.precaching.suppressWarnings()
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
 
 workbox.routing.registerRoute(
-  new RegExp('/api/static-assets/'),
+  new RegExp('(gif|jpg|jpeg|tiff|png)'),
   workbox.strategies.cacheFirst({
     cacheName: 'watch-soc_images',
     plugins: [
@@ -29,9 +29,48 @@ workbox.routing.registerRoute(
 )
 
 workbox.routing.registerRoute(
-  new RegExp('/img/'),
+  new RegExp('/api/'),
+  workbox.strategies.networkFirst({
+    cacheName: 'watch-soc_api_json',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 150,
+        maxAgeSeconds: 30 * 24 * 60 * 60 // 30 Days
+      })
+    ]
+  })
+)
+
+workbox.routing.registerRoute(
+  '/profile',
   workbox.strategies.cacheFirst({
-    cacheName: 'watch-soc_images',
+    cacheName: 'watch-soc_pages',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 150,
+        maxAgeSeconds: 30 * 24 * 60 * 60 // 30 Days
+      })
+    ]
+  })
+)
+// PRECACHE PAGES
+workbox.routing.registerRoute(
+  '/discover',
+  workbox.strategies.cacheFirst({
+    cacheName: 'watch-soc_pages',
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 150,
+        maxAgeSeconds: 30 * 24 * 60 * 60 // 30 Days
+      })
+    ]
+  })
+)
+
+workbox.routing.registerRoute(
+  '/contact',
+  workbox.strategies.cacheFirst({
+    cacheName: 'watch-soc_pages',
     plugins: [
       new workbox.expiration.Plugin({
         maxEntries: 150,
@@ -42,5 +81,5 @@ workbox.routing.registerRoute(
 )
 
 workbox.routing.setDefaultHandler(
-  workbox.strategies.networkFirst()
+  workbox.strategies.cacheFirst()
 );  

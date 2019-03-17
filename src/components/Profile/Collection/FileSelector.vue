@@ -45,14 +45,13 @@ export default {
   methods: {
         async uploadImagesToBase64 (e) {
             const vm = this
-            const poop = []
 
             let files = e.target.files
 
             for (let j = 0; j < files.length; j++) {
-                await vm.getBase64Url(files[j]).then(b64Url => {
+                await vm.getBase64Url(files[j]).then(fileB64Obj => {
 
-                    vm.imgBase64Array.push(b64Url)
+                    vm.imgBase64Array.push(fileB64Obj)
 
                     if (vm.imgBase64Array.length == files.length) {
                         vm.$emit('setImagesOnAddWatch', vm.imgBase64Array)
@@ -68,7 +67,18 @@ export default {
             return new Promise((resolve, reject) => {
                 let reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = (e) => resolve(reader.result);
+                reader.onload = (e) => {
+                    // let fileExtension = file.src.split(";")[0].split("/")
+                    // fileExtension = fileExtension[fileExtension.length - 1]
+
+                    let fileB64Obj = {
+                        src: reader.result,
+                        fileName: file.name,
+                        // fileExtension: fileExtension
+                    }
+
+                    resolve(fileB64Obj);
+                }
                 reader.onerror = error => reject(error);
             });
         }

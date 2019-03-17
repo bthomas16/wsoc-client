@@ -27,14 +27,16 @@
 export default {
   methods: {
     logout (label) {
-      this.$store.dispatch('logout').then(() => {
-        this.$ga.event({
-          eventCategory: 'Header',
-          eventAction: 'Header_Link_Click',
-          eventLabel: label
-        })
-        location.reload()
+      this.$store.dispatch('logout')
+      FB.logout()
+
+      this.$ga.event({
+        eventCategory: 'Header',
+        eventAction: 'Header_Link_Click',
+        eventLabel: label
       })
+
+      location.reload()
     },
 
     tryToggle () {

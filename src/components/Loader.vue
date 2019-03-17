@@ -1,7 +1,7 @@
 <template>
     <b-container fluid>
         <b-row no-gutters>
-            <b-col no-gutters cols="4" sm="3" md="2" class="mx-auto mt-4">
+            <b-col no-gutters cols="4" sm="3" md="2" class="mx-auto">
                 <b-img fluid :src="'/img/icons/loading-spinner.gif'"></b-img>
             </b-col>
         </b-row>

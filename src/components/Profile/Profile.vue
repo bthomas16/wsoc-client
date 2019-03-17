@@ -7,11 +7,11 @@
                 <b-btn class="btn mx-auto white" variant="secondary" @click="reload">Refresh Page</b-btn>
             </b-row>
             
-            <b-row no-gutters v-else class="minHeight">
+            <b-row no-gutters v-else>
                 <b-col lg="2" md="3" cols="12" class="profileInfoBorder mx-auto">
                     <app-profile-info></app-profile-info>
-                    <b-row class="d-none d-md-block p-xl-4" no-gutters>
-                        <b-col class="mx-auto" cols="12" >
+                    <b-row class="d-none d-md-block p-xl-4 bg-lightgray" no-gutters>
+                        <b-col class="mx-auto" cols="12">
                             <app-sidebar></app-sidebar>
                         </b-col>
                     </b-row>
@@ -89,6 +89,7 @@ export default {
 
     created () {
         this.$store.dispatch('user')
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
     }
 
   
@@ -96,9 +97,6 @@ export default {
 </script>
 
 <style scoped>
-.minHeight {
-    min-height: 100vh;
-}
 .container {
     max-width: 100%;
     background: white;

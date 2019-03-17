@@ -30,10 +30,13 @@
                             </b-form-input>
                         </b-form-group>
                         <b-row align-v="center">
-                            <b-col cols="4">
+                            <b-col cols="2">
                                 <b-button type="submit" variant="default" class="bg-navy white" :disabled="!form.email || !form.password">Submit</b-button>
                             </b-col>
-                            <b-col cols="8" class="right-align">
+                            <b-col cols="5">
+                                <fbook-login text="Login"></fbook-login>
+                            </b-col>
+                            <b-col class="right-align">
                                 <p class="h8 m-1">Not a user? <span class="link nowrap" @click="toggleAuthChild">Register Here</span></p>
                             </b-col>
                         </b-row>
@@ -44,8 +47,13 @@
 </template>
 
 <script>
-import axios from 'axios'
+import FbookLogin from './fbookLogin.vue'
+
 export default {
+    components: {
+        fbookLogin: FbookLogin
+    },
+
   data () {
     return {
       form:

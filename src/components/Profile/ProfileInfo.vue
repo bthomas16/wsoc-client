@@ -83,12 +83,6 @@ export default {
   methods: {
     openEditProfileModal () {
         this.$refs.editProfileModal.show()
-
-     // Analytics
-      this.$ga.event({
-        eventCategory: 'ERROR',
-        eventAction: 'MANUAL__PAGE_REFRESH'
-      })
     },
 
     // Only used on edit profile now

@@ -7,7 +7,8 @@
         </b-row>
         <b-row no-gutters align-h="center">
             <b-col cols="8" class="center mb-3 imgSelect" v-if="!isUploadingImage">
-                <b-img id="profileImgEditModal" class="box-shadow-light mb-2 center ml-0" fluid  thumbnail :src="userProfileEditing.imgSrc || '/img/icons/blankprofpic.png'"></b-img>
+                {{userProfileEditing}}
+                <b-img crossorigin="anonymous" id="profileImgEditModal" class="box-shadow-light mb-2 center ml-0" fluid  thumbnail :src="userProfileEditing.imgSrc || '/img/icons/blankprofpic.png'"></b-img>
                 <label class="file-select w-100 mw-100">
                     <!-- We can't use a normal button element here, as it would become the target of the label. -->
                     <div class="bg-navy  white pointer py-2 mt-2 bg box-shadow-light">
@@ -19,7 +20,7 @@
                 </label>
             </b-col>
             <b-col cols="8" v-else>
-                <loader></loader>
+                <loader class="p-2 p-md-3 mb-2"></loader>
             </b-col>
             <b-col cols="12">
                 <b-form @submit.prevent="submitEditProfile">

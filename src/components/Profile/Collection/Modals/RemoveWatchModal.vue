@@ -28,7 +28,7 @@
                         class="w-100 px-2 my-0"
                         label="How much did you sell this watch for?"
                         label-for="inputHorizontal">
-                        <b-form-input type="number" placeholder="$200" v-model="reasonsWatchMoved.value"></b-form-input>
+                        <b-form-input type="number" placeholder="$175" v-model="reasonsWatchMoved.value"></b-form-input>
                     </b-form-group>
                 </b-form-row>
 
@@ -49,7 +49,7 @@
                         class="w-100 px-2 my-0"
                         label="What value did you trade this watch at?"
                         label-for="inputHorizontal">
-                        <b-form-input type="number" placeholder="Orienteering" v-model="reasonsWatchMoved.value"></b-form-input>
+                        <b-form-input type="number" placeholder="$175" v-model="reasonsWatchMoved.value"></b-form-input>
                     </b-form-group>
                     <b-form-group id=""
                         horizontal
@@ -65,7 +65,7 @@
                         </b-row>
                         <b-row no-gutters>
                             <b-col class="pr-1 xelative">
-                                <b-form-input  placeholder="$Value" v-model="watchTradedForValue"></b-form-input>
+                                <b-form-input  placeholder="$175" v-model="watchTradedForValue"></b-form-input>
                             </b-col>
                             <b-col class="px-1">
                                 <b-form-input  placeholder="Brand" v-model="watchTradedForBrand"></b-form-input>
@@ -117,7 +117,7 @@
                         </b-row>
                         <b-row no-gutters order="3">
                             <b-col class="pr-1 relative">
-                                <b-form-input  placeholder="$Value" v-model="watchTradedForValue"></b-form-input>
+                                <b-form-input  placeholder="$175" v-model="watchTradedForValue"></b-form-input>
                             </b-col>
                             <b-col class="px-1 relative">
                                 <b-form-input  placeholder="Brand" v-model="watchTradedForBrand"></b-form-input>
@@ -164,7 +164,7 @@
                         class="w-100 px-2 my-0"
                         label="What value did this watch hold?"
                         label-for="inputHorizontal">
-                        <b-form-input type="number" placeholder="John Smith" v-model="reasonsWatchMoved.value"></b-form-input>
+                        <b-form-input type="number" placeholder="$175" v-model="reasonsWatchMoved.value"></b-form-input>
                     </b-form-group>
                 </b-row>
             </b-col>

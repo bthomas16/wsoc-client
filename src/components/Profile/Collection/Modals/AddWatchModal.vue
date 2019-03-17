@@ -31,7 +31,7 @@
                                 <b-col cols="6" md="4" lg="4" class="relative watchImgWrapper mb-2" v-for="(image, index) in addWatch.src.images" :key="index">
                                     <div class="mr-3 mr-md-2 r-0 absolute t-0 white bg-red p-1 mb-3 h8 pointer white border-radius-qtr" @click="removeWatchImage(index)" v-if="addWatch.src.images.length > 1">X</div>
                                     <div class="absolute t-0 white bg-light-yellow p-1 mb-3 h8 pointer white border-radius-qtr" v-if="!ContainsS3Information(image.src.substring(0, 30))" @click="SetCroppieWatchAndDispatchCroppieWatchOrder(index)"><b-img src="/img/icons/editIcon.png" fluid class="editIcon"></b-img></div>
-                                    <b-img :src="image.src" fluid class="mx-auto watchImg" thumbnail></b-img>
+                                    <b-img crossorigin="anonymous" :src="image.src" fluid class="mx-auto watchImg" thumbnail></b-img>
                                 </b-col>
                             </transition-group>
                         </draggable>
@@ -189,7 +189,7 @@
                                             <strong>Size (Lug to Lug):</strong>
                                         </b-col>
                                         <b-col cols="12" md="8" class="formText">
-                                            <b-form-input placeholder="22mm" :class="addWatch.sizeLugToLug ? 'yesValue' : 'formBorder'" v-model="addWatch.sizeLugToLug" type="text"></b-form-input>
+                                            <b-form-input placeholder="22" :class="addWatch.sizeLugToLug ? 'yesValue' : 'formBorder'" v-model="addWatch.sizeLugToLug" type="number"></b-form-input>
                                             <!-- <b-form-select :class="addWatch.sizeLugToLug ? 'yesValue' : 'formBorder'" :options="sizeLugToLugOptions" v-model="addWatch.sizeLugToLug" type="text"/> -->
                                         </b-col>
                                     </b-row>
@@ -202,13 +202,13 @@
                                         <b-col cols="12" md="8" class="formText">
                                             <b-row no-gutters align-v="baseline">
                                                 <b-col class="px-1 formText">
-                                                    <b-form-input placeholder="43mm" :class="addWatch.sizeWidth ? 'yesValue' : 'formBorder'" v-model="addWatch.sizeWidth" type="text"></b-form-input>    
+                                                    <b-form-input placeholder="43" :class="addWatch.sizeWidth ? 'yesValue' : 'formBorder'" v-model="addWatch.sizeWidth" type="number"></b-form-input>    
                                                     <!-- <b-form-select :class="addWatch.sizeWidth ? 'yesValue' : 'formBorder'" :options="sizeWidthOptions" v-model="addWatch.sizeWidth" type="number"/> -->
                                                     <p class="center p-0 m-0"><em>Width</em></p>
                                                 </b-col>
                                                 <h6 class="p-2">X</h6>
                                                 <b-col class="px-1 formText">
-                                                    <b-form-input placeholder="13mm" :class="addWatch.sizeHeight ? 'yesValue' : 'formBorder'" v-model="addWatch.sizeHeight" type="text"></b-form-input>                                                    
+                                                    <b-form-input placeholder="13" :class="addWatch.sizeHeight ? 'yesValue' : 'formBorder'" v-model="addWatch.sizeHeight" type="number"></b-form-input>                                                    
                                                     <!-- <b-form-select :class="addWatch.sizeHeight ? 'yesValue' : 'formBorder'" :options="sizeHeightOptions" v-model="addWatch.sizeHeight" type="number"/> -->
                                                     <p class="center p-0 m-0"><em>Height</em></p>
                                                 </b-col>
@@ -864,12 +864,13 @@ export default {
         }
     },
 
-    setImagesOnAddWatch (images) {
-        images.forEach(img => {
+    setImagesOnAddWatch (imagesObjArray) {
+        imagesObjArray.forEach(fileB64Obj => {
             let imageObjToPush = {
-                src: img, 
+                src: fileB64Obj.src,
+                fileName: fileB64Obj.fileName, 
+                // fileExtension: fileB64Obj.fileExtension,
                 order: this.addWatch.src.images.length// s3 bucket url path
-                // fileName: img.fileName
             }
             this.addWatch.src.images.push(imageObjToPush)
             })

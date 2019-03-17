@@ -9,8 +9,11 @@
                 :indicators="selectedWatch.src.images.length > 1 ? true : false">
                 <b-carousel-slide
                     v-for="(image, index) in selectedWatch.src.images" :key="index" class="watchImgWrapper">
-                    <b-img slot="img" class="watchImg"
-                    :src="image.src" alt="image slot" thumbnail fluid>
+                    <b-img 
+                        crossorigin="anonymous"
+                        slot="img" 
+                        class="watchImg"
+                        :src="image.src" alt="image slot" thumbnail fluid>
                     </b-img>
                 </b-carousel-slide>
             </b-carousel>
@@ -24,7 +27,7 @@
                         <h5 class="m-0 p-0 underline">Specs:</h5>
                     </b-col>
                     <b-col cols="6" class="nowrap right-align px-0 pr-2" v-if="!selectedWatch.isFeaturedWatch">
-                        <strong class="relative">Condition:</strong><span class="brown nowrap"> {{selectedWatch.condition || 0}}/10</span>
+                        <strong class="relative">Condition:</strong><span class="brown nowrap"> {{selectedWatch.condition || 'NA'}}/10</span>
                     </b-col>
                     <b-col cols="12" md="6" v-if="isShowDetails">
                         <p class="nowrap underline gray my-1"  @click="toggleShowDetails"><em>Hide Details</em></p>
@@ -62,6 +65,10 @@
                         <li v-if="selectedWatch.sizeWidth && selectedWatch.sizeHeight">
                             <strong>Size:</strong>
                             <span> {{selectedWatch.sizeWidth}}mm x {{selectedWatch.sizeHeight}}mm</span>
+                        </li>
+                        <li v-if="selectedWatch.sizeWidth && !selectedWatch.sizeHeight">
+                            <strong>Size:</strong>
+                            <span> {{selectedWatch.sizeWidth}}mm</span>
                         </li>
                         <li v-if="selectedWatch.sizeLugToLug">
                             <strong>Lug Size:</strong>

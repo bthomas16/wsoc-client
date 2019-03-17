@@ -343,6 +343,32 @@ const actions =
       })
   },
 
+  fbookAuth (context, data) {
+    context.commit(LOADING)
+    return axios({
+      method: 'POST',
+      url: '/api/user/fbook-auth',
+      data
+    }).then(res => {
+      if (res.data.isSuccess) {
+        // login
+        localStorage.setItem('watchJwt', res.data.token)
+        context.commit(AUTH_SUCCESS, res.data.user)     
+        window.location.href = "/profile"
+        
+      }
+      else {
+        // Failed to login
+        context.commit(NOT_LOADING)
+        
+      }
+    }).catch(err => {
+      // err
+      context.commit(NOT_LOADING)
+      
+    })
+  },
+
   validateEmailAddressUnique (context, emailAddress) 
   {
     return axios({

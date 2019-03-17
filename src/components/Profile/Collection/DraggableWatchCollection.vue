@@ -29,6 +29,7 @@
                                         </b-img>
                                         <b-col cols="12" md="5" class="m-0" :class="(currentCardSize == 'sm') ? 'watchImgWrapper_Sm' : (currentCardSize == 'md') ? 'watchImgWrapper_Md' : (currentCardSize == 'lg') ? 'watchImgWrapper_Lg' : 'watchImgWrapper_Sm'">
                                             <b-img
+                                                crossorigin="anonymous"
                                                 v-if="watch.src.images[0]"
                                                 @click="selectWatch(watch)"
                                                 :src="watch.src.images[0].src"

@@ -11,8 +11,7 @@
         </b-row>
         <b-row no-gutters>
             <b-col cols="12" class="bg-dg p-0 white center">
-                <!-- <p class="h7 my-0">ⒸAll Rights Reserved</p> -->
-                <p class="h6 my-0 mb-1">Watch SOC @{{DateYear}}  </p>
+                <p class="h6 my-0 mb-2">Watch SOC @{{DateYear}}</p>
             </b-col>
         </b-row>
     </b-container>
@@ -41,6 +40,10 @@ export default {
 </script>
 
 <style scoped>
+    .container-fluid {
+        min-height: auto;
+    }
+    
     .bg-dg {
         background-color: rgba(117,112,112,1);
     }

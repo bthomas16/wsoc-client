@@ -14,7 +14,10 @@
 
                     <b-carousel-slide
                         v-for="image in removedWatchToSee.src.images" :key="image.order" class="watchImgWrapper">
-                        <b-img slot="img" class="watchImg"
+                        <b-img 
+                        crossorigin="anonymous"
+                        slot="img" 
+                        class="watchImg"
                         :src="image.src" thumbnail alt="image slot" fluid>
                         </b-img>
                     </b-carousel-slide>

@@ -63,27 +63,34 @@
                                     placeholder="Last Name"
                                     >
                         </b-form-input>
-                </b-form-group>
-                <h6 class="red thin h7">{{passwordErrMsg}}</h6>
-                <b-row align-v="center">
-                    <b-col cols="4">
-                        <b-button variant="default" class="bg-navy white" @click="card=2" :disabled="form.password.length < 4" v-if="card == 1">Continue</b-button>
-                        <b-button variant="default" class="bg-navy white" :disabled="!form.firstName || !form.lastName" type="submit" v-if="card == 2">Finish</b-button>
-                    </b-col>
-                    <b-col cols="8" class="right-align">
-                        <p class="h8 m-1">Already a user? <span class="link nowrap" @click="toggleAuthChild">Login Here</span></p>
-                    </b-col>
-                </b-row>
-            </b-form>
-        </b-col>
+                    </b-form-group>
+                    <h6 class="red thin h7">{{passwordErrMsg}}</h6>
+                    <b-row align-v="center">
+                        <b-col cols="2">
+                            <b-button variant="default" class="bg-navy white" @click="card=2" :disabled="form.password.length < 4" v-if="card == 1">Continue</b-button>
+                            <b-button variant="default" class="bg-navy white" :disabled="!form.firstName || !form.lastName" type="submit" v-if="card == 2">Finish</b-button>
+                        </b-col>
+                        <b-col cols="5">
+                                <fbook-login text="Register"></fbook-login>
+                            </b-col>
+                        <b-col class="right-align">
+                            <p class="h8 m-1">Already a user? <span class="link nowrap" @click="toggleAuthChild">Login Here</span></p>
+                        </b-col>
+                    </b-row>
+                </b-form>
+            </b-col>
         </b-row>
 
     </b-container>
 </template>
 
 <script>
-import axios from 'axios'
+import FbookLogin from './fbookLogin.vue'
+
 export default {
+    components: {
+        fbookLogin: FbookLogin
+    },
   name: 'register',
   data () {
     return {

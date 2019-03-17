@@ -8,7 +8,7 @@
 
             <!-- FILTER & SORT WATCH ARRAY -->
                 <!-- <transition-group name="faderade"> -->
-                    <b-row class="mb-2 mb-md-2 relative pl-1" no-gutters align-h="center" key="1">
+                    <b-row class="mb-1 relative pl-1" no-gutters align-h="center" key="1">
                         <b-col cols="12" md="10" class="border-bottom"></b-col>
                         <b-col cols="12" md="10" class="px-1 px-md-0">
                             <b-row no-gutters align-h="between" align-v="center">
@@ -31,7 +31,7 @@
                                     </b-input-group>
                                 </b-col>
                             </b-row>
-                            <b-row align-v="start" align-h="start" no-gutters class="mt-2">
+                            <b-row align-v="start" align-h="start" no-gutters class="mt-1">
                                 <b-col cols="6" class="mx-auto pr-1">
                                     <b-form-select class="filterText p-1" :options="sortCategories" v-model="sortCategory" @change="selectSortCategory"></b-form-select>
                                 </b-col>

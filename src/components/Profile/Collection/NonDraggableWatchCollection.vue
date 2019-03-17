@@ -30,6 +30,7 @@
                                         </b-img>
                                     <b-col cols="12" md="5" class="m-0" :class="(currentCardSize == 'sm') ? 'watchImgWrapper_Sm' : (currentCardSize == 'md') ? 'watchImgWrapper_Md' : (currentCardSize == 'lg') ? 'watchImgWrapper_Lg' : 'watchImgWrapper_Sm'">
                                         <b-img
+                                            crossorigin="anonymous"
                                             v-if="watch.src.images[0]"
                                             @click="isViewingPreviousWatches ?  removedWatchModal(watch) : selectWatch(watch)"
                                             :src="watch.src.images[0].src"
@@ -40,7 +41,8 @@
                                         <ul class="pl-1 pl-md-3 p-0 mb-1 absolute b-0 black left-align specs">
                                             <li>{{truncatedWatchName(titleCase(watch.brand), currentTruncatedLength)}}</li>
                                             <li>{{truncatedWatchName(titleCase(watch.name), currentTruncatedLength)}}</li>
-                                            <li v-if="watch.sizeWidth && currentCardSize != 'sm'">{{watch.sizeWidth}}</li>
+                                            <li v-if="watch.sizeWidth && watch.sizeHeight && currentCardSize != 'sm'">{{watch.sizeWidth}}mm x {{watch.sizeHeight}}mm</li>
+                                            <li v-if="watch.sizeWidth && !watch.sizeHeight && currentCardSize != 'sm'">{{watch.sizeWidth}}mm</li>
                                             <li v-if="currentCardSize != 'sm'" class="h5 my-1">{{watch.movement}}</li>
                                         </ul>
                                     </b-col>

@@ -1,14 +1,12 @@
 <template>
   <b-container fluid id="app" class="w-100 p-0 relative">
       <app-header id="header"></app-header>
-
+      <transition name="slide-fade">
+          <router-view id="body" class="fullHeight" :class="CollectionLength >= 9 && isProfilePage ? 'mb-5' : ''" :key="$route.fullPath"></router-view>
+      </transition >
+      
       <on-scroll-menu class="scrollMenu" v-if="isProfilePage"> </on-scroll-menu>
 
-
-      <transition name="slide-fade">
-          <router-view id="body" class="fullHeight" :key="$route.fullPath"></router-view>
-      </transition>
-      
   </b-container>
 </template>
 
@@ -23,21 +21,12 @@ export default {
   components: {
     appHeader: Header,
     appLoader: Loader,
-    onScrollMenu: OnScrollMenu
+    onScrollMenu: OnScrollMenu,
+
   },
 
   methods: {
-     closeToBottom () {
-        return true
-    },
 
-    data () {
-      return {
-        isProfilePage: false
-      }
-    }
-
-    
   },
 
   computed: {
@@ -62,6 +51,7 @@ export default {
   },
 
   created () {
+    let t = this
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault
       let delayPrompt = e
@@ -73,6 +63,32 @@ export default {
       window.removeEventListener('beforeinstallprompt');
   }
 }
+
+
+
+
+const checkLoginState = function() {
+    // let t = this
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    })
+  }
+
+function statusChangeCallback (response) {
+      
+      let rs = response.status
+      if (rs == 'connected') {
+        // window.location.href = "/profile"
+        let token = response.authResponse.accessToken
+        this.$store.dispatch("fbookAuth", token)
+      } else {
+        FB.login(result => {
+          let token = result.authResponse.accessToken
+          console.log('going to try now')
+          this.$store.dispatch("fbookAuth", token)
+        })
+      }
+    }
 </script>
 
 <style scoped>
@@ -82,13 +98,6 @@ export default {
 
 #app {
   overflow: scroll;
-}
-
-#footer {
-  position: relative;
-  z-index: 3;
-  /* margin-top: 3rem; */
-  overflow: scroll
 }
 
 .scrollMenu {

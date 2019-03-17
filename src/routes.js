@@ -16,6 +16,11 @@ export const routes = [
     beforeEnter: requireAuth
   },
   {
+    path: '/privacy',
+    name: 'privacy',
+    component: () => import(/* webpackChunkName: "DiscoverWatches" */ './components/Privacy.vue')
+  },
+  {
     path: '/discover',
     name: 'discover',
     component: () => import(/* webpackChunkName: "DiscoverWatches" */ './components/DiscoverWatches.vue')

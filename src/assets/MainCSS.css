@@ -6,15 +6,20 @@ html, body {
     font-family: 'Nunito Sans', sans-serif !important;
 }
 
+.bg-fb_blue {
+    background-color: #3C5A99;
+    color: white;
+}
+
 .no-bg-touch-modal {
     width: 100%;
     padding: 20rem;
     height: 75vh;
     left: 0;
     margin-left: -4rem;
-    margin-top: -1rem;
+    margin-top: -4rem;
     position: absolute;
-    z-index: 0;
+    z-index: -1;
 }
 
 .modalIndex {
@@ -464,6 +469,8 @@ ul, li {
         margin-bottom: 8rem;
     }
 }
+
+
 
 
 

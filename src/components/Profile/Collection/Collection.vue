@@ -159,7 +159,7 @@ import ManageCollection from './ManageCollection.vue'
 import { setTimeout } from 'timers'
 import loader from '../../Loader.vue'
 import LoadImageUtility from '../../../Utilities/LoadImageUtility'
-import ImgBase64 from 'base64-img'
+// import ImgBase64 from 'base64-img'
 
 
 export default {
@@ -199,7 +199,7 @@ export default {
 
   methods: {
     uploadImagesToAwsS3 () {
-      let files = this.addWatch.src.images
+      let files = this.addWatch.src.images // images is array of fileB64Obj's
       this.addWatchCount++
       this.S3UploadEventListener(true)
       let fileArr = []
@@ -208,7 +208,7 @@ export default {
             //   console.log('new image, so going to save base 64 to s3', file)
               fileArr.push(
               { src: file.src,
-                // fileName: file.fileName
+                fileName: file.fileName
               })
           } 
       })
@@ -369,6 +369,7 @@ export default {
       this.isAddingWatch = false
       this.isEditingExistingWatch = false
       this.$refs.seeMoreModal.hide()
+      
     //   this.$store.dispatch('ToggleIsModalPopped', false)
       if (!this.addWatch.id) {
         // watch doesnt exist yet, create new watch
@@ -506,9 +507,7 @@ export default {
       },
 
       Collection () {
-        if (this.isManagingCollection) {
-          return this.$store.state.FilteredCollection
-        } else return this.$store.state.Collection
+         return this.$store.state.Collection
       },
 
       isManagingCollection () {
